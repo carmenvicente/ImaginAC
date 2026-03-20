@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AdaptAC - Accesibilidad Cognitiva
 
-## Getting Started
+**AdaptAC** es una plataforma de accesibilidad cognitiva diseñada para facilitar el aprendizaje de profesores PT (Pedagogía Terapéutica) y sus alumnos con necesidades educativas especiales.
 
-First, run the development server:
+## Objetivo
+
+Proporcionar herramientas para crear contenido educativo adaptado, generando cuentos y actividades con pictogramas SPC (Sistema Pictográfico de Comunicación) en múltiples idiomas.
+
+## Funcionalidades Principales
+
+- **Sistema de Roles:** Paneles separados para Profesores PT y Alumnos
+- **Motor Cognitivo:** Generación de cuentos con transcripción a pictogramas
+- **Módulo Multi-Idioma:** Soporte para Español, Catalán, Valenciano, Gallego, Euskera y más
+- **Sistema de Actividades:** Creación de actividades complementarias escalable
+- **Exportación PDF:** Generación de cómics físicos para uso en el aula
+
+## Inicio Rápido
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack Tecnológico
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend:** Next.js 16 (App Router), React 19, TypeScript
+- **Estilos:** Tailwind CSS
+- **Base de Datos:** Supabase (PostgreSQL)
+- **Autenticación:** NextAuth.js con RBAC
 
-## Learn More
+## Estructura del Proyecto
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/              # Rutas y páginas
+├── components/       # Componentes React
+├── lib/              # Utilidades y lógica de negocio
+├── types/            # Tipos TypeScript
+└── hooks/            # React hooks personalizados
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Licencia
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Privado - Proyecto en desarrollo.
