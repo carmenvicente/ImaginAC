@@ -1,40 +1,38 @@
 'use client';
 
+import { Navbar } from '@/components/home/Navbar';
+import { Footer } from '@/components/home/Footer';
+import { CookiesBanner } from '@/components/home/CookiesBanner';
 import { FormularioCrearCuento } from '@/components/profesor/FormularioCrearCuento';
-import { useProfesor } from '@/lib/auth';
-import Link from 'next/link';
 
 export default function PaginaCrearCuento() {
-  const { profesor } = useProfesor();
-
-  if (!profesor) {
-    return null;
-  }
-
   return (
-    <div className="max-w-3xl mx-auto">
-      {/* Botón de volver que has rescatado */}
-      <div className="mb-6">
-        <Link
-          href="/profesor"
-          className="text-[var(--marca)] hover:underline flex items-center gap-2"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Volver al panel
-        </Link>
-      </div>
+    <div className="min-h-screen flex flex-col bg-[var(--background)]">
+      <Navbar />
 
-      <h2 className="text-2xl font-bold text-[var(--foreground)] mb-6">Crear Nuevo Cuento</h2>
-      <div className="bg-white p-6 rounded-2xl shadow-sm">
-        <FormularioCrearCuento profesorId={profesor.id} />
-      </div>
+      {/* Añadimos py-8 para darle espacio al contenido sin empujar el Navbar */}
+      <main className="flex-1 px-4 py-8">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-6">Crear Nuevo Cuento</h2>
+
+          {/* El formulario original */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm mb-8">
+            <FormularioCrearCuento profesorId="demo" />
+          </div>
+
+          {/* NUEVA CAJA: Licencia ARASAAC independiente */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm text-center">
+            <img src="/logo_ARASAAC_black.png" alt="Logo ARASAAC" className="w-32 mx-auto mb-4" />
+            <p className="text-sm text-gray-600 font-medium">
+              Autor pictogramas: Sergio Palao. Origen: ARASAAC (http://www.arasaac.org). Licencia:
+              CC (BY-NC-SA). Propiedad: Gobierno de Aragón (España)
+            </p>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+      <CookiesBanner />
     </div>
   );
 }

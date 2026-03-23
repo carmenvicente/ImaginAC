@@ -227,6 +227,22 @@ export function VisorCuento({ cuentoId }: VisorCuentoProps) {
           Habilitar para alumnos
         </button>
       </div>
+
+      <div className="bg-gray-100 p-4 rounded-lg border border-gray-200 mt-6">
+        <p className="text-sm text-[var(--foreground)] opacity-80">
+          <strong>Autor pictogramas:</strong> Sergio Palao. <strong>Origen:</strong>{' '}
+          <a
+            href="http://www.arasaac.org"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--marca)] hover:underline"
+          >
+            ARASAAC (http://www.arasaac.org)
+          </a>
+          . <strong>Licencia:</strong> CC (BY-NC-SA). <strong>Propiedad:</strong> Gobierno de Aragón
+          (España)
+        </p>
+      </div>
     </div>
   );
 }

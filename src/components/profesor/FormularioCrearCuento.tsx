@@ -4,6 +4,22 @@ import { useState, useEffect, useCallback } from 'react';
 import { SelectorIdioma, IDIOMAS_DISPONIBLES } from '@/components/ui/SelectorIdioma';
 import { useRouter } from 'next/navigation';
 
+interface CuentoGenerado {
+  titulo: string;
+  texto: string;
+  palabrasClave: string[];
+  emociones: string[];
+  personajes: string[];
+}
+
+interface Pictograma {
+  codigoSpc: string;
+  textoOriginal: string;
+  categoria: string;
+  urlImagen: string;
+  orden: number;
+}
+
 const CLAVE_BORRADOR = 'borrador_cuento';
 
 interface FormularioCuentoProps {
@@ -67,6 +83,10 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
   const [borradorRecuperado, setBorradorRecuperado] = useState(false);
+  const [cuentoDemo, setCuentoDemo] = useState<{
+    cuento: CuentoGenerado;
+    pictogramas: Pictograma[];
+  } | null>(null);
 
   useEffect(() => {
     const borrador = cargarBorrador();
@@ -137,6 +157,16 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
 
       if (!respuesta.ok) {
         throw new Error(datos.error || 'Error al generar el cuento');
+      }
+
+      // MODO DEMO: Mostrar cuento inline
+      if (datos.esDemo) {
+        setCuentoDemo({
+          cuento: datos.cuento,
+          pictogramas: datos.pictogramas,
+        });
+        setCargando(false);
+        return;
       }
 
       limpiarBorrador();
@@ -288,6 +318,42 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
           'Generar Cuento con Pictogramas'
         )}
       </button>
+
+      {cuentoDemo && (
+        <div className="mt-8 p-6 bg-white rounded-2xl shadow-lg border-2 border-[var(--marca)]">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-bold text-[var(--marca)]">{cuentoDemo.cuento.titulo}</h3>
+            <button
+              onClick={() => setCuentoDemo(null)}
+              className="text-sm text-gray-500 hover:text-gray-700"
+            >
+              Cerrar
+            </button>
+          </div>
+          <div className="prose max-w-none mb-6">
+            <p className="whitespace-pre-wrap">{cuentoDemo.cuento.texto}</p>
+          </div>
+          <div className="border-t pt-4">
+            <h4 className="font-medium mb-3">Pictogramas del cuento:</h4>
+            <div className="flex flex-wrap gap-3">
+              {cuentoDemo.pictogramas.map((picto, index) => (
+                <div key={index} className="flex flex-col items-center p-2 bg-gray-50 rounded-lg">
+                  <img
+                    src={picto.urlImagen}
+                    alt={picto.textoOriginal}
+                    className="w-16 h-16 object-contain"
+                  />
+                  <span className="text-xs mt-1 text-center">{picto.textoOriginal}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="mt-4 text-xs text-gray-500">
+            Autor pictogramas: Sergio Palao. Origen: ARASAAC (http://www.arasaac.org). Licencia: CC
+            (BY-NC-SA). Propiedad: Gobierno de Aragón (España)
+          </p>
+        </div>
+      )}
     </form>
   );
 }

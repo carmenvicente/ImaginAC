@@ -1,0 +1,425 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { IDIOMAS_DISPONIBLES, type Idioma } from '@/components/ui/SelectorIdioma';
+
+export { IDIOMAS_DISPONIBLES };
+export type { Idioma };
+
+const LOCALSTORAGE_KEY = 'idioma_preferido';
+
+interface LanguageState {
+  idiomaActual: string;
+  setIdioma: (codigo: string) => void;
+  idiomaSeleccionado: Idioma;
+}
+
+export const useLanguageStore = create<LanguageState>()(
+  persist(
+    (set, get) => ({
+      idiomaActual: 'ES',
+      idiomaSeleccionado: IDIOMAS_DISPONIBLES[1],
+      setIdioma: (codigo: string) => {
+        const idioma =
+          IDIOMAS_DISPONIBLES.find((i) => i.codigo === codigo) || IDIOMAS_DISPONIBLES[1];
+        set({ idiomaActual: codigo, idiomaSeleccionado: idioma });
+      },
+    }),
+    {
+      name: LOCALSTORAGE_KEY,
+      partialize: (state) => ({ idiomaActual: state.idiomaActual }),
+    }
+  )
+);
+
+export const traduccionesUI: Record<string, Record<string, string>> = {
+  ES: {
+    inicio: 'Inicio',
+    cuentos: 'Cuentos',
+    sobreNosotros: 'Sobre Nosotros',
+    acceder: 'Acceder',
+    politicaPrivacidad: 'Política de Privacidad',
+    terminosUso: 'Términos de Uso',
+    heroTitulo: 'Accesibilidad Cognitiva para Todos',
+    heroSubtitulo:
+      'Herramientas educativas diseñadas para profesores PT y alumnos con necesidades específicas de aprendizaje.',
+    accederApp: 'Acceder a la App',
+    copyright: 'Todos los derechos reservados.',
+    enlaces: 'Enlaces',
+    legal: 'Legal',
+    aceptar: 'Aceptar',
+    avisoCookies: 'Utilizamos cookies para mejorar tu experiencia.',
+    configTitulo: 'Configuración',
+    configIdioma: 'Idioma',
+    configIdiomaDesc:
+      'Seleccione el idioma de la interfaz. El cambio se aplicará inmediatamente a toda la plataforma.',
+    configPrivacidad: 'Privacidad',
+    configPoliticaPrivacidad: 'Política de Privacidad',
+    configTerminos: 'Términos de Uso',
+    configAcerca: 'Acerca de',
+    configDescripcion: 'Plataforma de accesibilidad cognitiva para profesores PT y alumnos.',
+    configTecnologias:
+      'Desarrollado con Next.js, TypeScript, Tailwind CSS, Supabase y Google Gemini.',
+    sobreNosotrosTitulo: 'Sobre Nosotros',
+    sobreNosotrosMision: 'Nuestra Misión',
+    sobreNosotrosMisionTexto:
+      'AdaptAC es una plataforma educativa diseñada para facilitar la accesibilidad cognitiva a profesores de educación especial (PT) y alumnos con necesidades específicas de aprendizaje.',
+    sobreNosotrosPicto: 'Pictogramas y Recursos Visuales',
+    sobreNosotrosPictoTexto:
+      'Los pictogramas utilizados en AdaptAC provienen del proyecto ARASAAC (Centro Aragonés de Comunicación Aumentativa y Alternativa), distribuidos bajo licencia Creative Commons.',
+    atribucionArasaac: 'Atribución ARASAAC',
+    atribucionArasaacTexto:
+      'Los símbolos pictográficos utilizados son propiedad del Gobierno de Aragón y han sido creados por Sergio Palao para ARASAAC (http://www.arasaac.org), que los distribuye bajo Licencia Creative Commons BY-NC-SA.',
+    deslindeAragon:
+      'El Gobierno de Aragón no se hace responsable del uso que terceros hagan de estos materiales.',
+    logoArasaacPlaceholder: '[Logo ARASAAC]',
+    tecnologias: 'Tecnologías Utilizadas',
+    derechosReservados: 'Todos los derechos reservados.',
+    terminosTitulo: 'Términos de Uso',
+    terminosAceptacion: '1. Aceptación de los Términos',
+    terminosAceptacionTexto:
+      'Al acceder y utilizar la plataforma AdaptAC, usted acepta estar sujeto a estos Términos de Uso. Si no está de acuerdo con alguno de los términos, no debe utilizar esta plataforma.',
+    terminosDescripcion: '2. Descripción del Servicio',
+    terminosDescripcionTexto:
+      'AdaptAC es una plataforma educativa que proporciona herramientas de accesibilidad cognitiva, incluyendo la generación de cuentos y actividades adaptadas para alumnos con necesidades educativas especiales.',
+    terminosUsoAceptable: '3. Uso Aceptable',
+    terminosUsoTexto: 'El usuario se compromete a:',
+    terminosPropiedad: '4. Propiedad Intelectual',
+    terminosPropiedadTexto:
+      'Los cuentos y materiales generados mediante la plataforma pueden ser utilizados para fines educativos. Sin embargo, los pictogramas utilizados provienen de ARASAAC y están protegidos por la licencia Creative Commons BY-NC-SA.',
+    terminosLimitacion: '5. Limitación de Responsabilidad',
+    terminosLimitacionTexto:
+      'AdaptAC se proporciona "tal cual". No garantizamos que el servicio sea ininterrumpido o libre de errores. No somos responsables de cualquier daño derivados del uso de la plataforma.',
+    terminosModificacion: '6. Modificaciones',
+    terminosModificacionTexto:
+      'Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entrarán en vigor inmediatamente después de su publicación en la plataforma.',
+    terminosContacto: '7. Contacto',
+    terminosContactoTexto:
+      'Para cualquier pregunta sobre estos Términos de Uso, puede contactarnos a través del formulario de contacto en la plataforma.',
+    privacidadTitulo: 'Política de Privacidad',
+    privacidadIntro: '1. Introducción',
+    privacidadIntroTexto:
+      'AdaptAC se compromete a proteger su privacidad. Esta política explica cómo recopilamos, usamos y protegemos su información personal cuando utiliza nuestra plataforma educativa.',
+    privacidadDatos: '2. Datos que Recopilamos',
+    privacidadUso: '3. Uso de los Datos',
+    privacidadUsoTexto: 'Utilizamos sus datos para:',
+    privacidadCookies: '4. Cookies',
+    privacidadCookiesTexto: 'Utilizamos cookies para:',
+    privacidadCookiesAdicional:
+      'Para más información sobre nuestra política de cookies, consulte nuestra Política de Cookies.',
+    privacidadProteccion: '5. Protección de Datos',
+    privacidadProteccionTexto:
+      'Implementamos medidas de seguridad apropiadas para proteger sus datos personales contra acceso no autorizado, modificación, divulgación o destrucción. Los datos se almacenan en Supabase con cifrado en tránsito y en reposo.',
+    privacidadDerechos: '6. Sus Derechos',
+    privacidadDerechosTexto: 'Usted tiene derecho a:',
+    privacidadTerceros: '7. Terceros',
+    privacidadTercerosTexto:
+      'No compartimos sus datos personales con terceros, excepto cuando sea necesario para prestar el servicio o cuando la ley lo exija.',
+    privacidadCambios: '8. Cambios',
+    privacidadCambiosTexto:
+      'Podemos actualizar esta política periódicamente. Le notificaremos cualquier cambio publicando la nueva política en esta página.',
+    cuentosTitulo: 'Cuentos Accesibles',
+    cuentosDescripcion:
+      'Crea cuentos adaptados con pictogramas para facilitar la comprensión y el aprendizaje.',
+    cuentosDisponibles: 'Cuentos Disponibles',
+    cuentosDisponiblesDesc: 'Inicia sesión para crear y gestionar tus cuentos adaptados.',
+    accederCrear: 'Acceder para Crear',
+    creditosPicto: 'Créditos de Pictogramas',
+    autorPicto: 'Autor pictogramas:',
+    origen: 'Origen:',
+    licencia: 'Licencia:',
+    propiedad: 'Propiedad:',
+    gobiernoAragon: 'Gobierno de Aragón (España)',
+    atribucionFooter: 'Autor: Sergio Palao. Origen: ARASAAC. Licencia: CC BY-NC-SA',
+    pictogramas: 'Pictogramas',
+  },
+  EN: {
+    inicio: 'Home',
+    cuentos: 'Stories',
+    sobreNosotros: 'About Us',
+    acceder: 'Login',
+    politicaPrivacidad: 'Privacy Policy',
+    terminosUso: 'Terms of Use',
+    heroTitulo: 'Cognitive Accessibility for Everyone',
+    heroSubtitulo:
+      'Educational tools designed for special education teachers and students with specific learning needs.',
+    accederApp: 'Access App',
+    copyright: 'All rights reserved.',
+    enlaces: 'Links',
+    legal: 'Legal',
+    aceptar: 'Accept',
+    avisoCookies: 'We use cookies to improve your experience.',
+  },
+  CA: {
+    inicio: 'Inici',
+    cuentos: 'Contes',
+    sobreNosotros: 'Sobre Nosaltres',
+    acceder: 'Accedir',
+    politicaPrivacidad: 'Política de Privacitat',
+    terminosUso: "Termes d'Ús",
+    heroTitulo: 'Accessibilitat Cognitiva per a Tots',
+    heroSubtitulo:
+      "Eines educatives dissenyades per a professors PT i alumnes amb necessitats específiques d'aprenentatge.",
+    accederApp: "Accedir a l'App",
+    copyright: 'Tots els drets reservats.',
+    enlaces: 'Enllaços',
+    legal: 'Legal',
+    aceptar: 'Acceptar',
+    avisoCookies: 'Utilitzem cookies per millorar la teva experiència.',
+  },
+  VA: {
+    inicio: 'Inici',
+    cuentos: 'Contes',
+    sobreNosotros: 'Sobre Nosaltres',
+    acceder: 'Accedir',
+    politicaPrivacidad: 'Política de Privacitat',
+    terminosUso: "Termes d'Ús",
+    heroTitulo: 'Accessibilitat Cognitiva per a Tots',
+    heroSubtitulo:
+      "Eines educatives dissenyades per a professors PT i alumnes amb necessitats específiques d'aprenentatge.",
+    accederApp: "Accedir a l'App",
+    copyright: 'Tots els drets reservats.',
+    enlaces: 'Enllaços',
+    legal: 'Legal',
+    aceptar: 'Acceptar',
+    avisoCookies: 'Utilitzem cookies per millorar la teva experiència.',
+  },
+  GL: {
+    inicio: 'Inicio',
+    cuentos: 'Contos',
+    sobreNosotros: 'Sobre Nós',
+    acceder: 'Acceder',
+    politicaPrivacidad: 'Política de Privacidade',
+    terminosUso: 'Termos de Uso',
+    heroTitulo: 'Accesibilidade Cognitiva para Todos',
+    heroSubtitulo:
+      'Ferramentas educativas deseñadas para profesores PT e alumnos con necesidades específicas de aprendizaxe.',
+    accederApp: 'Acceder á App',
+    copyright: 'Todos os dereitos reservados.',
+    enlaces: 'Ligazóns',
+    legal: 'Legal',
+    aceptar: 'Aceptar',
+    avisoCookies: 'Usamos cookies para mellorar a túa experiencia.',
+  },
+  EU: {
+    inicio: 'Hasiera',
+    cuentos: 'Ipuinak',
+    sobreNosotros: 'Guri Buruz',
+    acceder: 'Sartu',
+    politicaPrivacidad: 'Pribatutasun Politika',
+    terminosUso: 'Erabilera Baldintzak',
+    heroTitulo: 'Kognitibo Erabilgarritasuna Denontzat',
+    heroSubtitulo: 'HEPrako irakasle eta ikasleentzat diseinatutako hezkuntza-tresnak.',
+    accederApp: 'Sartu Aplikaziora',
+    copyright: 'Eskubide guztiak erreserbaturik.',
+    enlaces: 'Estekak',
+    legal: 'Legala',
+    aceptar: 'Onartu',
+    avisoCookies: 'Cookieak erabiltzen ditugu zure esperientzia hobetzeko.',
+  },
+  FR: {
+    inicio: 'Accueil',
+    cuentos: 'Contes',
+    sobreNosotros: 'À Propos',
+    acceder: 'Connexion',
+    politicaPrivacidad: 'Politique de Confidentialité',
+    terminosUso: "Conditions d'Utilisation",
+    heroTitulo: 'Accessibilité Cognitive pour Tous',
+    heroSubtitulo:
+      'Outils éducatifs conçus pour les enseignants ELS et les élèves ayant des besoins spécifiques.',
+    accederApp: "Accéder à l'App",
+    copyright: 'Tous droits réservés.',
+    enlaces: 'Liens',
+    legal: 'Légal',
+    aceptar: 'Accepter',
+    avisoCookies: 'Nous utilisons des cookies pour améliorer votre expérience.',
+  },
+  DE: {
+    inicio: 'Startseite',
+    cuentos: 'Geschichten',
+    sobreNosotros: 'Über Uns',
+    acceder: 'Anmelden',
+    politicaPrivacidad: 'Datenschutzrichtlinie',
+    terminosUso: 'Nutzungsbedingungen',
+    heroTitulo: 'Kognitive Barrierefreiheit für Alle',
+    heroSubtitulo: 'Bildungstools für Sonderpädagogen und Schüler mit spezifischem Lernbedarf.',
+    accederApp: 'Zur App',
+    copyright: 'Alle Rechte vorbehalten.',
+    enlaces: 'Links',
+    legal: 'Rechtliches',
+    aceptar: 'Akzeptieren',
+    avisoCookies: 'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern.',
+  },
+  IT: {
+    inicio: 'Home',
+    cuentos: 'Racconti',
+    sobreNosotros: 'Chi Siamo',
+    acceder: 'Accedi',
+    politicaPrivacidad: 'Informativa sulla Privacy',
+    terminosUso: 'Termini di Utilizzo',
+    heroTitulo: 'Accessibilità Cognitiva per Tutti',
+    heroSubtitulo:
+      'Strumenti educativi per insegnanti di sostegno e alunni con bisogni educativi speciali.',
+    accederApp: "Accedi all'App",
+    copyright: 'Tutti i diritti riservati.',
+    enlaces: 'Link',
+    legal: 'Legale',
+    aceptar: 'Accetta',
+    avisoCookies: 'Utilizziamo i cookie per migliorare la tua esperienza.',
+  },
+  PT: {
+    inicio: 'Início',
+    cuentos: 'Contos',
+    sobreNosotros: 'Sobre Nós',
+    acceder: 'Entrar',
+    politicaPrivacidad: 'Política de Privacidade',
+    terminosUso: 'Termos de Uso',
+    heroTitulo: 'Acessibilidade Cognitiva para Todos',
+    heroSubtitulo:
+      'Ferramentas educacionais para professores de educação especial e alunos com necessidades específicas.',
+    accederApp: 'Aceder à App',
+    copyright: 'Todos os direitos reservados.',
+    enlaces: 'Links',
+    legal: 'Legal',
+    aceptar: 'Aceitar',
+    avisoCookies: 'Utilizamos cookies para melhorar a sua experiência.',
+  },
+  NL: {
+    inicio: 'Home',
+    cuentos: 'Verhalen',
+    sobreNosotros: 'Over Ons',
+    acceder: 'Inloggen',
+    politicaPrivacidad: 'Privacybeleid',
+    terminosUso: 'Gebruiksvoorwaarden',
+    heroTitulo: 'Cognitieve Toegankelijkheid voor Iedereen',
+    heroSubtitulo:
+      'Educatieve hulpmiddelen voor speciaalonderwijs leraren en leerlingen met specifieke leerbehoeften.',
+    accederApp: 'Toegang tot App',
+    copyright: 'Alle rechten voorbehouden.',
+    enlaces: 'Links',
+    legal: 'Juridisch',
+    aceptar: 'Accepteren',
+    avisoCookies: 'We gebruiken cookies om uw ervaring te verbeteren.',
+  },
+  PL: {
+    inicio: 'Strona Główna',
+    cuentos: 'Bajki',
+    sobreNosotros: 'O Nas',
+    acceder: 'Zaloguj Się',
+    politicaPrivacidad: 'Polityka Prywatności',
+    terminosUso: 'Warunki Użytkowania',
+    heroTitulo: 'Dostępność Poznawcza dla Wszystkich',
+    heroSubtitulo:
+      'Narzędzia edukacyjne dla nauczycieli edukacji specjalnej i uczniów ze specjalnymi potrzebami.',
+    accederApp: 'Dostęp do Aplikacji',
+    copyright: 'Wszelkie prawa zastrzeżone.',
+    enlaces: 'Linki',
+    legal: 'Prawne',
+    aceptar: 'Akceptuj',
+    avisoCookies: 'Używamy plików cookie, aby poprawić Twoje doświadczenie.',
+  },
+  RU: {
+    inicio: 'Главная',
+    cuentos: 'Истории',
+    sobreNosotros: 'О Нас',
+    acceder: 'Войти',
+    politicaPrivacidad: 'Политика Конфиденциальности',
+    terminosUso: 'Условия Использования',
+    heroTitulo: 'Когнитивная Доступность для Всех',
+    heroSubtitulo:
+      'Образовательные инструменты для учителей специального образования и учащихся с особыми потребностями.',
+    accederApp: 'Доступ к Приложению',
+    copyright: 'Все права защищены.',
+    enlaces: 'Ссылки',
+    legal: 'Правовая информация',
+    aceptar: 'Принять',
+    avisoCookies: 'Мы используем файлы cookie для улучшения вашего опыта.',
+  },
+  ZH: {
+    inicio: '首页',
+    cuentos: '故事',
+    sobreNosotros: '关于我们',
+    acceder: '登录',
+    politicaPrivacidad: '隐私政策',
+    terminosUso: '使用条款',
+    heroTitulo: '人人可用的认知无障碍',
+    heroSubtitulo: '专为特殊教育教师和有特殊学习需求的学生设计的教育工具。',
+    accederApp: '访问应用',
+    copyright: '版权所有。',
+    enlaces: '链接',
+    legal: '法律信息',
+    aceptar: '接受',
+    avisoCookies: '我们使用cookies来改善您的体验。',
+  },
+  JA: {
+    inicio: 'ホーム',
+    cuentos: 'おはなし',
+    sobreNosotros: '私たちについて',
+    acceder: 'ログイン',
+    politicaPrivacidad: 'プライバシーポリシー',
+    terminosUso: '利用規約',
+    heroTitulo: 'すべての人のための認知アクセシビリティ',
+    heroSubtitulo: '特別支援教育教師と特別な学習ニーズを持つ生徒のために設計された教育ツール。',
+    accederApp: 'アプリにアクセス',
+    copyright: '全著作権所有。',
+    enlaces: 'リンク',
+    legal: '法的情報',
+    aceptar: '同意する',
+    avisoCookies: '私たちはあなたの体験を向上させるためにCookieを使用します。',
+  },
+  KO: {
+    inicio: '홈',
+    cuentos: '이야기',
+    sobreNosotros: '회사 소개',
+    acceder: '로그인',
+    politicaPrivacidad: '개인정보 처리방침',
+    terminosUso: '이용약관',
+    heroTitulo: '모두를 위한 인지 접근성',
+    heroSubtitulo: '특수교육 교사와 특별한 학습 요구가 있는 학생들을 위해 설계된 교육 도구.',
+    accederApp: '앱 접속',
+    copyright: '모든 권리 보유.',
+    enlaces: '링크',
+    legal: '법률 정보',
+    aceptar: '동의',
+    avisoCookies: '당신의 경험을 개선하기 위해 쿠키를 사용합니다.',
+  },
+  AR: {
+    inicio: 'الرئيسية',
+    cuentos: 'قصص',
+    sobreNosotros: 'من نحن',
+    acceder: 'تسجيل الدخول',
+    politicaPrivacidad: 'سياسة الخصوصية',
+    terminosUso: 'شروط الاستخدام',
+    heroTitulo: 'إمكانية الوصول المعرفي للجميع',
+    heroSubtitulo:
+      'أدوات تعليمية مصممة لمعلمي التعليم الخاص والطلاب ذوي الاحتياجات التعليمية الخاصة.',
+    accederApp: 'الوصول إلى التطبيق',
+    copyright: 'جميع الحقوق محفوظة.',
+    enlaces: 'روابط',
+    legal: 'قانوني',
+    aceptar: 'قبول',
+    avisoCookies: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك.',
+  },
+  HI: {
+    inicio: 'होमपेज',
+    cuentos: 'कहानियाँ',
+    sobreNosotros: 'हमारे बारे में',
+    acceder: 'लॉगिन करें',
+    politicaPrivacidad: 'गोपनीयता नीति',
+    terminosUso: 'उपयोग की शर्तें',
+    heroTitulo: 'सभी के लिए संज्ञानात्मक सुलभता',
+    heroSubtitulo:
+      'विशेष शिक्षा शिक्षकों और विशेष शिक्षा आवश्यकताओं वाले छात्रों के लिए डिज़ाइन किए गए शैक्षिक उपकरण।',
+    accederApp: 'ऐप तक पहुंचें',
+    copyright: 'सर्वाधिकार सुरक्षित।',
+    enlaces: 'लिंक',
+    legal: 'कानूनी',
+    aceptar: 'स्वीकार करें',
+    avisoCookies: 'हम आपके अनुभव को बेहतर बनाने के लिए कुकीज़ का उपयोग करते हैं।',
+  },
+};
+
+export function t(clave: string): string {
+  const estado = useLanguageStore.getState();
+  const codigo = estado.idiomaActual;
+  return traduccionesUI[codigo]?.[clave] || traduccionesUI['ES'][clave] || clave;
+}

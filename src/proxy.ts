@@ -3,7 +3,17 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 export async function proxy(request: NextRequest) {
   const rutaActual = request.nextUrl.pathname;
-  const esRutaPublica = rutaActual === '/' || rutaActual === '/login' || rutaActual === '/registro';
+  const RUTAS_PUBLICAS = [
+    '/',
+    '/login',
+    '/registro',
+    '/privacidad',
+    '/terminos',
+    '/sobre-nosotros',
+    '/configuracion',
+    '/profesor/crear-cuento',
+  ];
+  const esRutaPublica = RUTAS_PUBLICAS.includes(rutaActual);
 
   console.log(`[MIDDLEWARE] Procesando: ${rutaActual}, esPública: ${esRutaPublica}`);
 
