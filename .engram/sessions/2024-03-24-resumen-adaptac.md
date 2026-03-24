@@ -244,4 +244,126 @@ Propiedad: Gobierno de Aragón (España)
 
 ---
 
-**Última actualización:** 2024-03-23
+## Sesión 2024-03-24 - Sistema i18n y Restricciones de UI/Prompt
+
+### 1. Sistema de Internacionalización (i18n)
+
+#### Arquitectura Decidida
+
+- **SISTEMA ACTUAL:** Zustand store (`useLanguageStore.ts`) con diccionarios `traduccionesUI`
+- **DECISIÓN:** NO migrar a `next-intl`. Mantener el sistema Zustand existente
+- **JUSTIFICACIÓN:** Ya está implementado y funcionando. No requiere cambios de infraestructura.
+
+#### Traducciones Completadas (18 idiomas)
+
+- ES, EN, CA, VA, GL, EU, FR, DE, IT, PT, NL, PL, RU, ZH, JA, KO, AR, HI
+
+#### Claves Traducidas (por idioma)
+
+| Categoría      | Claves                                                                                                                                                                                                                                                                                                                                                                                                     |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Configuración  | `configTitulo`, `configIdioma`, `configIdiomaDesc`, `configPrivacidad`, `configPoliticaPrivacidad`, `configTerminos`, `configAcerca`, `configDescripcion`, `configTecnologias`                                                                                                                                                                                                                             |
+| Sobre Nosotros | `sobreNosotrosTitulo`, `sobreNosotrosMision`, `sobreNosotrosMisionTexto`, `sobreNosotrosPicto`, `sobreNosotrosPictoTexto`, `atribucionArasaac`, `atribucionArasaacTexto`, `deslindeAragon`, `tecnologias`, `derechosReservados`                                                                                                                                                                            |
+| Términos       | `terminosTitulo`, `terminosAceptacion`, `terminosAceptacionTexto`, `terminosDescripcion`, `terminosDescripcionTexto`, `terminosUsoAceptable`, `terminosUsoTexto`, `terminosPropiedad`, `terminosPropiedadTexto`, `terminosLimitacion`, `terminosLimitacionTexto`, `terminosModificacion`, `terminosModificacionTexto`, `terminosContacto`, `terminosContactoTexto`                                         |
+| Privacidad     | `privacidadTitulo`, `privacidadIntro`, `privacidadIntroTexto`, `privacidadDatos`, `privacidadUso`, `privacidadUsoTexto`, `privacidadCookies`, `privacidadCookiesTexto`, `privacidadCookiesAdicional`, `privacidadProteccion`, `privacidadProteccionTexto`, `privacidadDerechos`, `privacidadDerechosTexto`, `privacidadTerceros`, `privacidadTercerosTexto`, `privacidadCambios`, `privacidadCambiosTexto` |
+| Formulario     | `formTituloCuento`, `formPlaceholderTitulo`, `formTematica`, `formSelectTematica`, `formFinalidad`, `formPlaceholderFinalidad`, `formCaracteres`, `formLongitud`, `formCorto`, `formMedio`, `formLargo`, `formPalabras`, `formResumen`, `formLabelTitulo`, `formLabelTematica`, `formLabelIdioma`, `formLabelLongitud`, `formSinDefinir`, `formGenerando`, `formBotonGenerar`                              |
+| Dropdown       | `formPalabras100`, `formPalabras200`, `formPalabras300`                                                                                                                                                                                                                                                                                                                                                    |
+
+### 2. Preselección Inteligente de Idioma
+
+#### Lógica Implementada
+
+```typescript
+// FormularioCrearCuento.tsx
+const idiomaGlobal = useLanguageStore((s) => s.idiomaActual);
+
+useEffect(() => {
+  const borrador = cargarBorrador();
+  // ...
+  const idiomaDelBorrador = borrador.idioma && borrador.idioma.trim() !== '';
+  setIdioma(idiomaDelBorrador ? borrador.idioma : idiomaGlobal);
+}, [idiomaGlobal]);
+```
+
+#### Regla de Negocio
+
+- Selector de idioma del cuento se preselecciona con idioma global de la web
+- Usuario puede cambiar independientemente sin afectar el global
+- Si existe borrador previo con idioma, lo respeta
+
+### 3. Restricciones de UI - Selector de Longitud
+
+#### Cambio Implementado
+
+| Antes                                   | Después                            |
+| --------------------------------------- | ---------------------------------- |
+| Radio buttons: `corto/medio/largo`      | Dropdown: `100/200/300`            |
+| Mapeo a `100/300/600` palabras          | Valores directos                   |
+| Etiquetas: "Micro", "Corto", "Estándar" | Solo número + "palabras/words/etc" |
+
+#### Archivos Modificados
+
+- `FormularioCrearCuento.tsx`:
+  - Estado: `useState<'100' | '200' | '300'>('200')`
+  - Radio buttons → `<select>` con 3 opciones
+  - Envío: `longitud: Number(longitud)`
+
+### 4. Grounding del Prompt - Título Obligatorio
+
+#### Reglas Añadidas al System Prompt
+
+```typescript
+// prompt-cuento.ts
+REGLAS DE GROUNDING DEL TÍTULO (ABSOLUTAS):
+* USA EXACTAMENTE el título proporcionado por el usuario: "${datos.titulo}"
+* PROHIBIDO generar, modificar, abreviar o inventar un título alternativo
+* El campo "titulo" en el JSON DEBE ser idéntico a "${datos.titulo}"
+* Si el título original tiene errores de ortografía, cópialos exactamente igual
+* NO añadas comillas, signos de exclamación ni modificaciones de ningún tipo
+```
+
+#### Verificación en Salida
+
+```typescript
+SALIDA REQUERIDA (JSON EXACTO):
+{
+  "titulo": "${datos.titulo}",  // Título exacto del usuario
+  // ...
+}
+REGLA CRÍTICA DE TÍTULO: El valor de "titulo" en el JSON DEBE ser "${datos.titulo}" exactamente.
+```
+
+### 5. Fixes Críticos Aplicados
+
+| Bug                                 | Solución                                                | Archivo                     |
+| ----------------------------------- | ------------------------------------------------------- | --------------------------- |
+| Error "Unexpected token '<'" en API | Añadir `/api/cuentos/generar` a `RUTAS_PUBLICAS`        | `src/proxy.ts`              |
+| Warning `src=""` en pictogramas     | Renderizado condicional: `picto.urlImagen ? ... : null` | `FormularioCrearCuento.tsx` |
+| Navbar no pegado al borde           | Eliminar `py-8` del `<main>`                            | `page.tsx`                  |
+
+### 6. Archivos Clave del Proyecto
+
+```
+src/
+├── lib/stores/useLanguageStore.ts    # Diccionario i18n + estado global
+├── lib/ia/prompt-cuento.ts          # System prompt con grounding
+├── components/profesor/
+│   └── FormularioCrearCuento.tsx    # Formulario con dropdown + demo mode
+├── app/api/cuentos/generar/route.ts # API con bypass demo
+└── proxy.ts                         # Middleware/auth
+```
+
+### 7. Estado Final
+
+| Componente                      | Estado          |
+| ------------------------------- | --------------- |
+| Dropdown longitud (100/200/300) | ✅ Implementado |
+| Grounding título IA             | ✅ Implementado |
+| Traducciones 18 idiomas         | ✅ Completas    |
+| Preselección idioma             | ✅ Funcional    |
+| Demo mode (sin Supabase)        | ✅ Funcional    |
+| Build                           | ✅ Passing      |
+
+---
+
+**Última actualización:** 2024-03-24

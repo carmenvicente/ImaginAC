@@ -12,6 +12,7 @@ export async function proxy(request: NextRequest) {
     '/sobre-nosotros',
     '/configuracion',
     '/profesor/crear-cuento',
+    '/api/cuentos/generar',
   ];
   const esRutaPublica = RUTAS_PUBLICAS.includes(rutaActual);
 

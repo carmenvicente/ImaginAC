@@ -151,10 +151,16 @@ REGLAS DE ESCRITURA:
 - Incluye repetición de frases clave para refuerzo.
 - Finaliza con un mensaje positivo y educativo.
 - MÁXIMO ${datos.palabrasMax} palabras totales.
+- REGLAS DE GROUNDING DEL TÍTULO (ABSOLUTAS):
+  * USA EXACTAMENTE el título proporcionado por el usuario: "${datos.titulo}"
+  * PROHIBIDO generar, modificar, abreviar o inventar un título alternativo
+  * El campo "titulo" en el JSON DEBE ser idéntico a "${datos.titulo}"
+  * Si el título original tiene errores de ortografía, cópialos exactamente igual
+  * NO añadas comillas, signos de exclamación ni modificaciones de ningún tipo
 
 SALIDA REQUERIDA (JSON EXACTO):
 {
-  "titulo": "Título del cuento",
+  "titulo": "${datos.titulo}",
   "texto": "Texto completo del cuento en párrafos separados por saltos de línea",
   "palabrasClave": ["palabra1", "palabra2", "palabra3"],
   "emociones": ["emocion1", "emocion2"],
@@ -166,7 +172,8 @@ SALIDA REQUERIDA (JSON EXACTO):
 IMPORTANTE - REGLAS DE FORMATO OBLIGATORIAS:
 1. Devuelve SOLO un JSON válido. Sin texto adicional, sin saludos, sin formato markdown.
 2. REGLA DE ORO: LAS CLAVES DEL JSON ("titulo", "texto", "palabrasClave", "emociones", "personajes", "nombre", "descripcion") NO SE DEBEN TRADUCIR NUNCA. Mantenlas exactamente en español como en el ejemplo.
-3. El contenido (los valores del JSON) SÍ debe estar traducido al idioma solicitado (${nombreIdioma.toUpperCase()}).`;
+3. El contenido (los valores del JSON) SÍ debe estar traducido al idioma solicitado (${nombreIdioma.toUpperCase()}).
+4. REGLA CRÍTICA DE TÍTULO: El valor de "titulo" en el JSON DEBE ser "${datos.titulo}" exactctamente. No puede haber variación, abreviación ni modificación.`;
 }
 
 export interface RespuestaCuento {
