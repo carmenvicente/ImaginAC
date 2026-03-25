@@ -319,6 +319,20 @@ export async function transcribirAPictogramas(
   return pictogramas;
 }
 
+export async function transcribirPalabrasConcretas(palabras: string[]): Promise<Pictograma[]> {
+  const pictogramas = await Promise.all(
+    palabras.map(async (palabra, indice) => ({
+      codigoSpc: generarCodigoSpc(palabra),
+      textoOriginal: palabra,
+      categoria: detectarCategoria(palabra),
+      orden: indice,
+      urlImagen: await generarUrlArasaac(palabra),
+    }))
+  );
+
+  return pictogramas;
+}
+
 export function categorizarPictogramas(
   pictogramas: Pictograma[]
 ): Record<CategoriaPictograma, Pictograma[]> {

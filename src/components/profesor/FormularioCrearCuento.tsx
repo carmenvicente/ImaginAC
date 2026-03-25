@@ -1,30 +1,24 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { SelectorIdioma, IDIOMAS_DISPONIBLES } from '@/components/ui/SelectorIdioma';
 import { useRouter } from 'next/navigation';
 import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
-interface CuentoGenerado {
+interface CuentoDemo {
   titulo: string;
+  finalidad: string;
   texto: string;
-  palabrasClave: string[];
-  emociones: string[];
-  personajes: string[];
+  pictogramas: any[];
+  diapositivas?: {
+    texto: string;
+    pictogramas: any[];
+  }[];
 }
-
-interface Pictograma {
-  codigoSpc: string;
-  textoOriginal: string;
-  categoria: string;
-  urlImagen: string;
-  orden: number;
-}
-
-const CLAVE_BORRADOR = 'borrador_cuento';
 
 interface FormularioCuentoProps {
   profesorId: string;
+  onCuentoGenerado?: (cuento: CuentoDemo) => void;
 }
 
 interface DatosFormulario {
@@ -42,6 +36,8 @@ const DATOS_INICIALES: DatosFormulario = {
   idioma: 'ES',
   longitud: '200',
 };
+
+const CLAVE_BORRADOR = 'borrador_cuento';
 
 function guardarBorrador(datos: DatosFormulario) {
   if (typeof window === 'undefined') return;
@@ -74,7 +70,7 @@ function limpiarBorrador() {
   }
 }
 
-export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
+export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: FormularioCuentoProps) {
   const router = useRouter();
   const idiomaGlobal = useLanguageStore((s) => s.idiomaActual);
   const traducciones = traduccionesUI[idiomaGlobal] || traduccionesUI['ES'];
@@ -87,10 +83,6 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
   const [borradorRecuperado, setBorradorRecuperado] = useState(false);
-  const [cuentoDemo, setCuentoDemo] = useState<{
-    cuento: CuentoGenerado;
-    pictogramas: Pictograma[];
-  } | null>(null);
 
   useEffect(() => {
     const borrador = cargarBorrador();
@@ -103,34 +95,6 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
     setLongitud(longitudValida ? (borrador.longitud as '100' | '200' | '300') : '200');
     setBorradorRecuperado(true);
   }, [idiomaGlobal]);
-
-  const sincronizarBorrador = useCallback(() => {
-    if (!borradorRecuperado) return;
-    guardarBorrador({
-      titulo,
-      tematica,
-      finalidadPedagogica,
-      idioma,
-      longitud,
-    });
-  }, [titulo, tematica, finalidadPedagogica, idioma, longitud, borradorRecuperado]);
-
-  useEffect(() => {
-    sincronizarBorrador();
-  }, [sincronizarBorrador]);
-
-  const tematicas = [
-    { valor: 'animales', label: 'Animales' },
-    { valor: 'familia', label: 'Familia' },
-    { valor: 'escuela', label: 'Escuela' },
-    { valor: 'emociones', label: 'Emociones' },
-    { valor: 'naturaleza', label: 'Naturaleza' },
-    { valor: 'amistad', label: 'Amistad' },
-    { valor: 'comida', label: 'Comida' },
-    { valor: 'casa', label: 'Casa' },
-    { valor: 'transporte', label: 'Transporte' },
-    { valor: 'diversion', label: 'Diversión' },
-  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,12 +123,57 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
         throw new Error(datos.error || 'Error al generar el cuento');
       }
 
-      // MODO DEMO: Mostrar cuento inline
       if (datos.esDemo) {
-        setCuentoDemo({
-          cuento: datos.cuento,
-          pictogramas: datos.pictogramas,
-        });
+        console.log('[DEBUG FORM] Datos recibidos del backend:', datos);
+        console.log('[DEBUG FORM] Diapositivas del backend:', datos.cuento?.diapositivas);
+        console.log(
+          '[DEBUG FORM] Primer pictograma de la primera diapositiva:',
+          datos.cuento?.diapositivas?.[0]?.pictogramas?.[0]
+        );
+
+        const pictogramasConvertidos = (datos.pictogramas || []).map((p: any) => ({
+          codigoSpc: p.codigoSpc || '',
+          textoOriginal: p.textoOriginal || p.textoCuento || '',
+          categoria: p.categoria || 'OBJETO',
+          orden: p.orden || 0,
+          urlImagen: p.urlImagen || p.rutaSvg || '',
+        }));
+
+        const diapositivasConPictos = (datos.cuento?.diapositivas || []).map((d: any) => ({
+          texto: d.texto || '',
+          pictogramas: (d.pictogramas || []).map((picto: any) => {
+            if (typeof picto === 'string') {
+              return {
+                codigoSpc: '',
+                textoOriginal: picto,
+                categoria: 'OBJETO',
+                orden: 0,
+                urlImagen: '',
+              };
+            }
+            return {
+              codigoSpc: picto.codigoSpc || '',
+              textoOriginal: picto.textoOriginal || picto.textoCuento || '',
+              categoria: picto.categoria || 'OBJETO',
+              orden: picto.orden || 0,
+              urlImagen: picto.urlImagen || picto.rutaSvg || '',
+            };
+          }),
+        }));
+
+        const cuentoDemo: CuentoDemo = {
+          titulo: datos.cuento?.titulo || '',
+          finalidad: finalidadPedagogica,
+          texto: datos.cuento?.texto || '',
+          pictogramas: pictogramasConvertidos,
+          diapositivas: diapositivasConPictos,
+        };
+
+        console.log('[DEBUG FORM] CuentoDemo construido:', cuentoDemo);
+
+        if (onCuentoGenerado) {
+          onCuentoGenerado(cuentoDemo);
+        }
         setCargando(false);
         return;
       }
@@ -172,6 +181,7 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
       limpiarBorrador();
       router.push(`/profesor/cuento/${datos.id}`);
     } catch (err) {
+      console.error('ERROR REAL AL GENERAR:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
       setCargando(false);
     }
@@ -212,7 +222,18 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
             required
           >
             <option value="">{traducciones.formSelectTematica || 'Selecciona una temática'}</option>
-            {tematicas.map((t) => (
+            {[
+              { valor: 'animales', label: 'Animales' },
+              { valor: 'familia', label: 'Familia' },
+              { valor: 'escuela', label: 'Escuela' },
+              { valor: 'emociones', label: 'Emociones' },
+              { valor: 'naturaleza', label: 'Naturaleza' },
+              { valor: 'amistad', label: 'Amistad' },
+              { valor: 'comida', label: 'Comida' },
+              { valor: 'casa', label: 'Casa' },
+              { valor: 'transporte', label: 'Transporte' },
+              { valor: 'diversion', label: 'Diversión' },
+            ].map((t) => (
               <option key={t.valor} value={t.valor}>
                 {t.label}
               </option>
@@ -261,9 +282,9 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
           onChange={(e) => setLongitud(e.target.value as '100' | '200' | '300')}
           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--marca)] focus:border-transparent"
         >
-          <option value="100">{traducciones.formPalabras100 || '100 palabras (Micro)'}</option>
-          <option value="200">{traducciones.formPalabras200 || '200 palabras (Corto)'}</option>
-          <option value="300">{traducciones.formPalabras300 || '300 palabras (Estándar)'}</option>
+          <option value="100">{traducciones.formPalabras100 || '100 palabras'}</option>
+          <option value="200">{traducciones.formPalabras200 || '200 palabras'}</option>
+          <option value="300">{traducciones.formPalabras300 || '300 palabras'}</option>
         </select>
       </div>
 
@@ -278,9 +299,7 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
           </li>
           <li>
             <strong>{traducciones.formLabelTematica || 'Temática'}:</strong>{' '}
-            {tematica
-              ? tematicas.find((t) => t.valor === tematica)?.label
-              : traducciones.formSinDefinir || 'Sin definir'}
+            {tematica || traducciones.formSinDefinir || 'Sin definir'}
           </li>
           <li>
             <strong>{traducciones.formLabelIdioma || 'Idioma'}:</strong>{' '}
@@ -322,44 +341,6 @@ export function FormularioCrearCuento({ profesorId }: FormularioCuentoProps) {
           traducciones.formBotonGenerar || 'Generar Cuento con Pictogramas'
         )}
       </button>
-
-      {cuentoDemo && (
-        <div className="mt-8 p-6 bg-white rounded-2xl shadow-lg border-2 border-[var(--marca)]">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-bold text-[var(--marca)]">{cuentoDemo.cuento.titulo}</h3>
-            <button
-              onClick={() => setCuentoDemo(null)}
-              className="text-sm text-gray-500 hover:text-gray-700"
-            >
-              Cerrar
-            </button>
-          </div>
-          <div className="prose max-w-none mb-6">
-            <p className="whitespace-pre-wrap">{cuentoDemo.cuento.texto}</p>
-          </div>
-          <div className="border-t pt-4">
-            <h4 className="font-medium mb-3">Pictogramas del cuento:</h4>
-            <div className="flex flex-wrap gap-3">
-              {cuentoDemo.pictogramas.map((picto, index) =>
-                picto.urlImagen ? (
-                  <div key={index} className="flex flex-col items-center p-2 bg-gray-50 rounded-lg">
-                    <img
-                      src={picto.urlImagen}
-                      alt={picto.textoOriginal || 'Pictograma'}
-                      className="w-16 h-16 object-contain"
-                    />
-                    <span className="text-xs mt-1 text-center">{picto.textoOriginal}</span>
-                  </div>
-                ) : null
-              )}
-            </div>
-          </div>
-          <p className="mt-4 text-xs text-gray-500">
-            Autor pictogramas: Sergio Palao. Origen: ARASAAC (http://www.arasaac.org). Licencia: CC
-            (BY-NC-SA). Propiedad: Gobierno de Aragón (España)
-          </p>
-        </div>
-      )}
     </form>
   );
 }

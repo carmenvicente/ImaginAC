@@ -367,3 +367,275 @@ src/
 ---
 
 **Última actualización:** 2024-03-24
+
+---
+
+## Sesión 2024-03-24 (continuación 3) - ROLLBACK a ARASAAC
+
+### Decisión de Arquitectura
+
+- **Mulberry Symbols**: DESCARTADO permanentemente
+- **ARASAAC**: REESTABLECIDO como motor visual oficial
+- **Razón**: Simplicidad de integración, vocabulario más infantil-friendly
+
+### Cambios de Arquitectura (Post-Rollback)
+
+- `src/lib/ia/arasaac.ts`: RECREADO (módulo original)
+- `src/lib/ia/mulberry-server.ts`: ELIMINADO
+- `src/lib/ia/mulberry.ts`: ELIMINADO
+- `generador.ts`: Usa `transcribirAPictogramas` de arasaac
+- Imports y types revertidos a schema ARASAAC
+
+### Estado Post-Rollback
+
+| Componente | Estado        |
+| ---------- | ------------- |
+| ARASAAC    | ✓ Reintegrado |
+| Mulberry   | ✗ Descartado  |
+| Build      | ✓ Passing     |
+
+---
+
+## Sesión 2024-03-25 - Rediseño UI/UX VisorCuento con Carrusel
+
+### Contexto
+
+- Rollinsback de Mulberry a ARASAAC
+- Nuevo diseño de visualización de cuentos con carrusel de diapositivas
+
+### Estructura del Carrusel
+
+```
+┌─────────────────────────────────────────┐
+│           DIAPOSITIVA 0: PORTADA         │
+│  - Título del cuento                     │
+│  - Finalidad pedagógica                 │
+│  - Autor: Carmen Vicente Crespo          │
+│  - Redes sociales (Twitter/LinkedIn)     │
+│  - Atribución ARASAAC (footer)           │
+├─────────────────────────────────────────┤
+│  DIAPOSITIVAS 1-N: CONTENIDO           │
+│  - Una frase del cuento por slide        │
+│  - Pictogramas de ARASAAC debajo         │
+│  - Índice: "X de N"                     │
+├─────────────────────────────────────────┤
+│         NAVEGACIÓN (fixed bottom)        │
+│  [← Anterior]  ●●●○○○  [Siguiente →]    │
+└─────────────────────────────────────────┘
+```
+
+### Archivos Creados
+
+| Archivo                                          | Propósito                           |
+| ------------------------------------------------ | ----------------------------------- |
+| `src/components/profesor/DiapositivaPortada.tsx` | Slide de portada + DiapositivaFrase |
+| `src/components/profesor/CarruselNavegacion.tsx` | Flechas + indicadores               |
+
+### Archivo Modificado
+
+| Archivo                                   | Cambios                          |
+| ----------------------------------------- | -------------------------------- |
+| `src/components/profesor/VisorCuento.tsx` | Reescrito con lógica de carrusel |
+
+### Algoritmo de Separación
+
+```typescript
+// 1. Split por . ! ?
+separarEnFrases("Primera frase. Segunda frase!")
+→ ["Primera frase.", "Segunda frase!"]
+
+// 2. Distribución Round-Robin
+distribuirPictogramas(frases, pictos)
+→ Cada frase recibe Math.ceil(pictos.length / frases.length) pictos
+
+// 3. Construcción de diapositivas
+construirDiapositivas(cuento)
+→ [portada, ...frases.map(f => ({ tipo: 'contenido', fraseActual: f }))]
+```
+
+### Navegación
+
+- Flechas: Anterior/Siguiente
+- Teclado: ← → para navegar
+- Indicadores: dots clickeables para saltar
+- Estado: `useState(indiceDiapositiva)`
+
+### Estado Final
+
+| Verificación | Estado         |
+| ------------ | -------------- |
+| Build        | ✓ Passing      |
+| TypeScript   | ✓ Sin errores  |
+| Tests        | 35 passing     |
+| Carrusel     | ✓ Implementado |
+
+---
+
+## Sesión 2024-03-25 (continuación) - Implementación Carrusel de Pictogramas
+
+### Contexto
+
+Rediseño completo del visor de cuentos con un carrusel interactivo de diapositivas para mostrar el cuento con pictogramas.
+
+### Arquitectura del Carrusel
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    VISOR DE CUENTO                           │
+├─────────────────────────────────────────────────────────────┤
+│ 1. TEXTO COMPLETO (encima)                                 │
+│    - Sección completa del cuento para lectura                │
+│    - Emociones trabajadas                                  │
+├─────────────────────────────────────────────────────────────┤
+│ 2. CARRUSEL DE DIAPOSITIVAS (mt-12 separación)           │
+│    ┌─────────────────────────────────────────────────────┐ │
+│    │  [←]           1/5           [→]                  │ │
+│    │                                                      │ │
+│    │         DIAPOSITIVA ACTIVA                          │ │
+│    │         (aspect-video 16:9)                        │ │
+│    │                                                      │ │
+│    │  • Portada: Título, finalidad, autor, ARASAAC    │ │
+│    │  • Contenido: Frase + pictogramas                  │ │
+│    └─────────────────────────────────────────────────────┘ │
+│    ● ○ ○ ○ ○  (dots navegación)                          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Componentes Creados
+
+| Archivo                                          | Propósito                                  |
+| ------------------------------------------------ | ------------------------------------------ |
+| `src/components/profesor/DiapositivaPortada.tsx` | Slide de portada + DiapositivaFrase        |
+| `src/components/profesor/DiapositivaFrase.tsx`   | Slide de contenido con frase + pictogramas |
+| `src/components/profesor/CarruselNavegacion.tsx` | Flechas y navegación                       |
+
+### Archivos Modificados
+
+| Archivo                                             | Cambios                                   |
+| --------------------------------------------------- | ----------------------------------------- |
+| `src/components/profesor/VisorCuento.tsx`           | Reescrito con lógica de carrusel completo |
+| `src/components/profesor/FormularioCrearCuento.tsx` | Integración carrusel en modo demo         |
+| `src/app/profesor/crear-cuento/page.tsx`            | Layout separado con espacios              |
+
+### Algoritmo de Separación de Frases
+
+```typescript
+// 1. Split por . ! ?
+separarEnFrases("Primera frase. Segunda frase!")
+→ ["Primera frase.", "Segunda frase!"]
+
+// 2. Distribución Round-Robin equitativa
+distribuirPictogramas(frases, pictos)
+→ Cada frase recibe Math.ceil(pictos.length / frases.length) pictos
+
+// 3. Construcción de diapositivas
+construirDiapositivas(cuento)
+→ [
+    { tipo: 'portada', titulo, finalidad, autor },
+    ...frases.map(f => ({ tipo: 'contenido', fraseActual: f }))
+  ]
+```
+
+### Estado del Carrusel
+
+```typescript
+const [indiceDiapositiva, setIndiceDiapositiva] = useState(0);
+
+const irAnterior = useCallback(() => {
+  setIndiceDiapositiva((prev) => Math.max(0, prev - 1));
+}, []);
+
+const irSiguiente = useCallback(() => {
+  setIndiceDiapositiva((prev) => Math.min(diapositivas.length - 1, prev + 1));
+}, [diapositivas.length]);
+```
+
+### Navegación
+
+- Flechas laterales integradas (position absolute)
+- Teclado: ← → para navegar
+- Dots clickeables para saltar
+- Indicador: "1 / 5" integrado en la diapositiva
+- Botón "Cerrar" eliminado
+
+### Diseño Visual
+
+```tsx
+// Contenedor de diapositiva
+<div className="relative bg-white rounded-2xl shadow-2xl border-2 border-gray-200 overflow-hidden">
+  <div className="aspect-video bg-gray-50...">
+    {/* Contenido */}
+  </div>
+  <button className="absolute left-4 top-1/2...">←</button>
+  <button className="absolute right-4 top-1/2...">→</button>
+  <div className="absolute bottom-4...">1 / 5</div>
+</div>
+
+// Separación entre secciones
+<div className="mt-12">
+  {/* Carrusel debajo del texto completo */}
+</div>
+```
+
+### Contenido de Diapositivas
+
+**Portada (Slide 0):**
+
+- Título del cuento
+- Finalidad pedagógica
+- Autor: Carmen Vicente Crespo
+- Iconos redes sociales (Twitter, LinkedIn)
+- Footer legal ARASAAC
+
+**Contenido (Slides 1-N):**
+
+- Una frase del cuento
+- Pictogramas de ARASAAC centrados
+- Índice: "X de N"
+
+### Bugs Corregidos
+
+1. **Estado con useCallback**: Previene re-renders accidentales
+2. **type="button"**: Evita submit por defecto en las flechas
+3. **Flechas laterales**: Integradas con `position: absolute`
+4. **Separación visual**: `mt-12` entre texto y carrusel
+
+### Layout Final (crear-cuento/page.tsx)
+
+```tsx
+<div className="max-w-4xl mx-auto space-y-8">
+  <div>
+    {/* Título */}
+    <div className="bg-white p-6 rounded-2xl shadow-md">
+      <FormularioCrearCuento />
+    </div>
+  </div>
+  <div>{/* Licencia */}</div>
+</div>
+```
+
+### Estado Final
+
+| Verificación | Estado                        |
+| ------------ | ----------------------------- |
+| Build        | ✓ Passing                     |
+| TypeScript   | ✓ Sin errores                 |
+| Tests        | 35 passing                    |
+| Carrusel     | ✓ Implementado                |
+| Navegación   | ✓ Flechas + teclado + dots    |
+| UX           | ✓ Título dinámico, sin cerrar |
+
+---
+
+## Sesión 2024-03-25 (continuación 4) - Cambio de Modelo Gemini
+
+### Decisión de Arquitectura (Orquestadora)
+
+**Modelo oficial de IA:** `gemini-3.1-flash-lite-preview`
+**RPD:** 500 peticiones diarias
+**Archivo:** `src/lib/ia/generador.ts`
+**Razón:** Capa gratuita con mayor límite de cuota
+
+### Registro en Memoria
+
+⚠️ **CONTRATO FIJO:** Modelo `gemini-3.1-flash-lite-preview` INAMOVIBLE sin autorización explícita de la Orquestadora.

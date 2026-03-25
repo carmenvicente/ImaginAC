@@ -166,8 +166,21 @@ SALIDA REQUERIDA (JSON EXACTO):
   "emociones": ["emocion1", "emocion2"],
   "personajes": [
     {"nombre": "Nombre del personaje", "descripcion": "Breve descripción de 1-2 frases"}
+  ],
+  "diapositivas": [
+    {"texto": "Primera frase del cuento", "pictogramas": ["palabra1", "palabra2"]},
+    {"texto": "Segunda frase del cuento", "pictogramas": ["verbo", "adjetivo"]},
+    {"texto": "Tercera frase del cuento", "pictogramas": ["sustantivo", "accion"]}
   ]
 }
+
+REGLAS DE DIAPOSITIVAS (OBLIGATORIAS):
+1. Genera UNA diapositiva por cada frase del cuento. NO limites a un número fijo.
+2. Si el cuento tiene 8 frases, genera 8 objetos en el array "diapositivas".
+3. Cada frase debe tener entre 1 y 5 pictogramas que la ilustren visualmente.
+4. Los pictogramas deben ser CONCEPTOS básicos: comer, beber, jugar, grande, rojo, casa, mamá, perro.
+5. PROHIBIDO asignar pictogramas a nombres propios (Leo ≠ león).
+6. PROHIBIDO asignar pictogramas a pronombres (él, ella, esto, eso).
 
 IMPORTANTE - REGLAS DE FORMATO OBLIGATORIAS:
 1. Devuelve SOLO un JSON válido. Sin texto adicional, sin saludos, sin formato markdown.
@@ -182,6 +195,10 @@ export interface RespuestaCuento {
   palabrasClave: string[];
   emociones: string[];
   personajes: { nombre: string; descripcion: string }[];
+  diapositivas: {
+    texto: string;
+    pictogramas: string[] | any[];
+  }[];
 }
 
 export function parsearRespuestaCuento(respuesta: string): RespuestaCuento {

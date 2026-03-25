@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
-import { generarCuento } from '@/lib/ia/generador';
+import { generarCuento, QuotaExceededError } from '@/lib/ia/generador';
 
 export async function POST(request: NextRequest) {
   try {
@@ -143,8 +143,25 @@ export async function POST(request: NextRequest) {
       titulo: actividad.titulo,
       mensaje: 'Cuento generado correctamente',
     });
-  } catch (error) {
-    console.error('Error en generación:', error);
-    return NextResponse.json({ error: 'Error al generar el cuento' }, { status: 500 });
+  } catch (error: any) {
+    if (error instanceof QuotaExceededError) {
+      console.warn('⚠️ Cuota de API excedida:', error.message);
+      return NextResponse.json(
+        {
+          error:
+            'El sistema de IA está saturado ahora mismo. Por favor, espera un minuto y vuelve a intentarlo.',
+        },
+        { status: 429 }
+      );
+    }
+
+    console.error('ERROR CRÍTICO EN API:', error);
+    return NextResponse.json(
+      {
+        error: error?.message || 'Error interno del servidor',
+        detalles: error?.toString(),
+      },
+      { status: 500 }
+    );
   }
 }

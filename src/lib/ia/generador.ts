@@ -3,14 +3,67 @@ import {
   parsearRespuestaCuento,
   type RespuestaCuento,
 } from './prompt-cuento';
-import { transcribirAPictogramas, type Pictograma } from './arasaac';
+import { transcribirPalabrasConcretas, type Pictograma } from '@/lib/ia/arasaac';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
+// MODELO OFICIAL: gemini-3.1-flash-lite-preview (Decisión Orquestadora 2024-03-25)
+// NO cambiar sin autorización explícita de la Orquestadora
+
 export interface ResultadoGeneracion {
   cuento: RespuestaCuento;
   pictogramas: Pictograma[];
+}
+
+export class QuotaExceededError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'QuotaExceededError';
+  }
+}
+
+async function esperarMs(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function generarCuentoConRetry(
+  modelo: ReturnType<typeof genAI.getGenerativeModel>,
+  prompt: string,
+  reintentosMax = 3
+): Promise<string> {
+  for (let intento = 1; intento <= reintentosMax; intento++) {
+    try {
+      const resultado = await modelo.generateContent(prompt);
+      const respuesta = await resultado.response;
+      const textoRespuesta = respuesta.text();
+
+      if (!textoRespuesta) {
+        throw new Error('El modelo de IA no ha devuelto respuesta');
+      }
+
+      return textoRespuesta;
+    } catch (error: any) {
+      const es429 = error?.status === 429 || error?.message?.includes('429');
+
+      if (es429 && intento < reintentosMax) {
+        const esperaMs = Math.pow(2, intento) * 1000;
+        console.warn(
+          `⚠️ Error 429 detectado. Reintentando en ${esperaMs}ms (intento ${intento + 1}/${reintentosMax})`
+        );
+        await esperarMs(esperaMs);
+        continue;
+      }
+
+      if (es429) {
+        throw new QuotaExceededError('Cuota de la API de Google excedida');
+      }
+
+      throw error;
+    }
+  }
+
+  throw new Error('Error inesperado en reintentos');
 }
 
 export async function generarCuento(params: {
@@ -29,7 +82,7 @@ export async function generarCuento(params: {
   });
 
   const modelo = genAI.getGenerativeModel({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-3.1-flash-lite-preview',
     generationConfig: {
       temperature: 0.7,
       maxOutputTokens: 4000,
@@ -37,19 +90,27 @@ export async function generarCuento(params: {
     },
   });
 
-  const resultado = await modelo.generateContent(prompt);
-  const respuesta = await resultado.response;
-  const textoRespuesta = respuesta.text();
-
-  if (!textoRespuesta) {
-    throw new Error('El modelo de IA no ha devuelto respuesta');
-  }
+  const textoRespuesta = await generarCuentoConRetry(modelo, prompt);
 
   const cuento = parsearRespuestaCuento(textoRespuesta);
-  const pictogramas = await transcribirAPictogramas(cuento.texto, params.idioma);
+
+  const diapositivasConPictogramas = await Promise.all(
+    (cuento.diapositivas || []).map(async (diapositiva, indice) => {
+      const pictogramas = await transcribirPalabrasConcretas(diapositiva.pictogramas || []);
+      return {
+        texto: diapositiva.texto,
+        pictogramas,
+      };
+    })
+  );
+
+  const pictogramasGlobales = diapositivasConPictogramas.flatMap((d) => d.pictogramas);
 
   return {
-    cuento,
-    pictogramas,
+    cuento: {
+      ...cuento,
+      diapositivas: diapositivasConPictogramas,
+    },
+    pictogramas: pictogramasGlobales,
   };
 }

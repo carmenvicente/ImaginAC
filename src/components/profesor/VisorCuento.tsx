@@ -1,8 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { supabase } from '@/lib/auth';
-import { COLORES_CATEGORIA, type Pictograma, type CategoriaPictograma } from '@/lib/ia/arasaac';
+import type { Pictograma, CategoriaPictograma } from '@/lib/ia/arasaac';
+import {
+  DiapositivaPortada,
+  DiapositivaFrase,
+  type Frase,
+  type Diapositiva,
+} from './DiapositivaPortada';
 
 interface CuentoCompleto {
   id: string;
@@ -17,17 +23,72 @@ interface CuentoCompleto {
     personajes: { nombre: string; descripcion: string }[];
   };
   pictogramas: Pictograma[];
+  autor?: string;
 }
 
 interface VisorCuentoProps {
   cuentoId: string;
 }
 
+function separarEnFrases(texto: string): string[] {
+  return texto
+    .split(/(?<=[.!?])\s+/)
+    .map((f) => f.trim())
+    .filter((f) => f.length > 0);
+}
+
+function distribuirPictogramas(frases: string[], pictos: Pictograma[]): Frase[] {
+  if (frases.length === 0) return [];
+
+  const pictosPorFrase = Math.ceil(pictos.length / frases.length);
+
+  return frases.map((texto, i) => ({
+    texto: texto.endsWith('.') || texto.endsWith('!') || texto.endsWith('?') ? texto : texto + '.',
+    pictogramas: pictos.slice(
+      i * pictosPorFrase,
+      Math.min((i + 1) * pictosPorFrase, pictos.length)
+    ),
+  }));
+}
+
+function construirDiapositivas(cuento: CuentoCompleto): Diapositiva[] {
+  const frases = separarEnFrases(cuento.contenido_json.texto);
+  const frasesConPictos = distribuirPictogramas(frases, cuento.pictogramas || []);
+
+  return [
+    {
+      tipo: 'portada',
+      titulo: cuento.titulo,
+      finalidad: cuento.finalidad_pedagogica,
+      autor: cuento.autor || 'Carmen Vicente Crespo',
+    },
+    ...frasesConPictos.map((f, i) => ({
+      tipo: 'contenido' as const,
+      fraseActual: f,
+      indice: i + 1,
+      total: frasesConPictos.length,
+    })),
+  ];
+}
+
 export function VisorCuento({ cuentoId }: VisorCuentoProps) {
   const [cuento, setCuento] = useState<CuentoCompleto | null>(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [pictogramaExpandido, setPictogramaExpandido] = useState<string | null>(null);
+  const [indiceDiapositiva, setIndiceDiapositiva] = useState(0);
+
+  const diapositivas = useMemo(() => {
+    if (!cuento) return [];
+    return construirDiapositivas(cuento);
+  }, [cuento]);
+
+  const irAnterior = useCallback(() => {
+    setIndiceDiapositiva((prev) => Math.max(0, prev - 1));
+  }, []);
+
+  const irSiguiente = useCallback(() => {
+    setIndiceDiapositiva((prev) => Math.min(diapositivas.length - 1, prev + 1));
+  }, [diapositivas.length]);
 
   useEffect(() => {
     async function cargarCuento() {
@@ -49,19 +110,19 @@ export function VisorCuento({ cuentoId }: VisorCuentoProps) {
           .eq('actividad_id', cuentoId)
           .order('orden_en_cuento');
 
-        // --- MAPEO DE NOMBRES AQUÍ ---
         const pictogramasFormateados: Pictograma[] = (pictogramas || []).map((p: any) => ({
-          codigoSpc: p.codigo_spc, // convertimos de codigo_spc a codigoSpc
-          textoOriginal: p.texto_original, // convertimos de texto_original a textoOriginal
-          categoria: p.categoria,
-          orden: p.orden_en_cuento,
-          urlImagen: p.url_imagen, // <--- ESTA ES LA CLAVE: de url_imagen a urlImagen
+          codigoSpc: p.codigo_spc || '',
+          textoOriginal: p.texto_original || '',
+          categoria: (p.categoria || 'OBJETO') as CategoriaPictograma,
+          orden: p.orden_en_cuento || 0,
+          urlImagen: p.url_imagen || '',
         }));
 
         setCuento({
           ...actividad,
           pictogramas: pictogramasFormateados,
         });
+        setIndiceDiapositiva(0);
       } catch {
         setError('Error al cargar el cuento');
       } finally {
@@ -71,6 +132,21 @@ export function VisorCuento({ cuentoId }: VisorCuentoProps) {
 
     cargarCuento();
   }, [cuentoId]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        irAnterior();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        irSiguiente();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [irAnterior, irSiguiente]);
 
   if (cargando) {
     return (
@@ -86,162 +162,128 @@ export function VisorCuento({ cuentoId }: VisorCuentoProps) {
     );
   }
 
-  const pictogramasPorCategoria = () => {
-    const grupos: Record<CategoriaPictograma, Pictograma[]> = {
-      VERBO: [],
-      PERSONA: [],
-      ADJETIVO: [],
-      OBJETO: [],
-      OTRO: [],
-    };
-
-    cuento.pictogramas.forEach((p) => {
-      grupos[p.categoria].push(p);
-    });
-
-    return grupos;
-  };
-
-  const grupos = pictogramasPorCategoria();
+  const diapositivaActual = diapositivas[indiceDiapositiva];
+  const esPrimera = indiceDiapositiva === 0;
+  const esUltima = indiceDiapositiva === diapositivas.length - 1;
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white p-6 rounded-2xl">
-        <h2 className="text-2xl font-bold text-[var(--foreground)] mb-4">{cuento.titulo}</h2>
-        <div className="flex flex-wrap gap-2 mb-4">
-          <span className="px-3 py-1 bg-[var(--marca)] text-white text-sm rounded-full">
-            {cuento.tematica}
-          </span>
-          <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
-            Tipo: {cuento.tipo}
-          </span>
-        </div>
-        <p className="text-sm text-[var(--foreground)] opacity-70 mb-4">
-          <strong>Finalidad pedagógica:</strong> {cuento.finalidad_pedagogica}
+    <div className="space-y-8 pb-24">
+      <div className="max-w-5xl mx-auto mb-16">
+        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">{cuento.titulo}</h2>
+        <p className="text-[var(--foreground)] leading-relaxed whitespace-pre-line">
+          {cuento.contenido_json.texto}
         </p>
-      </div>
-
-      <div className="bg-white p-6 rounded-2xl">
-        <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Texto del cuento</h3>
-        <div className="prose max-w-none">
-          {cuento.contenido_json.texto.split('\n\n').map((parrafo, i) => (
-            <p key={i} className="mb-4 text-[var(--foreground)] leading-relaxed">
-              {parrafo}
-            </p>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {cuento.contenido_json.emociones.map((emocion, i) => (
+            <span key={i} className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
+              {emocion}
+            </span>
           ))}
         </div>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl">
-        <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Pictogramas del cuento</h3>
-        <div className="space-y-4">
-          {(Object.keys(grupos) as CategoriaPictograma[]).map((categoria) => {
-            if (grupos[categoria].length === 0) return null;
+      <div className="max-w-5xl mx-auto mt-12">
+        <h3 className="text-xl font-semibold text-[var(--foreground)] mb-6">
+          Versión con pictogramas
+        </h3>
 
-            return (
-              <div key={categoria}>
-                <h4
-                  className="text-sm font-semibold mb-2 capitalize"
-                  style={{ color: COLORES_CATEGORIA[categoria] }}
-                >
-                  {categoria.toLowerCase()}s ({grupos[categoria].length})
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {grupos[categoria].map((picto, index) => (
-                    <button
-                      key={`${picto.codigoSpc}-${index}`}
-                      onClick={() =>
-                        setPictogramaExpandido(
-                          pictogramaExpandido === picto.codigoSpc ? null : picto.codigoSpc
-                        )
-                      }
-                      className="relative group"
-                    >
-                      <div
-                        className="w-16 h-16 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-md transition-transform group-hover:scale-105"
-                        style={{
-                          backgroundColor: COLORES_CATEGORIA[categoria],
-                        }}
-                      >
-                        <img
-                          // Si urlImagen existe, la ponemos. Si es un string vacío, pasamos undefined (o null)
-                          src={picto.urlImagen || undefined}
-                          alt={picto.textoOriginal}
-                          className="w-full h-full object-contain p-1"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none';
-                          }}
-                        />
-                      </div>
-                      {pictogramaExpandido === picto.codigoSpc && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap z-10">
-                          {picto.textoOriginal}
-                          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
-                        </div>
-                      )}
-                      <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 text-xs bg-gray-800 text-white px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                        {picto.codigoSpc}
-                      </span>
-                    </button>
-                  ))}
-                </div>
+        <div className="relative bg-white rounded-2xl shadow-2xl border-2 border-gray-200 overflow-hidden">
+          <div className="aspect-video bg-gray-50 flex items-center justify-center">
+            {diapositivaActual?.tipo === 'portada' ? (
+              <DiapositivaPortada
+                titulo={diapositivaActual.titulo!}
+                finalidad={diapositivaActual.finalidad!}
+                autor={diapositivaActual.autor!}
+              />
+            ) : (
+              <DiapositivaFrase
+                frase={diapositivaActual!.fraseActual!}
+                indice={diapositivaActual!.indice!}
+                total={diapositivaActual!.total!}
+              />
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={irAnterior}
+            disabled={esPrimera}
+            className={`absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all ${
+              esPrimera
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 active:scale-95 border border-gray-200'
+            }`}
+            aria-label="Anterior"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            onClick={irSiguiente}
+            disabled={esUltima}
+            className={`absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all ${
+              esUltima
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-[var(--marca)] text-white hover:bg-[var(--marca-hover)] active:scale-95'
+            }`}
+            aria-label="Siguiente"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white px-4 py-2 rounded-full text-sm font-medium">
+            {indiceDiapositiva + 1} / {diapositivas.length}
+          </div>
+        </div>
+
+        <div className="mt-4 flex justify-center gap-2">
+          {diapositivas.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setIndiceDiapositiva(i)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                i === indiceDiapositiva ? 'bg-[var(--marca)] w-6' : 'bg-gray-300 hover:bg-gray-400'
+              }`}
+              aria-label={`Ir a diapositiva ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {cuento.contenido_json.personajes.length > 0 && (
+        <div className="max-w-5xl mx-auto p-6 bg-white rounded-xl border border-gray-200">
+          <h3 className="text-lg font-semibold text-[var(--foreground)] mb-4">Personajes</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {cuento.contenido_json.personajes.map((personaje, i) => (
+              <div key={i} className="p-4 bg-gray-50 rounded-xl">
+                <h4 className="font-bold text-[var(--foreground)]">{personaje.nombre}</h4>
+                <p className="text-sm text-[var(--foreground)] opacity-70">
+                  {personaje.descripcion}
+                </p>
               </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-2xl">
-        <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Personajes</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {cuento.contenido_json.personajes.map((personaje, i) => (
-            <div key={i} className="p-4 bg-gray-50 rounded-xl">
-              <h4 className="font-bold text-[var(--foreground)]">{personaje.nombre}</h4>
-              <p className="text-sm text-[var(--foreground)] opacity-70">{personaje.descripcion}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {cuento.contenido_json.emociones.length > 0 && (
-        <div className="bg-white p-6 rounded-2xl">
-          <h3 className="text-lg font-bold text-[var(--foreground)] mb-4">Emociones trabajadas</h3>
-          <div className="flex flex-wrap gap-2">
-            {cuento.contenido_json.emociones.map((emocion, i) => (
-              <span
-                key={i}
-                className="px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full text-sm"
-              >
-                {emocion}
-              </span>
             ))}
           </div>
         </div>
       )}
 
-      <div className="flex gap-4">
+      <div className="max-w-5xl mx-auto flex gap-4">
         <button className="flex-1 py-3 bg-[var(--marca)] text-white font-medium rounded-lg hover:bg-[var(--marca-hover)] transition-colors">
           Exportar PDF
         </button>
         <button className="flex-1 py-3 bg-gray-100 text-[var(--foreground)] font-medium rounded-lg hover:bg-gray-200 transition-colors">
           Habilitar para alumnos
         </button>
-      </div>
-
-      <div className="bg-gray-100 p-4 rounded-lg border border-gray-200 mt-6">
-        <p className="text-sm text-[var(--foreground)] opacity-80">
-          <strong>Autor pictogramas:</strong> Sergio Palao. <strong>Origen:</strong>{' '}
-          <a
-            href="http://www.arasaac.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--marca)] hover:underline"
-          >
-            ARASAAC (http://www.arasaac.org)
-          </a>
-          . <strong>Licencia:</strong> CC (BY-NC-SA). <strong>Propiedad:</strong> Gobierno de Aragón
-          (España)
-        </p>
       </div>
     </div>
   );
