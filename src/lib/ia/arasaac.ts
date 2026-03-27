@@ -8,6 +8,12 @@ export interface Pictograma {
   urlImagen: string;
 }
 
+export interface Segmento {
+  texto: string;
+  pictograma: string;
+  urlImagen?: string;
+}
+
 const STOPWORDS_ES: Record<string, boolean> = {
   el: true,
   la: true,
@@ -269,35 +275,30 @@ function generarCodigoSpc(palabra: string): string {
   return `M${String(numero).padStart(4, '0')}`;
 }
 
-async function generarUrlArasaac(palabra: string): Promise<string> {
-  // 1. Limpiamos la palabra (quitar espacios, pasar a minúsculas)
-  const termino = palabra.toLowerCase().trim();
+export async function generarUrlArasaac(palabra: string): Promise<string> {
+  const terminos = palabra.split('|').map((t) => t.toLowerCase().trim());
 
-  try {
-    // 2. LLAMADA A LA API: Buscamos el término en la base de datos de ARASAAC
-    const respuesta = await fetch(
-      `https://api.arasaac.org/api/pictograms/es/search/${encodeURIComponent(termino)}`
-    );
+  for (const termino of terminos) {
+    try {
+      const respuesta = await fetch(
+        `https://api.arasaac.org/api/pictograms/es/search/${encodeURIComponent(termino)}`
+      );
 
-    if (!respuesta.ok) return '';
+      if (!respuesta.ok) continue;
 
-    const datos = await respuesta.json();
+      const datos = await respuesta.json();
 
-    // 3. VALIDACIÓN: ARASAAC devuelve una lista de posibles pictogramas
-    if (Array.isArray(datos) && datos.length > 0) {
-      // Cogemos el ID del primer resultado (el más exacto)
-      const idPictograma = datos[0]._id;
-
-      // 4. RETORNO: Construimos la URL final usando el ID real
-      // Esta URL es la que el navegador usará para descargar la imagen .png
-      return `https://static.arasaac.org/pictograms/${idPictograma}/${idPictograma}_300.png`;
+      if (Array.isArray(datos) && datos.length > 0) {
+        const idPictograma = datos[0]._id;
+        return `https://static.arasaac.org/pictograms/${idPictograma}/${idPictograma}_300.png`;
+      }
+    } catch (error) {
+      console.warn(`Error buscando "${termino}":`, error);
+      continue;
     }
-
-    return ''; // Si no hay resultados para esa palabra
-  } catch (error) {
-    console.error('Error al conectar con ARASAAC:', error);
-    return '';
   }
+
+  return '';
 }
 
 export async function transcribirAPictogramas(

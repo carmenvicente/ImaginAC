@@ -12,7 +12,11 @@ interface CuentoDemo {
   pictogramas: any[];
   diapositivas?: {
     texto: string;
-    pictogramas: any[];
+    segmentos: {
+      texto: string;
+      pictograma: string;
+      urlImagen?: string;
+    }[];
   }[];
 }
 
@@ -126,10 +130,6 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
       if (datos.esDemo) {
         console.log('[DEBUG FORM] Datos recibidos del backend:', datos);
         console.log('[DEBUG FORM] Diapositivas del backend:', datos.cuento?.diapositivas);
-        console.log(
-          '[DEBUG FORM] Primer pictograma de la primera diapositiva:',
-          datos.cuento?.diapositivas?.[0]?.pictogramas?.[0]
-        );
 
         const pictogramasConvertidos = (datos.pictogramas || []).map((p: any) => ({
           codigoSpc: p.codigoSpc || '',
@@ -139,26 +139,13 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
           urlImagen: p.urlImagen || p.rutaSvg || '',
         }));
 
-        const diapositivasConPictos = (datos.cuento?.diapositivas || []).map((d: any) => ({
+        const diapositivasConSegmentos = (datos.cuento?.diapositivas || []).map((d: any) => ({
           texto: d.texto || '',
-          pictogramas: (d.pictogramas || []).map((picto: any) => {
-            if (typeof picto === 'string') {
-              return {
-                codigoSpc: '',
-                textoOriginal: picto,
-                categoria: 'OBJETO',
-                orden: 0,
-                urlImagen: '',
-              };
-            }
-            return {
-              codigoSpc: picto.codigoSpc || '',
-              textoOriginal: picto.textoOriginal || picto.textoCuento || '',
-              categoria: picto.categoria || 'OBJETO',
-              orden: picto.orden || 0,
-              urlImagen: picto.urlImagen || picto.rutaSvg || '',
-            };
-          }),
+          segmentos: (d.segmentos || []).map((seg: any) => ({
+            texto: seg.texto || '',
+            pictograma: seg.pictograma || '',
+            urlImagen: seg.urlImagen || '',
+          })),
         }));
 
         const cuentoDemo: CuentoDemo = {
@@ -166,7 +153,7 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
           finalidad: finalidadPedagogica,
           texto: datos.cuento?.texto || '',
           pictogramas: pictogramasConvertidos,
-          diapositivas: diapositivasConPictos,
+          diapositivas: diapositivasConSegmentos,
         };
 
         console.log('[DEBUG FORM] CuentoDemo construido:', cuentoDemo);

@@ -3,7 +3,7 @@ import {
   parsearRespuestaCuento,
   type RespuestaCuento,
 } from './prompt-cuento';
-import { transcribirPalabrasConcretas, type Pictograma } from '@/lib/ia/arasaac';
+import { generarUrlArasaac, type Pictograma } from '@/lib/ia/arasaac';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
@@ -94,22 +94,40 @@ export async function generarCuento(params: {
 
   const cuento = parsearRespuestaCuento(textoRespuesta);
 
-  const diapositivasConPictogramas = await Promise.all(
-    (cuento.diapositivas || []).map(async (diapositiva, indice) => {
-      const pictogramas = await transcribirPalabrasConcretas(diapositiva.pictogramas || []);
+  const diapositivasConSegmentos = await Promise.all(
+    (cuento.diapositivas || []).map(async (diapositiva) => {
+      const segmentosConUrl = await Promise.all(
+        (diapositiva.segmentos || []).map(async (segmento) => {
+          const primeraPalabra = segmento.pictograma.split('|')[0].trim();
+          const urlImagen = await generarUrlArasaac(primeraPalabra);
+          return {
+            texto: segmento.texto,
+            pictograma: segmento.pictograma,
+            urlImagen,
+          };
+        })
+      );
       return {
         texto: diapositiva.texto,
-        pictogramas,
+        segmentos: segmentosConUrl,
       };
     })
   );
 
-  const pictogramasGlobales = diapositivasConPictogramas.flatMap((d) => d.pictogramas);
+  const pictogramasGlobales = diapositivasConSegmentos
+    .flatMap((d) => d.segmentos)
+    .map((s, i) => ({
+      codigoSpc: '',
+      textoOriginal: s.texto,
+      categoria: 'OBJETO' as const,
+      orden: i,
+      urlImagen: s.urlImagen,
+    }));
 
   return {
     cuento: {
       ...cuento,
-      diapositivas: diapositivasConPictogramas,
+      diapositivas: diapositivasConSegmentos,
     },
     pictogramas: pictogramasGlobales,
   };

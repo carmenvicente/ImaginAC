@@ -168,19 +168,85 @@ SALIDA REQUERIDA (JSON EXACTO):
     {"nombre": "Nombre del personaje", "descripcion": "Breve descripción de 1-2 frases"}
   ],
   "diapositivas": [
-    {"texto": "Primera frase del cuento", "pictogramas": ["palabra1", "palabra2"]},
-    {"texto": "Segunda frase del cuento", "pictogramas": ["verbo", "adjetivo"]},
-    {"texto": "Tercera frase del cuento", "pictogramas": ["sustantivo", "accion"]}
+    {
+      "texto": "Frase completa del cuento",
+      "segmentos": [
+        {"texto": "sujeto o acción principal", "pictograma": "verbo_en_infinitivo|alternativa1|alternativa2"},
+        {"texto": "complemento u objeto", "pictograma": "sustantivo|alternativa"}
+      ]
+    }
   ]
 }
 
-REGLAS DE DIAPOSITIVAS (OBLIGATORIAS):
-1. Genera UNA diapositiva por cada frase del cuento. NO limites a un número fijo.
-2. Si el cuento tiene 8 frases, genera 8 objetos en el array "diapositivas".
-3. Cada frase debe tener entre 1 y 5 pictogramas que la ilustren visualmente.
-4. Los pictogramas deben ser CONCEPTOS básicos: comer, beber, jugar, grande, rojo, casa, mamá, perro.
-5. PROHIBIDO asignar pictogramas a nombres propios (Leo ≠ león).
-6. PROHIBIDO asignar pictogramas a pronombres (él, ella, esto, eso).
+REGLAS DE ESTRUCTURA DIAPOSITIVAS:
+
+1. UNA DIAPOSITIVA POR CADA FRASE:
+   - El array "diapositivas" debe contener UNA entrada por cada frase del texto.
+   - Si el texto tiene 13 frases, devuelve 13 objetos en "diapositivas".
+   - PROHIBIDO resumir o saltarse frases.
+
+2. UN VERBO = UNA CELDA:
+   - Cada verbo tiene su propia celda con pictograma.
+   - "necesita comer" = DOS celdas: {"texto": "necesita", "pictograma": "necesitar"}, {"texto": "comer", "pictograma": "comer"}
+
+3. DESGLOSE DE NEGACIONES (CRÍTICO):
+   - NUNCA agrupes "no" con un verbo.
+   - "no" SIEMPRE en su propia celda: {"texto": "no", "pictograma": "no"}
+   - El verbo siguiente va en celda aparte: {"texto": "tiene", "pictograma": "tener"}
+
+4. LÓGICA DE INFINITIVOS (NORMALIZACIÓN):
+   - El campo "pictograma" SIEMPRE en infinitivo o sustantivo simple.
+   - "se siente" → {"texto": "se siente", "pictograma": "sentir"}
+   - "se pone triste" → {"texto": "se pone triste", "pictograma": "triste"}
+   - "está mal" → {"texto": "está mal", "pictograma": "mal"}
+
+5. VERBOS REFLEXIVOS:
+   - Extrae el verbo base en infinitivo.
+   - "se lava" → pictograma: "lavar"
+   - "se siente" → pictograma: "sentir"
+   - "se levanta" → pictograma: "levantar"
+
+6. ADJETIVOS DE ESTADO:
+   - "mal" → pictograma: "mal" (pulgar abajo ARASAAC)
+   - "bien" → pictograma: "bien" (pulgar arriba ARASAAC)
+   - "triste" → pictograma: "triste"
+   - "contento" → pictograma: "contento"
+
+7. FILTRO DE ARTÍCULOS Y PREPOSICIONES:
+   - PROHIBIDO asignar pictogramas a artículos (el, la, los, las, un, una, unos, unas).
+   - PROHIBIDO asignar pictogramas a preposiciones vacías (y, e, o, u, de, a, en, con).
+   - Incluye estos elementos dentro del texto del segmento del sustantivo.
+   - Ejemplo: "La princesa Ana" → {"texto": "La princesa Ana", "pictograma": "princesa"}
+
+8. MAPEO DE SUSTANTIVOS COMPUESTOS:
+   - Si un sustantivo tiene adjetivo importante, sepáralos.
+   - Ejemplo: {"texto": "lápices", "pictograma": "lápiz"}, {"texto": "de colores.", "pictograma": "colores"}
+
+9. MANDATO DE VOLUMEN DE CELDAS:
+   - PROHIBIDO limitarse a 3 celdas.
+   - Si la frase tiene 6 palabras con significado, genera 6 celdas.
+   - Prioridad: apoyo visual de CADA concepto, no el espacio en pantalla.
+
+10. IDENTIDAD VISUAL ESTRICTA (GROUNDING):
+    - Si el cuento establece "Tomás es un león", cada vez que aparezca "Tomás" en un segmento, el pictograma DEBE ser "león".
+    - Esta asignación es INVARIABLE en todo el cuento.
+
+11. FALLBACK DE SEGURIDAD:
+    - El pictograma NUNCA puede estar vacío ni tener texto roto.
+    - Si un verbo falla, usa la acción base en infinitivo.
+    - Ejemplo: "sentir" si "sentirse" no existe en ARASAAC.
+
+12. MAPEO 100%:
+    - TODO el texto en los segmentos.
+    - Artículos y preposiciones van en el texto del segmento siguiente.
+
+13. PROHIBIDO:
+    - Pictogramas para artículos o preposiciones
+    - Agrupar "no" con verbos
+    - Pictograma vacío o con texto roto ("se sie")
+    - Limitar a 3 celdas
+    - Usar nombres propios como pictograma
+    - Cambiar el pictograma de un personaje establecido
 
 IMPORTANTE - REGLAS DE FORMATO OBLIGATORIAS:
 1. Devuelve SOLO un JSON válido. Sin texto adicional, sin saludos, sin formato markdown.
@@ -197,7 +263,10 @@ export interface RespuestaCuento {
   personajes: { nombre: string; descripcion: string }[];
   diapositivas: {
     texto: string;
-    pictogramas: string[] | any[];
+    segmentos: {
+      texto: string;
+      pictograma: string;
+    }[];
   }[];
 }
 

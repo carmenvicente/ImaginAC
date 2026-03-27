@@ -2,18 +2,23 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { DiapositivaPortada } from './DiapositivaPortada';
-import type { Pictograma } from '@/lib/ia/arasaac';
+
+interface Segmento {
+  texto: string;
+  pictograma: string;
+  urlImagen?: string;
+}
 
 interface DiapositivaContenido {
   texto: string;
-  pictogramas: Pictograma[];
+  segmentos: Segmento[];
 }
 
 interface CuentoDemo {
   titulo: string;
   finalidad: string;
   texto: string;
-  pictogramas: Pictograma[];
+  pictogramas: any[];
   diapositivas?: DiapositivaContenido[];
 }
 
@@ -53,6 +58,24 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [irAnterior, irSiguiente]);
 
+  useEffect(() => {
+    if (cuento && cuento.titulo) {
+      setIndiceDiapositiva(0);
+    }
+  }, [cuento?.titulo, cuento?.texto]);
+
+  useEffect(() => {
+    if (cuento?.diapositivas) {
+      const urls = cuento.diapositivas
+        .flatMap((d) => d.segmentos?.map((s) => s.urlImagen))
+        .filter(Boolean) as string[];
+      [...new Set(urls)].forEach((url) => {
+        const img = new Image();
+        img.src = url;
+      });
+    }
+  }, [cuento]);
+
   const esPrimera = indiceDiapositiva === 0;
   const esUltima = indiceDiapositiva === totalDiapositivas - 1;
   const esPortada = indiceDiapositiva === 0;
@@ -88,40 +111,38 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                 </div>
 
                 <div className="flex-1 flex flex-col justify-center">
-                  {diapositivaActual?.pictogramas && diapositivaActual.pictogramas.length > 0 ? (
+                  {diapositivaActual?.segmentos && diapositivaActual.segmentos.length > 0 ? (
                     <div className="flex flex-wrap justify-center items-center gap-4 max-w-4xl mx-auto">
-                      {diapositivaActual.pictogramas.map((picto, i) => (
-                        <div key={i} className="flex flex-col items-center p-2">
-                          <div
-                            className="w-20 h-20 md:w-24 md:h-24 rounded-xl flex items-center justify-center shadow-sm"
-                            style={{
-                              backgroundColor: getCategoriaColor(picto?.categoria),
-                            }}
-                          >
-                            {picto.urlImagen ? (
+                      {diapositivaActual.segmentos.map((segmento, i) => (
+                        <div
+                          key={i}
+                          className="flex flex-col items-center border-2 border-gray-300 rounded-xl p-2 bg-white min-w-[100px]"
+                        >
+                          <div className="w-20 h-20 md:w-24 md:h-24 rounded-lg flex items-center justify-center bg-gray-100">
+                            {segmento.urlImagen ? (
                               <img
-                                src={picto.urlImagen}
-                                alt={String(picto.textoOriginal || 'pictograma')}
-                                className="w-full h-full object-contain p-1"
+                                src={segmento.urlImagen}
+                                alt={segmento.texto}
+                                className="w-full h-full object-contain p-1 transition-opacity duration-200"
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).style.display = 'none';
                                 }}
                               />
                             ) : (
-                              <span className="text-white text-xs font-bold text-center px-1">
-                                {String(picto.textoOriginal || '').slice(0, 6)}
+                              <span className="text-gray-500 text-xs font-bold text-center px-1">
+                                {segmento.texto.slice(0, 6)}
                               </span>
                             )}
                           </div>
-                          <span className="text-xs text-gray-600 mt-1 text-center max-w-[80px]">
-                            {String(picto.textoOriginal || '?')}
+                          <span className="text-xs font-medium text-gray-700 mt-2 text-center font-sans">
+                            {segmento.texto}
                           </span>
                         </div>
                       ))}
                     </div>
                   ) : (
                     <div className="text-center text-gray-400 py-8">
-                      <p>Sin pictogramas disponibles para esta frase</p>
+                      <p>Sin segmentos disponibles para esta frase</p>
                     </div>
                   )}
                 </div>
@@ -191,15 +212,4 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
       </div>
     </div>
   );
-}
-
-function getCategoriaColor(categoria: string | undefined): string {
-  const colores: Record<string, string> = {
-    VERBO: 'var(--verbos, #E91E63)',
-    PERSONA: 'var(--personas, #9C27B0)',
-    ADJETIVO: 'var(--adjetivos, #FF9800)',
-    OBJETO: 'var(--objetos, #4CAF50)',
-    OTRO: 'var(--marca, #40E0D0)',
-  };
-  return colores[categoria || 'OTRO'] || colores.OTRO;
 }
