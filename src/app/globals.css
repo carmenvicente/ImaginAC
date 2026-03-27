@@ -1,15 +1,23 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Escolar1';
+  src: url('/fonts/Escolar_G.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
-  --background: #F5F5F5;
-  --foreground: #3D3D3D;
-  --marca: #40E0D0;
-  --marca-hover: #3BC9BD;
-  
-  --verbos: #F4A460;
-  --personas: #DAA520;
-  --adjetivos: #228B22;
-  --objetos: #4682B4;
+  --background: #f5f5f5;
+  --foreground: #3d3d3d;
+  --marca: #40e0d0;
+  --marca-hover: #3bc9bd;
+
+  --verbos: #f4a460;
+  --personas: #daa520;
+  --adjetivos: #228b22;
+  --objetos: #4682b4;
 }
 
 @theme inline {
@@ -17,12 +25,12 @@
   --color-foreground: var(--foreground);
   --color-marca: var(--marca);
   --color-marca-hover: var(--marca-hover);
-  
+
   --color-verbos: var(--verbos);
   --color-personas: var(--personas);
   --color-adjetivos: var(--adjetivos);
   --color-objetos: var(--objetos);
-  
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -31,4 +39,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.font-escolar {
+  font-family: 'Escolar1', cursive, sans-serif;
 }

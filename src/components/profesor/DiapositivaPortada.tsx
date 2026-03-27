@@ -25,60 +25,66 @@ interface DiapositivaPortadaProps {
 
 export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPortadaProps) {
   return (
-    <div className="min-h-[70vh] flex flex-col justify-center items-center p-8 text-center">
-      <div className="max-w-2xl">
-        <h1 className="text-4xl md:text-5xl font-bold text-[var(--marca)] mb-8">{titulo}</h1>
-
-        <div className="bg-gray-50 p-6 rounded-xl mb-8 border border-gray-200">
-          <p className="text-gray-700 text-lg leading-relaxed">
-            {finalidad ||
-              'Cuento que nos habla sobre las emociones: alegría, tristeza, rabia o enfado, miedo o calma.'}
-          </p>
-        </div>
-
-        <div className="mb-8">
-          <p className="text-lg font-medium text-gray-700">Creado por {autor}</p>
-          <div className="flex gap-4 justify-center mt-3">
-            <a
-              href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-              aria-label="Twitter"
-            >
-              <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
-            <a
-              href="#"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-              aria-label="LinkedIn"
-            >
-              <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-            </a>
-          </div>
-        </div>
+    <div
+      className="w-full h-full flex flex-col bg-[#d4feff] overflow-y-auto"
+      style={{ fontFamily: 'var(--font-escolar)' }}
+    >
+      {/* 1. Título: más pequeño en móvil para que no ocupe 3 líneas */}
+      <div className="flex flex-col items-center pt-6 pb-2 px-4">
+        <h1 className="text-xl md:text-4xl font-bold text-[#F4A460] text-center">{titulo}</h1>
       </div>
 
-      <div className="mt-auto pt-8 text-xs text-gray-500 border-t border-gray-200 w-full">
-        <p className="mb-1">
-          <strong>Autor pictogramas:</strong> Sergio Palao
-        </p>
-        <p className="mb-1">
-          <strong>Origen:</strong>{' '}
-          <a
-            href="http://arasaac.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--marca)] hover:underline"
-          >
-            ARASAAC (http://arasaac.org)
-          </a>
-        </p>
-        <p>
-          <strong>Licencia:</strong> CC (BY-NC-SA)
-        </p>
+      {/* 2. Cuerpo central: flex-col en móvil (uno arriba de otro), md:flex-row en PC */}
+      <div className="flex flex-col md:flex-row flex-1 px-4 md:px-10 pb-6 gap-4 md:gap-6 items-center justify-center">
+        {/* Columna Izquierda: Imagen (100% ancho en móvil, 50% en PC) */}
+        <div className="w-full md:w-1/2 flex items-center justify-center">
+          <img
+            src="/niños_leyendo.png"
+            alt="Niños leyendo"
+            className="max-h-[160px] md:max-h-full object-contain rounded-lg"
+          />
+        </div>
+
+        {/* Columna Derecha: Bloque de Información (100% ancho en móvil, 50% en PC) */}
+        <div className="w-full md:w-1/2 flex flex-col justify-center gap-3 md:pr-14">
+          {/* Caja 1: Finalidad */}
+          <div className="bg-white rounded-xl shadow-sm p-3 md:p-4 text-center md:text-right">
+            <p className="text-sm md:text-lg text-gray-800 leading-relaxed">
+              Cuento que nos habla sobre: {finalidad || 'las emociones y su gestión'}
+            </p>
+          </div>
+
+          {/* Caja 2: Autoría */}
+          <div className="bg-white rounded-xl shadow-sm p-3 md:p-4 text-center md:text-right">
+            <p className="text-xs md:text-base text-gray-700 font-bold mb-0.5">
+              Creado por {autor}
+            </p>
+            <p className="text-[10px] md:text-sm text-gray-600">@CarmenVicenteCrespo</p>
+          </div>
+
+          {/* Caja 3: Licencia (Texto exacto y link) */}
+          <div className="bg-white/50 rounded-xl shadow-sm p-2 md:p-3 border-t border-gray-300">
+            <p className="text-[9px] md:text-xs text-gray-700 leading-normal text-center">
+              <span className="block">
+                <strong>Autor pictogramas:</strong> Sergio Palao
+              </span>
+              <span className="block">
+                <strong>Origen:</strong>{' '}
+                <a
+                  href="http://arasaac.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#F4A460] hover:underline font-bold"
+                >
+                  ARASAAC (http://arasaac.org)
+                </a>
+              </span>
+              <span className="block">
+                <strong>Licencia:</strong> CC (BY-NC-SA)
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

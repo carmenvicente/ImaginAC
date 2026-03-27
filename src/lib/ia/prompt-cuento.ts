@@ -151,6 +151,10 @@ REGLAS DE ESCRITURA:
 - Incluye repetición de frases clave para refuerzo.
 - Finaliza con un mensaje positivo y educativo.
 - MÁXIMO ${datos.palabrasMax} palabras totales.
+- ESTRUCTURA DE PÁRRAFOS (OBLIGATORIA):
+  * El campo "texto" del JSON DEBE tener exactamente 3 párrafos separados por "\n\n".
+  * Párrafo 1 = Introducción, Párrafo 2 = Nudo, Párrafo 3 = Resolución.
+  * NO uses un solo bloque de texto. Usa saltos de línea dobles entre párrafos.
 - REGLAS DE GROUNDING DEL TÍTULO (ABSOLUTAS):
   * USA EXACTAMENTE el título proporcionado por el usuario: "${datos.titulo}"
   * PROHIBIDO generar, modificar, abreviar o inventar un título alternativo

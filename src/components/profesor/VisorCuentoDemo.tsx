@@ -84,15 +84,23 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
   return (
     <div className="space-y-8">
       <div className="max-w-5xl mx-auto mb-16">
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">{cuento.titulo}</h2>
-        <p className="text-[var(--foreground)] leading-relaxed whitespace-pre-line">
+        <h2
+          className="text-4xl md:text-5xl font-bold text-left mb-8"
+          style={{ color: '#F4A460', fontFamily: 'var(--font-escolar) !important' }}
+        >
+          {cuento.titulo}
+        </h2>
+        <div
+          className="text-[var(--foreground)] text-2xl md:text-3xl leading-relaxed text-left whitespace-pre-line"
+          style={{ fontFamily: 'var(--font-escolar)' }}
+        >
           {cuento.texto}
-        </p>
+        </div>
       </div>
 
       <div className="max-w-5xl mx-auto">
         <div className="relative bg-white rounded-2xl shadow-2xl border-2 border-gray-200 overflow-hidden">
-          <div className="aspect-video bg-gray-50 flex items-center justify-center">
+          <div className="aspect-video md:aspect-video max-h-[600px] bg-gray-50 flex flex-col">
             {esPortada ? (
               <DiapositivaPortada
                 titulo={cuento.titulo}
@@ -100,9 +108,9 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                 autor="Carmen Vicente Crespo"
               />
             ) : (
-              <div className="min-h-[70vh] flex flex-col p-8 w-full">
-                <div className="text-center mb-6">
-                  <p className="text-xl md:text-2xl font-medium text-[var(--foreground)] leading-relaxed max-w-3xl mx-auto">
+              <div className="flex flex-col justify-between h-full p-6 md:p-10 w-full">
+                <div className="text-center mt-4 md:mt-8">
+                  <p className="text-lg md:text-2xl font-medium text-[var(--foreground)] leading-relaxed max-w-3xl mx-auto">
                     {diapositivaActual?.texto}
                   </p>
                   <p className="text-sm text-gray-400 mt-3">
@@ -110,38 +118,47 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                   </p>
                 </div>
 
-                <div className="flex-1 flex flex-col justify-center">
+                <div className="flex-grow flex items-center justify-center pb-4 md:pb-6 px-4">
                   {diapositivaActual?.segmentos && diapositivaActual.segmentos.length > 0 ? (
-                    <div className="flex flex-wrap justify-center items-center gap-4 max-w-4xl mx-auto">
+                    <div className="flex border border-black rounded-lg max-w-[90%] overflow-x-auto">
                       {diapositivaActual.segmentos.map((segmento, i) => (
                         <div
                           key={i}
-                          className="flex flex-col items-center border-2 border-gray-300 rounded-xl p-2 bg-white min-w-[100px]"
+                          className={`flex flex-col flex-shrink-0 ${
+                            i < diapositivaActual.segmentos.length - 1
+                              ? 'border-r border-black'
+                              : ''
+                          }`}
                         >
-                          <div className="w-20 h-20 md:w-24 md:h-24 rounded-lg flex items-center justify-center bg-gray-100">
+                          <div className="w-24 h-24 md:w-32 md:h-32 bg-white flex items-center justify-center p-2">
                             {segmento.urlImagen ? (
                               <img
                                 src={segmento.urlImagen}
                                 alt={segmento.texto}
-                                className="w-full h-full object-contain p-1 transition-opacity duration-200"
+                                className="max-w-full max-h-full object-contain transition-opacity duration-200"
                                 onError={(e) => {
                                   (e.target as HTMLImageElement).style.display = 'none';
                                 }}
                               />
                             ) : (
-                              <span className="text-gray-500 text-xs font-bold text-center px-1">
-                                {segmento.texto.slice(0, 6)}
+                              <span className="text-gray-500 text-xl font-bold text-center">
+                                {segmento.texto.charAt(0).toUpperCase()}
                               </span>
                             )}
                           </div>
-                          <span className="text-xs font-medium text-gray-700 mt-2 text-center font-sans">
-                            {segmento.texto}
-                          </span>
+                          <div className="border-t border-black bg-white px-2 py-1">
+                            <span
+                              className="block text-center text-xs font-bold uppercase tracking-wide text-black"
+                              style={{ fontFamily: 'OpenDyslexic, sans-serif' }}
+                            >
+                              {segmento.texto}
+                            </span>
+                          </div>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center text-gray-400 py-8">
+                    <div className="text-center text-gray-400 py-4">
                       <p>Sin segmentos disponibles para esta frase</p>
                     </div>
                   )}
