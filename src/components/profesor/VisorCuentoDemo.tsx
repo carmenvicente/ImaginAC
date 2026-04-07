@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { DiapositivaPortada } from './DiapositivaPortada';
+import { BotonesAccion } from './BotonesAccion';
 
 interface Segmento {
   texto: string;
@@ -28,9 +29,6 @@ interface VisorCuentoDemoProps {
 
 export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
   const [indiceDiapositiva, setIndiceDiapositiva] = useState(0);
-
-  console.log('[DEBUG CARRUSEL] Cuento recibido:', cuento);
-  console.log('[DEBUG CARRUSEL] Diapositivas recibidas:', cuento?.diapositivas);
 
   const tieneDiapositivas = cuento.diapositivas && cuento.diapositivas.length > 0;
   const totalDiapositivas = tieneDiapositivas ? cuento.diapositivas!.length + 1 : 1;
@@ -76,6 +74,17 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
     }
   }, [cuento]);
 
+  useEffect(() => {
+    const handleSetSlideIndex = (e: CustomEvent<number>) => {
+      setIndiceDiapositiva(e.detail);
+    };
+
+    window.addEventListener('set-slide-index', handleSetSlideIndex as EventListener);
+    return () => {
+      window.removeEventListener('set-slide-index', handleSetSlideIndex as EventListener);
+    };
+  }, []);
+
   const esPrimera = indiceDiapositiva === 0;
   const esUltima = indiceDiapositiva === totalDiapositivas - 1;
   const esPortada = indiceDiapositiva === 0;
@@ -100,7 +109,10 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
 
       <div className="max-w-5xl mx-auto">
         <div className="relative bg-white rounded-2xl shadow-2xl border-2 border-gray-200 overflow-hidden">
-          <div className="aspect-video md:aspect-video max-h-[600px] bg-gray-50 flex flex-col">
+          <div
+            data-slide-container
+            className="aspect-video md:aspect-video max-h-[600px] bg-gray-50 flex flex-col"
+          >
             {esPortada ? (
               <DiapositivaPortada
                 titulo={cuento.titulo}
@@ -109,7 +121,6 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
               />
             ) : (
               <div className="flex flex-col justify-between h-full w-full bg-[#d4feff]/30 relative overflow-hidden">
-                {/* Decoración sutil: Un círculo difuminado en la esquina para dar profundidad */}
                 <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#F4A460]/10 rounded-full blur-3xl pointer-events-none" />
                 <div className="text-center mt-4 md:mt-8 px-4">
                   <p
@@ -168,7 +179,7 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                     </div>
                   )}
                 </div>
-                {/* Bloque de Licencia ARASAAC con letra más grande */}
+
                 <div className="mt-auto pb-3 pt-2 px-4 bg-white/50 border-t border-gray-100">
                   <p
                     className="text-sm md:text-lg text-gray-600 leading-relaxed text-center"
@@ -249,6 +260,12 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
             {indiceDiapositiva + 1} / {totalDiapositivas}
           </div>
         </div>
+
+        <BotonesAccion
+          totalSlides={totalDiapositivas}
+          titulo={cuento.titulo}
+          finalidad={cuento.finalidad}
+        />
       </div>
     </div>
   );

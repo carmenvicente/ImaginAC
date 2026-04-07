@@ -1,6 +1,6 @@
 # Resumen de Sesión - ImaginAC
 
-**Fecha:** 2024-03-24 (sesión completa)
+**Fecha:** 2024-03-24 a 2025-04-07 (sesiones múltiples)
 **Proyecto:** ImaginAC - Accesibilidad Cognitiva para Profesores PT y Alumnos
 
 ---
@@ -639,3 +639,132 @@ const irSiguiente = useCallback(() => {
 ### Registro en Memoria
 
 ⚠️ **CONTRATO FIJO:** Modelo `gemini-3.1-flash-lite-preview` INAMOVIBLE sin autorización explícita de la Orquestadora.
+
+---
+
+## Sesión 2025-04-07 - Rebranding ImaginAC y Convenciones
+
+### 1. Rebranding Oficial
+
+**Nombre del proyecto**: ImaginAC (grafía con "AC" en mayúsculas)
+
+**Archivos actualizados**:
+
+| Archivo                              | Cambio                                                      |
+| ------------------------------------ | ----------------------------------------------------------- |
+| `src/app/layout.tsx`                 | Metadata: title="ImaginAC - Accesibilidad Cognitiva"        |
+| `src/components/home/Navbar.tsx`     | Logo "I" + texto "ImaginAC"                                 |
+| `src/components/home/Footer.tsx`     | Copyright "© 2025 ImaginAC - Todos los derechos reservados" |
+| `src/components/ui/LoginForm.tsx`    | Título "ImaginAC"                                           |
+| `src/app/profesor/layout.tsx`        | "ImaginAC - Panel Profesor PT"                              |
+| `src/app/alumno/layout.tsx`          | "ImaginAC - Panel de Alumno"                                |
+| `src/app/configuracion/page.tsx`     | Versión "ImaginAC v1.0.0"                                   |
+| `src/lib/stores/useLanguageStore.ts` | Traducciones actualizadas                                   |
+| `src/app/privacidad/page.tsx`        | Textos legales con "ImaginAC"                               |
+| `src/app/terminos/page.tsx`          | Textos legales con "ImaginAC"                               |
+| `src/app/sobre-nosotros/page.tsx`    | Textos con "ImaginAC"                                       |
+| `AGENTS.md`                          | Título del stack                                            |
+| `README.md`                          | Título del proyecto                                         |
+| `agent.md`                           | Título y nombre del proyecto                                |
+
+---
+
+### 2. Configuración de Idiomas Nativos (9 idiomas)
+
+**Lista oficial**:
+
+| Código | Idioma (Endónimo) |
+| ------ | ----------------- |
+| ES     | Español           |
+| EN     | English           |
+| CA     | Català            |
+| VA     | Valencià          |
+| GL     | Galego            |
+| EU     | Euskara           |
+| FR     | Français          |
+| DE     | Deutsch           |
+| IT     | Italiano          |
+
+**Regla**: Mostrar siempre el nombre nativo (endónimo) en selectores y UI.
+
+**Archivos**:
+
+- `src/components/ui/SelectorIdioma.tsx` - `IDIOMAS_DISPONIBLES`
+- `src/lib/stores/useLanguageStore.ts` - `traduccionesUI`
+
+---
+
+### 3. Estándar Visual de Diapositivas
+
+| Elemento                       | Valor                                          |
+| ------------------------------ | ---------------------------------------------- |
+| Fondo slide                    | `bg-[#d4feff]/30` (30% opacidad)               |
+| Tipografía                     | `fontFamily: var(--font-escolar)`              |
+| Texto frase                    | `text-xl md:text-3xl font-bold`                |
+| Texto resumen (fuera carrusel) | `text-xl md:text-2xl`                          |
+| Título portada                 | `text-xl md:text-4xl font-bold text-[#F4A460]` |
+
+**Componentes**:
+
+- `src/components/profesor/DiapositivaPortada.tsx`
+- `src/components/profesor/DiapositivaFrase.tsx`
+- `src/components/profesor/VisorCuentoDemo.tsx`
+
+---
+
+### 4. Reglas de Generación de Cuentos
+
+**Estructura del cuento**:
+
+- Introducción (~10%): Presenta personajes y escenario
+- Nudo (~60%): Situación interesante y conexión emocional
+- Resolución (~30%): Solución positiva y educativa
+
+**Reglas de diapositivas**:
+
+- UNA frase completa POR diapositiva (NO resúmenes de una palabra)
+- UN verbo = UNA celda
+- "no" SIEMPRE en celda propia
+- Pictograma en infinitivo o sustantivo simple
+- NO artículos ni preposiciones como pictogramas
+
+**Archivos**:
+
+- `src/lib/ia/prompt-cuento.ts` - Prompt completo
+- `src/lib/ia/generador.ts` - Generación con caché ARASAAC
+
+---
+
+### 5. Correcciones de Errores y Optimizaciones
+
+| Problema                | Solución                                  | Archivo                     |
+| ----------------------- | ----------------------------------------- | --------------------------- |
+| Parseo JSON fallido     | `limpiarRespuestaIA()` + `esJSONValido()` | `prompt-cuento.ts`          |
+| Timeout IA              | 60s backend + retry con backoff           | `generador.ts`              |
+| Timeout frontend        | 120s con AbortController                  | `FormularioCrearCuento.tsx` |
+| Llamadas ARASAAC lentas | `Promise.all()` paralelo                  | `generador.ts`              |
+| Palabras repetidas      | Caché `Map<string, string>`               | `generador.ts`              |
+| Botón bloqueado         | `setCargando(false)` siempre              | `FormularioCrearCuento.tsx` |
+
+**Feedback UX durante carga**:
+
+- Mensajes rotatorios cada 10s: "Escribiendo la historia...", "Buscando pictogramas...", "Creando las diapositivas...", "Casi listo..."
+
+---
+
+### 6. Stack Tecnológico Actualizado
+
+| Componente    | Tecnología                                    |
+| ------------- | --------------------------------------------- |
+| Frontend      | Next.js 16 (App Router), React 19, TypeScript |
+| Estilos       | Tailwind CSS                                  |
+| IA            | Gemini 3.1 Flash Lite Preview (CONTRATO FIJO) |
+| Pictogramas   | ARASAAC (arasaac.org)                         |
+| Base de datos | Supabase                                      |
+| Estado global | Zustand                                       |
+
+**Modelo IA**: `gemini-3.1-flash-lite-preview` - NO MODIFICAR sin autorización
+
+---
+
+**Última actualización:** 2025-04-07
