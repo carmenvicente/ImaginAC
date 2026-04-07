@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 <!-- BEGIN:stack-adaptac -->
 
-# AdaptAC - Stack Tecnológico
+# ImaginAC - Stack Tecnológico
 
 ## Modelo de IA (CONTRATO FIJO)
 

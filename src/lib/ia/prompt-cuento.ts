@@ -173,10 +173,19 @@ SALIDA REQUERIDA (JSON EXACTO):
   ],
   "diapositivas": [
     {
-      "texto": "Frase completa del cuento",
+      "texto": "Aquí va la frase completa número 1",
       "segmentos": [
-        {"texto": "sujeto o acción principal", "pictograma": "verbo_en_infinitivo|alternativa1|alternativa2"},
-        {"texto": "complemento u objeto", "pictograma": "sustantivo|alternativa"}
+        {"texto": "Sujeto", "pictograma": "pictograma_sujeto"},
+        {"texto": "Verbo", "pictograma": "pictograma_verbo"},
+        {"texto": "Objeto", "pictograma": "pictograma_objeto"}
+      ]
+    },
+    {
+      "texto": "Aquí va la frase completa número 2",
+      "segmentos": [
+        {"texto": "Sujeto", "pictograma": "pictograma_sujeto"},
+        {"texto": "Verbo", "pictograma": "pictograma_verbo"},
+        {"texto": "Complemento", "pictograma": "pictograma_complemento"}
       ]
     }
   ]

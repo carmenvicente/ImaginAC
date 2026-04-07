@@ -1,7 +1,7 @@
-# Resumen de Sesión - AdaptAC
+# Resumen de Sesión - ImaginAC
 
 **Fecha:** 2024-03-24 (sesión completa)
-**Proyecto:** AdaptAC - Accesibilidad Cognitiva para Profesores PT y Alumnos
+**Proyecto:** ImaginAC - Accesibilidad Cognitiva para Profesores PT y Alumnos
 
 ---
 
@@ -9,7 +9,7 @@
 
 ### Navbar Global
 
-- Componente `Navbar.tsx` con logo AdaptAC (#40E0D0), enlaces (Inicio, Cuentos, Sobre Nosotros)
+- Componente `Navbar.tsx` con logo ImaginAC (#40E0D0), enlaces (Inicio, Cuentos, Sobre Nosotros)
 - Selector de idiomas (`LanguageSwitcher`) integrado con estado global Zustand
 - Menú hamburguesa responsive (<768px)
 - Botón "Acceder" con color #F4A460

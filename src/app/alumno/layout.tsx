@@ -1,20 +1,16 @@
-"use client";
+'use client';
 
-import { useAlumno } from "@/lib/auth";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useAlumno } from '@/lib/auth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-export default function LayoutAlumno({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LayoutAlumno({ children }: { children: React.ReactNode }) {
   const { alumno, cargando, cerrarSesion } = useAlumno();
   const router = useRouter();
 
   useEffect(() => {
     if (!cargando && !alumno) {
-      router.push("/login");
+      router.push('/login');
     }
   }, [alumno, cargando, router]);
 
@@ -34,13 +30,9 @@ export default function LayoutAlumno({
     <div className="min-h-screen bg-[var(--background)]">
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-[var(--foreground)]">
-            AdaptAC - Panel de Alumno
-          </h1>
+          <h1 className="text-xl font-bold text-[var(--foreground)]">ImaginAC - Panel de Alumno</h1>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-[var(--foreground)] opacity-70">
-              {alumno.nombre}
-            </span>
+            <span className="text-sm text-[var(--foreground)] opacity-70">{alumno.nombre}</span>
             <button
               onClick={cerrarSesion}
               className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"

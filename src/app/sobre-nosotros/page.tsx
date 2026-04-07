@@ -25,7 +25,7 @@ export default function SobreNosotros() {
             </h2>
             <p className="text-[var(--foreground)] opacity-80 mb-4">
               {t.sobreNosotrosMisionTexto ||
-                'AdaptAC es una plataforma educativa diseñada para facilitar la accesibilidad cognitiva a profesores de educación especial (PT) y alumnos con necesidades específicas de aprendizaje.'}
+                'ImaginAC es una plataforma educativa diseñada para facilitar la accesibilidad cognitiva a profesores de educación especial (PT) y alumnos con necesidades específicas de aprendizaje.'}
             </p>
           </section>
 
@@ -35,7 +35,7 @@ export default function SobreNosotros() {
             </h2>
             <p className="text-[var(--foreground)] opacity-80 mb-4">
               {t.sobreNosotrosPictoTexto ||
-                'Los pictogramas utilizados en AdaptAC provienen del proyecto ARASAAC (Centro Aragonés de Comunicación Aumentativa y Alternativa), distribuidos bajo licencia Creative Commons.'}
+                'Los pictogramas utilizados en ImaginAC provienen del proyecto ARASAAC (Centro Aragonés de Comunicación Aumentativa y Alternativa), distribuidos bajo licencia Creative Commons.'}
             </p>
           </section>
 
@@ -76,7 +76,7 @@ export default function SobreNosotros() {
 
           <section className="text-center pt-8 border-t">
             <p className="text-[var(--foreground)] opacity-60">
-              © {new Date().getFullYear()} AdaptAC.{' '}
+              © {new Date().getFullYear()} ImaginAC.{' '}
               {t.derechosReservados || 'Todos los derechos reservados.'}
             </p>
           </section>

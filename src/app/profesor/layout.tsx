@@ -43,7 +43,7 @@ export default function LayoutProfesor({ children }: { children: React.ReactNode
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-xl font-bold text-[var(--foreground)]">
-            AdaptAC - Panel Profesor PT
+            ImaginAC - Panel Profesor PT
           </h1>
           <div className="flex items-center gap-4">
             <span className="text-sm text-[var(--foreground)] opacity-70">{profesor?.nombre}</span>

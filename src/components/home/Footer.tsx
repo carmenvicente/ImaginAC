@@ -15,9 +15,9 @@ export function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
-                <span className="text-[#40E0D0] font-bold text-lg">A</span>
+                <span className="text-[#40E0D0] font-bold text-lg">I</span>
               </div>
-              <span className="font-bold text-xl text-white">AdaptAC</span>
+              <span className="font-bold text-xl text-white">ImaginAC</span>
             </div>
             <p className="text-white/80 text-sm">
               Accesibilidad Cognitiva para Profesores PT y Alumnos
@@ -99,7 +99,7 @@ export function Footer() {
 
         <div className="border-t border-white/20 mt-8 pt-8 text-center">
           <p className="text-white/60 text-sm">
-            © {añoActual} AdaptAC. {traducciones.copyright}
+            © {añoActual} ImaginAC - {traducciones.copyright}
           </p>
         </div>
       </div>

@@ -23,20 +23,26 @@ interface DiapositivaPortadaProps {
   autor: string;
 }
 
+function sanitizeText(text: unknown, fallback: string = ''): string {
+  if (typeof text !== 'string') return fallback;
+  return text.slice(0, 500).replace(/[<>'"&]/g, '');
+}
+
 export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPortadaProps) {
+  const tituloSeguro = sanitizeText(titulo, 'Cuento sin título');
+  const finalidadSegura = sanitizeText(finalidad, 'las emociones y su gestión');
+  const autorSeguro = sanitizeText(autor, 'Carmen Vicente Crespo');
+
   return (
     <div
       className="w-full h-full flex flex-col bg-[#d4feff] overflow-y-auto"
       style={{ fontFamily: 'var(--font-escolar)' }}
     >
-      {/* 1. Título: más pequeño en móvil para que no ocupe 3 líneas */}
       <div className="flex flex-col items-center pt-6 pb-2 px-4">
-        <h1 className="text-xl md:text-4xl font-bold text-[#F4A460] text-center">{titulo}</h1>
+        <h1 className="text-xl md:text-4xl font-bold text-[#F4A460] text-center">{tituloSeguro}</h1>
       </div>
 
-      {/* 2. Cuerpo central: flex-col en móvil (uno arriba de otro), md:flex-row en PC */}
       <div className="flex flex-col md:flex-row flex-1 px-4 md:px-10 pb-6 gap-4 md:gap-6 items-center justify-center">
-        {/* Columna Izquierda: Imagen (100% ancho en móvil, 50% en PC) */}
         <div className="w-full md:w-1/2 flex items-center justify-center">
           <img
             src="/niños_leyendo.png"
@@ -45,24 +51,19 @@ export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPort
           />
         </div>
 
-        {/* Columna Derecha: Bloque de Información (100% ancho en móvil, 50% en PC) */}
         <div className="w-full md:w-1/2 flex flex-col justify-center gap-3 md:pr-14">
-          {/* Caja 1: Finalidad */}
           <div className="bg-white rounded-xl shadow-sm p-3 md:p-4 text-center md:text-right">
-            <p className="text-sm md:text-lg text-gray-800 leading-relaxed">
-              Cuento que nos habla sobre: {finalidad || 'las emociones y su gestión'}
+            <p className="text-left text-sm md:text-lg text-gray-800 leading-relaxed">
+              Cuento que nos habla sobre: {finalidadSegura}
             </p>
           </div>
 
-          {/* Caja 2: Autoría */}
           <div className="bg-white rounded-xl shadow-sm p-3 md:p-4 text-center md:text-right">
-            <p className="text-xs md:text-base text-gray-700 font-bold mb-0.5">
-              Creado por {autor}
+            <p className="text-center text-xs md:text-base text-gray-700 font-bold mb-0.5">
+              Creado por {autorSeguro}
             </p>
-            <p className="text-[10px] md:text-sm text-gray-600">@CarmenVicenteCrespo</p>
           </div>
 
-          {/* Caja 3: Licencia (Texto exacto y link) */}
           <div className="bg-white/50 rounded-xl shadow-sm p-2 md:p-3 border-t border-gray-300">
             <p className="text-[9px] md:text-xs text-gray-700 leading-normal text-center">
               <span className="block">

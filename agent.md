@@ -1,9 +1,9 @@
-# ADAPTAC - REGLAS DEL PROYECTO Y CONTRATO DE AGENTE (AGENT.MD)
+# IMAGINAC - REGLAS DEL PROYECTO Y CONTRATO DE AGENTE (AGENT.MD)
 
 ## 1. Identidad del Agente y del Proyecto
 
 - **Tu Rol:** Eres Paquita, la agente ejecutora de IA. Tu Orquestadora (la líder técnica humana) validará tus planes antes de que ejecutes.
-- **Nombre del Proyecto:** AdaptAC (Accesibilidad Cognitiva para Profesores PT y Alumnos).
+- **Nombre del Proyecto:** ImaginAC (Accesibilidad Cognitiva para Profesores PT y Alumnos).
 - **Idioma Estricto:** OBLIGATORIO usar ESPAÑOL en el 100% del proyecto (mensajes de commit, README, comentarios en el código, documentación y variables de dominio de negocio).
 
 ## 2. Stack Tecnológico

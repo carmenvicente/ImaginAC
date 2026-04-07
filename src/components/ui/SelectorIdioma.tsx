@@ -8,24 +8,15 @@ export interface Idioma {
 }
 
 export const IDIOMAS_DISPONIBLES: Idioma[] = [
-  { codigo: 'EN', nombre: 'Inglés' },
   { codigo: 'ES', nombre: 'Español' },
-  { codigo: 'CA', nombre: 'Catalán' },
-  { codigo: 'VA', nombre: 'Valenciano' },
-  { codigo: 'GL', nombre: 'Gallego' },
-  { codigo: 'EU', nombre: 'Euskera' },
-  { codigo: 'FR', nombre: 'Francés' },
-  { codigo: 'DE', nombre: 'Alemán' },
+  { codigo: 'EN', nombre: 'English' },
+  { codigo: 'CA', nombre: 'Català' },
+  { codigo: 'VA', nombre: 'Valencià' },
+  { codigo: 'GL', nombre: 'Galego' },
+  { codigo: 'EU', nombre: 'Euskara' },
+  { codigo: 'FR', nombre: 'Français' },
+  { codigo: 'DE', nombre: 'Deutsch' },
   { codigo: 'IT', nombre: 'Italiano' },
-  { codigo: 'PT', nombre: 'Portugués' },
-  { codigo: 'NL', nombre: 'Holandés' },
-  { codigo: 'PL', nombre: 'Polaco' },
-  { codigo: 'RU', nombre: 'Ruso' },
-  { codigo: 'ZH', nombre: 'Chino' },
-  { codigo: 'JA', nombre: 'Japonés' },
-  { codigo: 'KO', nombre: 'Coreano' },
-  { codigo: 'AR', nombre: 'Árabe' },
-  { codigo: 'HI', nombre: 'Hindi' },
 ];
 
 interface SelectorIdiomaProps {

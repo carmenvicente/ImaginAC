@@ -142,7 +142,7 @@ export default function Configuracion() {
               </svg>
               {t.configAcerca || 'Acerca de'}
             </h2>
-            <p className="text-[var(--foreground)] opacity-70 mb-4">AdaptAC v0.1.0</p>
+            <p className="text-[var(--foreground)] opacity-70 mb-4">ImaginAC v1.0.0</p>
             <p className="text-sm text-[var(--foreground)] opacity-60">
               {t.configDescripcion ||
                 'Plataforma de accesibilidad cognitiva para profesores PT y alumnos.'}

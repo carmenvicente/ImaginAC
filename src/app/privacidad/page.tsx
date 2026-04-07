@@ -24,7 +24,7 @@ export default function Privacidad() {
             </h2>
             <p className="text-[var(--foreground)] opacity-80">
               {t.privacidadIntroTexto ||
-                'AdaptAC se compromete a proteger su privacidad. Esta política explica cómo recopilamos, usamos y protegemos su información personal cuando utiliza nuestra plataforma educativa.'}
+                'ImaginAC se compromete a proteger su privacidad. Esta política explica cómo recopilamos, usamos y protegemos su información personal cuando utiliza nuestra plataforma educativa.'}
             </p>
           </section>
 
@@ -136,7 +136,7 @@ export default function Privacidad() {
 
           <section className="text-center pt-8 border-t">
             <p className="text-[var(--foreground)] opacity-60 text-sm">
-              © {new Date().getFullYear()} AdaptAC.{' '}
+              © {new Date().getFullYear()} ImaginAC.{' '}
               {t.derechosReservados || 'Todos los derechos reservados.'}
             </p>
           </section>

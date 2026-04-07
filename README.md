@@ -1,6 +1,6 @@
-# AdaptAC - Accesibilidad Cognitiva
+# ImaginAC - Accesibilidad Cognitiva
 
-**AdaptAC** es una plataforma de accesibilidad cognitiva diseñada para facilitar el aprendizaje de profesores PT (Pedagogía Terapéutica) y sus alumnos con necesidades educativas especiales.
+**ImaginAC** es una plataforma de accesibilidad cognitiva diseñada para facilitar el aprendizaje de profesores PT (Pedagogía Terapéutica) y sus alumnos con necesidades educativas especiales.
 
 ## Objetivo
 

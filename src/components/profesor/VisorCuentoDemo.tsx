@@ -83,15 +83,15 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
 
   return (
     <div className="space-y-8">
-      <div className="max-w-5xl mx-auto mb-16">
+      <div className="max-w-5xl mx-auto mb-12">
         <h2
-          className="text-4xl md:text-5xl font-bold text-left mb-8"
-          style={{ color: '#F4A460', fontFamily: 'var(--font-escolar) !important' }}
+          className="text-3xl md:text-4xl font-bold text-left mb-6"
+          style={{ color: '#F4A460', fontFamily: 'var(--font-escolar)' }}
         >
           {cuento.titulo}
         </h2>
         <div
-          className="text-[var(--foreground)] text-2xl md:text-3xl leading-relaxed text-left whitespace-pre-line"
+          className="text-[var(--foreground)] text-xl md:text-2xl leading-relaxed text-left whitespace-pre-line"
           style={{ fontFamily: 'var(--font-escolar)' }}
         >
           {cuento.texto}
@@ -108,12 +108,17 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                 autor="Carmen Vicente Crespo"
               />
             ) : (
-              <div className="flex flex-col justify-between h-full p-6 md:p-10 w-full">
-                <div className="text-center mt-4 md:mt-8">
-                  <p className="text-lg md:text-2xl font-medium text-[var(--foreground)] leading-relaxed max-w-3xl mx-auto">
+              <div className="flex flex-col justify-between h-full w-full bg-[#d4feff]/30 relative overflow-hidden">
+                {/* Decoración sutil: Un círculo difuminado en la esquina para dar profundidad */}
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#F4A460]/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="text-center mt-4 md:mt-8 px-4">
+                  <p
+                    className="text-xl md:text-3xl font-bold text-[var(--foreground)] leading-relaxed max-w-3xl mx-auto"
+                    style={{ fontFamily: 'var(--font-escolar)' }}
+                  >
                     {diapositivaActual?.texto}
                   </p>
-                  <p className="text-sm text-gray-400 mt-3">
+                  <p className="text-sm md:text-base text-gray-400 mt-3 font-medium">
                     {indiceDiapositiva} de {totalDiapositivas - 1}
                   </p>
                 </div>
@@ -162,6 +167,24 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                       <p>Sin segmentos disponibles para esta frase</p>
                     </div>
                   )}
+                </div>
+                {/* Bloque de Licencia ARASAAC con letra más grande */}
+                <div className="mt-auto pb-3 pt-2 px-4 bg-white/50 border-t border-gray-100">
+                  <p
+                    className="text-sm md:text-lg text-gray-600 leading-relaxed text-center"
+                    style={{ fontFamily: 'var(--font-escolar)' }}
+                  >
+                    <strong>Autor pictogramas:</strong> Sergio Palao <strong>Origen:</strong>{' '}
+                    <a
+                      href="http://arasaac.org"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#F4A460] hover:underline font-bold"
+                    >
+                      ARASAAC (http://arasaac.org)
+                    </a>{' '}
+                    <strong>Licencia:</strong> CC (BY-NC-SA)
+                  </p>
                 </div>
               </div>
             )}

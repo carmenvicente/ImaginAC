@@ -24,7 +24,7 @@ export default function Terminos() {
             </h2>
             <p className="text-[var(--foreground)] opacity-80">
               {t.terminosAceptacionTexto ||
-                'Al acceder y utilizar la plataforma AdaptAC, usted acepta estar sujeto a estos Términos de Uso. Si no está de acuerdo con alguno de los términos, no debe utilizar esta plataforma.'}
+                'Al acceder y utilizar la plataforma ImaginAC, usted acepta estar sujeto a estos Términos de Uso. Si no está de acuerdo con alguno de los términos, no debe utilizar esta plataforma.'}
             </p>
           </section>
 
@@ -34,7 +34,7 @@ export default function Terminos() {
             </h2>
             <p className="text-[var(--foreground)] opacity-80 mb-4">
               {t.terminosDescripcionTexto ||
-                'AdaptAC es una plataforma educativa que proporciona herramientas de accesibilidad cognitiva, incluyendo la generación de cuentos y actividades adaptadas para alumnos con necesidades educativas especiales.'}
+                'ImaginAC es una plataforma educativa que proporciona herramientas de accesibilidad cognitiva, incluyendo la generación de cuentos y actividades adaptadas para alumnos con necesidades educativas especiales.'}
             </p>
           </section>
 
@@ -83,7 +83,7 @@ export default function Terminos() {
             </h2>
             <p className="text-[var(--foreground)] opacity-80">
               {t.terminosLimitacionTexto ||
-                'AdaptAC se proporciona "tal cual". No garantizamos que el servicio sea ininterrumpido o libre de errores. No somos responsables de cualquier daño derivados del uso de la plataforma.'}
+                'ImaginAC se proporciona "tal cual". No garantizamos que el servicio sea ininterrumpido o libre de errores. No somos responsables de cualquier daño derivados del uso de la plataforma.'}
             </p>
           </section>
 
@@ -109,7 +109,7 @@ export default function Terminos() {
 
           <section className="text-center pt-8 border-t">
             <p className="text-[var(--foreground)] opacity-60 text-sm">
-              © {new Date().getFullYear()} AdaptAC.{' '}
+              © {new Date().getFullYear()} ImaginAC.{' '}
               {t.derechosReservados || 'Todos los derechos reservados.'}
             </p>
           </section>
