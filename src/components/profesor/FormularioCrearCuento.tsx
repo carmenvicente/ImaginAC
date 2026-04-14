@@ -30,7 +30,6 @@ interface DatosFormulario {
   tematica: string;
   finalidadPedagogica: string;
   idioma: string;
-  longitud: '100' | '200' | '300';
 }
 
 const DATOS_INICIALES: DatosFormulario = {
@@ -38,7 +37,6 @@ const DATOS_INICIALES: DatosFormulario = {
   tematica: '',
   finalidadPedagogica: '',
   idioma: 'ES',
-  longitud: '200',
 };
 
 const CLAVE_BORRADOR = 'borrador_cuento';
@@ -83,7 +81,6 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
   const [tematica, setTematica] = useState('');
   const [finalidadPedagogica, setFinalidadPedagogica] = useState('');
   const [idioma, setIdioma] = useState(idiomaGlobal);
-  const [longitud, setLongitud] = useState<'100' | '200' | '300'>('200');
   const [error, setError] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
   const [borradorRecuperado, setBorradorRecuperado] = useState(false);
@@ -95,8 +92,6 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
     setFinalidadPedagogica(borrador.finalidadPedagogica);
     const idiomaDelBorrador = borrador.idioma && borrador.idioma.trim() !== '';
     setIdioma(idiomaDelBorrador ? borrador.idioma : idiomaGlobal);
-    const longitudValida = ['100', '200', '300'].includes(borrador.longitud);
-    setLongitud(longitudValida ? (borrador.longitud as '100' | '200' | '300') : '200');
     setBorradorRecuperado(true);
   }, [idiomaGlobal]);
 
@@ -117,7 +112,7 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
           tematica,
           finalidadPedagogica,
           idioma,
-          longitud: Number(longitud),
+          longitud: 100,
         }),
       });
 
@@ -256,25 +251,6 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
         </p>
       </div>
 
-      <div>
-        <label
-          htmlFor="longitud"
-          className="block text-sm font-medium text-[var(--foreground)] mb-1"
-        >
-          {traducciones.formLongitud || 'Longitud del cuento'}
-        </label>
-        <select
-          id="longitud"
-          value={longitud}
-          onChange={(e) => setLongitud(e.target.value as '100' | '200' | '300')}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--marca)] focus:border-transparent"
-        >
-          <option value="100">{traducciones.formPalabras100 || '100 palabras'}</option>
-          <option value="200">{traducciones.formPalabras200 || '200 palabras'}</option>
-          <option value="300">{traducciones.formPalabras300 || '300 palabras'}</option>
-        </select>
-      </div>
-
       <div className="bg-gray-50 p-4 rounded-lg">
         <h4 className="font-medium text-sm text-[var(--foreground)] mb-2">
           {traducciones.formResumen || 'Resumen de la generación'}
@@ -293,8 +269,7 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
             {IDIOMAS_DISPONIBLES.find((i) => i.codigo === idioma)?.nombre}
           </li>
           <li>
-            <strong>{traducciones.formLabelLongitud || 'Longitud'}:</strong> ~{longitud}{' '}
-            {traducciones.formPalabras || 'palabras'}
+            <strong>Longitud:</strong> ~100 palabras
           </li>
         </ul>
       </div>
