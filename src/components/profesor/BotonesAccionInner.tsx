@@ -153,18 +153,13 @@ export function BotonesAccionInner({
     }
   }, [generandoPDF, titulo, finalidad]);
 
-  const handleSaveStory = useCallback(() => {
-    console.log('Guardar Cuento:', titulo);
-    alert('Función de guardar cuento en desarrollo');
-  }, [titulo]);
-
   return (
     <div className="flex flex-col md:flex-row gap-4 mt-12 md:mt-16 px-4 pb-10">
       <button
         type="button"
         onClick={handleDownloadPDF}
         disabled={generandoPDF}
-        className="flex-1 flex items-center justify-center gap-3 py-3 px-6 bg-[#F4A460] hover:bg-[#e09550] disabled:bg-[#d4a574] text-white font-medium rounded-xl shadow-md transition-all active:scale-[0.98] disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center gap-3 py-3 px-6 bg-[#F4A460] hover:bg-[#e09550] disabled:bg-[#d4a574] text-white font-medium rounded-xl shadow-md transition-all active:scale-[0.98] disabled:cursor-not-allowed"
       >
         {generandoPDF ? (
           <>
@@ -198,22 +193,6 @@ export function BotonesAccionInner({
             Descargar PDF
           </>
         )}
-      </button>
-
-      <button
-        type="button"
-        onClick={handleSaveStory}
-        className="flex-1 flex items-center justify-center gap-3 py-3 px-6 bg-[#40E0D0] hover:bg-[#35c9b8] text-white font-medium rounded-xl shadow-md transition-all active:scale-[0.98]"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-          />
-        </svg>
-        Guardar Cuento
       </button>
     </div>
   );
