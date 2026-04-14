@@ -36,7 +36,7 @@ export function HeroSection() {
           {traducciones.heroSubtitulo}
         </p>
         <Link
-          href="/login"
+          href="/crear-cuento"
           className="inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-[#F4A460] text-white text-base sm:text-lg font-bold rounded-xl hover:bg-[#e09550] transition-all transform hover:scale-105 shadow-lg"
         >
           <svg

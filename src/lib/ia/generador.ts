@@ -8,7 +8,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
-// MODELO OFICIAL: gemini-3.1-flash-lite-preview (Decisión Orquestadora 2024-03-25)
+// MODELO OFICIAL: gemini-1.5-flash (v1)
 // NO cambiar sin autorización explícita de la Orquestadora
 
 export interface ResultadoGeneracion {
@@ -81,14 +81,16 @@ export async function generarCuento(params: {
     palabrasMax: params.palabrasMax,
   });
 
-  const modelo = genAI.getGenerativeModel({
-    model: 'gemini-3.1-flash-lite-preview',
-    generationConfig: {
-      temperature: 0.7,
-      maxOutputTokens: 4000,
-      responseMimeType: 'application/json',
+  const modelo = genAI.getGenerativeModel(
+    {
+      model: 'gemini-1.5-flash',
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 4000,
+      },
     },
-  });
+    { apiVersion: 'v1' }
+  );
 
   const textoRespuesta = await generarCuentoConRetry(modelo, prompt);
 
