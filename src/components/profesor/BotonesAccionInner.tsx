@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { FONT_CUENTO_BASE64 } from '@/../public/fonts/Escolar_G';
 
 interface BotonesAccionInnerProps {
   totalSlides: number;
@@ -59,6 +60,11 @@ export function BotonesAccionInner({
         format: 'a4',
       });
 
+      // 2. REGISTRAMOS LA FUENTE EN EL PDF
+      // "Escolar.ttf" es el nombre del archivo virtual, "Escolar" es el nombre para usar en setFont
+      doc.addFileToVFS('Escolar.ttf', FONT_CUENTO_BASE64);
+      doc.addFont('Escolar.ttf', 'Escolar', 'normal');
+
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
 
@@ -86,14 +92,19 @@ export function BotonesAccionInner({
       }
 
       const titleText = titulo;
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Escolar');
       doc.setFontSize(42);
       doc.setTextColor(244, 164, 96);
 
+      // 1. Calculamos la posición
       const titleWidth = doc.getTextWidth(titleText);
       const titleX = (pageWidth - titleWidth) / 2;
-      doc.text(titleText, titleX, 80);
 
+      // 2. TRUCO DEL DESPLAZAMIENTO (Simula negrita real)
+      // Escribimos el texto 3 veces moviéndolo un pelín a la derecha
+      doc.text(titleText, titleX, 80); // Posición original
+      doc.text(titleText, titleX + 0.5, 80); // 0.5px a la derecha
+      doc.text(titleText, titleX + 1, 80); // 1px a la derecha
       const rightX = 360;
       const boxWidth = pageWidth - rightX - 40;
       const boxRadius = 8;
@@ -103,12 +114,12 @@ export function BotonesAccionInner({
       doc.setLineWidth(0.5);
       doc.roundedRect(rightX, 120, boxWidth, 70, boxRadius, boxRadius, 'FD');
 
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Escolar');
       doc.setFontSize(14);
       doc.setTextColor(75, 85, 99);
       doc.text('Cuento que nos habla sobre:', rightX + 10, 138);
 
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Escolar');
       doc.setTextColor(31, 41, 55);
       const finalidadTexto = finalidad || 'las emociones y su gestión';
       const finalidadLines = doc.splitTextToSize(finalidadTexto, boxWidth - 20);
@@ -118,7 +129,7 @@ export function BotonesAccionInner({
       doc.setFillColor(255, 255, 255);
       doc.setDrawColor(200, 200, 200);
       doc.roundedRect(rightX, box2Y, boxWidth, 50, boxRadius, boxRadius, 'FD');
-      doc.setFont('helvetica', 'bold');
+      doc.setFont('Escolar');
       doc.setFontSize(16);
       doc.setTextColor(55, 65, 81);
       const autorText = 'Creado por Carmen Vicente Crespo';
@@ -132,7 +143,7 @@ export function BotonesAccionInner({
       doc.roundedRect(rightX, box3Y, boxWidth, 115, boxRadius, boxRadius, 'FD');
       doc.setGState(doc.GState({ opacity: 1 }));
 
-      doc.setFont('helvetica', 'normal');
+      doc.setFont('Escolar');
       doc.setFontSize(12);
       doc.setTextColor(55, 65, 81);
       doc.text('Autor pictogramas: Sergio Palao', rightX + 15, box3Y + 25);

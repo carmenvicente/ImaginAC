@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 const escolar = localFont({
-  src: './fonts/Escolar_G.ttf',
+  src: '../../public/fonts/Escolar_G.ttf',
   variable: '--font-escolar',
   weight: '400',
   style: 'normal',
