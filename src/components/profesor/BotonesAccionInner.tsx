@@ -91,65 +91,106 @@ export function BotonesAccionInner({
         }
       }
 
+      // --- 1. TÍTULO (Centrado en la página) ---
       const titleText = titulo;
       doc.setFont('Escolar');
       doc.setFontSize(42);
-      doc.setTextColor(244, 164, 96);
+      doc.setTextColor(244, 164, 96); // Naranja
 
-      // 1. Calculamos la posición
       const titleWidth = doc.getTextWidth(titleText);
       const titleX = (pageWidth - titleWidth) / 2;
 
-      // 2. TRUCO DEL DESPLAZAMIENTO (Simula negrita real)
-      // Escribimos el texto 3 veces moviéndolo un pelín a la derecha
-      doc.text(titleText, titleX, 80); // Posición original
-      doc.text(titleText, titleX + 0.5, 80); // 0.5px a la derecha
-      doc.text(titleText, titleX + 1, 80); // 1px a la derecha
+      // Triple escritura para Negrita
+      doc.text(titleText, titleX, 80);
+      doc.text(titleText, titleX + 0.5, 80);
+      doc.text(titleText, titleX + 1, 80);
+
+      // --- 2. CONFIGURACIÓN DE ESPACIOS PARA CAJAS (A LA DERECHA) ---
+      // Volvemos a usar rightX para mover las cajas a la derecha de la imagen
       const rightX = 360;
-      const boxWidth = pageWidth - rightX - 40;
-      const boxRadius = 8;
+      const boxWidth = pageWidth - rightX - 40; // Ancho automático para que quepa a la derecha
+      const boxRadius = 10;
 
+      // Calculamos el centro horizontal DE LA CAJA para alinear el texto dentro
+      const boxCenterX = rightX + boxWidth / 2;
+
+      // --- CAJA 1: FINALIDAD ---
+      const box1Y = 120;
       doc.setFillColor(255, 255, 255);
-      doc.setDrawColor(200, 200, 200);
-      doc.setLineWidth(0.5);
-      doc.roundedRect(rightX, 120, boxWidth, 70, boxRadius, boxRadius, 'FD');
+      doc.setDrawColor(230, 230, 230); // Borde gris clarito
+      doc.setLineWidth(1);
+      // roundedRect usa rightX para empezar a la derecha
+      doc.roundedRect(rightX, box1Y, boxWidth, 75, boxRadius, boxRadius, 'FD');
 
       doc.setFont('Escolar');
-      doc.setFontSize(14);
-      doc.setTextColor(75, 85, 99);
-      doc.text('Cuento que nos habla sobre:', rightX + 10, 138);
+      doc.setFontSize(16);
+      doc.setTextColor(100, 100, 100);
+      // Usamos boxCenterX y {align: 'center'} para centrar texto DENTRO de la caja
+      doc.text('Cuento que nos habla sobre:', boxCenterX, box1Y + 25, { align: 'center' });
 
-      doc.setFont('Escolar');
+      doc.setFontSize(18);
       doc.setTextColor(31, 41, 55);
       const finalidadTexto = finalidad || 'las emociones y su gestión';
       const finalidadLines = doc.splitTextToSize(finalidadTexto, boxWidth - 20);
-      doc.text(finalidadLines.slice(0, 2), rightX + 10, 158);
 
-      const box2Y = 205;
+      // Doble escritura para negrita suave
+      doc.text(finalidadLines.slice(0, 2), boxCenterX, box1Y + 50, { align: 'center' });
+      doc.text(finalidadLines.slice(0, 2), boxCenterX + 0.3, box1Y + 50, { align: 'center' });
+
+      // --- CAJA 2: AUTORÍA ---
+      const box2Y = 210;
       doc.setFillColor(255, 255, 255);
-      doc.setDrawColor(200, 200, 200);
-      doc.roundedRect(rightX, box2Y, boxWidth, 50, boxRadius, boxRadius, 'FD');
-      doc.setFont('Escolar');
-      doc.setFontSize(16);
+      doc.roundedRect(rightX, box2Y, boxWidth, 55, boxRadius, boxRadius, 'FD');
+
+      doc.setFontSize(18);
       doc.setTextColor(55, 65, 81);
       const autorText = 'Creado por Carmen Vicente Crespo';
-      const autorWidth = doc.getTextWidth(autorText);
-      doc.text(autorText, rightX + (boxWidth - autorWidth) / 2, box2Y + 30);
+      // Doble escritura para negrita
+      doc.text(autorText, boxCenterX, box2Y + 35, { align: 'center' });
+      doc.text(autorText, boxCenterX + 0.3, box2Y + 35, { align: 'center' });
 
-      const box3Y = 270;
+      // --- CAJA 3: CRÉDITOS ARASAAC ---
+      const box3Y = 280;
       doc.setFillColor(255, 255, 255);
-      doc.setDrawColor(200, 200, 200);
-      doc.setGState(doc.GState({ opacity: 0.6 }));
-      doc.roundedRect(rightX, box3Y, boxWidth, 115, boxRadius, boxRadius, 'FD');
+      doc.setGState(doc.GState({ opacity: 0.8 }));
+      doc.roundedRect(rightX, box3Y, boxWidth, 100, boxRadius, boxRadius, 'FD');
       doc.setGState(doc.GState({ opacity: 1 }));
 
-      doc.setFont('Escolar');
-      doc.setFontSize(12);
-      doc.setTextColor(55, 65, 81);
-      doc.text('Autor pictogramas: Sergio Palao', rightX + 15, box3Y + 25);
-      doc.text('Origen: ARASAAC (http://arasaac.org)', rightX + 15, box3Y + 50);
-      doc.text('Licencia: CC (BY-NC-SA)', rightX + 15, box3Y + 75);
+      doc.setFontSize(14);
 
+      // 1. Autor Pictogramas (Todo en Gris)
+      doc.setTextColor(80, 80, 80);
+      const txtAutor = 'Autor pictogramas: Sergio Palao';
+      doc.text(txtAutor, boxCenterX, box3Y + 30, { align: 'center' });
+      doc.text(txtAutor, boxCenterX + 0.2, box3Y + 30, { align: 'center' });
+
+      // 2. Origen (Combinado: Gris + Naranja)
+      const labelOrigen = 'Origen: ';
+      const linkArasaac = 'ARASAAC (http://arasaac.org)';
+
+      // Calculamos el ancho total para centrar el bloque combinado
+      const widthLabel = doc.getTextWidth(labelOrigen);
+      const widthLink = doc.getTextWidth(linkArasaac);
+      const totalWidth = widthLabel + widthLink;
+      const startTextX = boxCenterX - totalWidth / 2;
+
+      // Pintamos "Origen: " en GRIS
+      doc.setTextColor(80, 80, 80);
+      doc.text(labelOrigen, startTextX, box3Y + 55);
+      doc.text(labelOrigen, startTextX + 0.2, box3Y + 55);
+
+      // Pintamos "ARASAAC..." en NARANJA justo a continuación
+      doc.setTextColor(244, 164, 96);
+      doc.text(linkArasaac, startTextX + widthLabel, box3Y + 55);
+      doc.text(linkArasaac, startTextX + widthLabel + 0.2, box3Y + 55);
+
+      // 3. Licencia (Todo en Gris)
+      doc.setTextColor(80, 80, 80);
+      const txtLicencia = 'Licencia: CC (BY-NC-SA)';
+      doc.text(txtLicencia, boxCenterX, box3Y + 80, { align: 'center' });
+      doc.text(txtLicencia, boxCenterX + 0.2, box3Y + 80, { align: 'center' });
+
+      // --- 3. GUARDADO FINAL ---
       const nombreLimpio = limpiarNombreArchivo(titulo);
       const nombreArchivo = `ImaginAC - ${nombreLimpio}.pdf`;
       console.log('[PDF] Guardando:', nombreArchivo);
