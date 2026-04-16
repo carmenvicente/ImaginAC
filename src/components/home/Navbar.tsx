@@ -25,11 +25,16 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2" aria-label="ImaginAC - Inicio">
-              <div className="w-8 h-8 rounded-lg bg-[#40E0D0] flex items-center justify-center">
-                <span className="text-white font-bold text-lg">I</span>
-              </div>
-              <span className="font-bold text-xl text-[#40E0D0]">ImaginAC</span>
+            <Link href="/" className="flex items-center gap-3" aria-label="ImaginAC - Inicio">
+              {/* Logo con etiqueta img estándar igual que en el footer */}
+              <img
+                src="/logo_ImaginAC_simple.png"
+                alt="Logo ImaginAC"
+                className="w-16 h-16 object-contain"
+              />
+
+              {/* Texto de la marca */}
+              <span className="font-bold text-2xl tracking-tight text-[#F4A460]">ImaginAC</span>
             </Link>
           </div>
 

@@ -18,7 +18,7 @@ export default function PaginaCrearCuento() {
   const [cuento, setCuento] = useState<CuentoData | null>(null);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--background)]">
+    <div className="min-h-[calc(100vh-64px)] flex flex-col bg-[var(--background)]">
       <Navbar />
 
       <main className="flex-1 px-4 py-8">

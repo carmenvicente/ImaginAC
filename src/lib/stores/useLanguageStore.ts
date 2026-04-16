@@ -41,8 +41,8 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     terminosUso: 'Términos de Uso',
     heroTitulo: 'Accesibilidad Cognitiva para Todos',
     heroSubtitulo:
-      'Herramientas educativas diseñadas para profesores PT y alumnos con necesidades específicas de aprendizaje.',
-    accederApp: 'Acceder a la App',
+      'Generador de cuentos con Inteligencia Artificial y transcritos a pictogramas para la accesibilidad cognitiva.',
+    accederApp: 'CREA UN CUENTO',
     copyright: 'Todos los derechos reservados.',
     enlaces: 'Enlaces',
     legal: 'Legal',
@@ -165,8 +165,8 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     terminosUso: 'Terms of Use',
     heroTitulo: 'Cognitive Accessibility for Everyone',
     heroSubtitulo:
-      'Educational tools designed for special education teachers and students with specific learning needs.',
-    accederApp: 'Access App',
+      'Story generator with Artificial Intelligence and transcribed into pictograms for cognitive accessibility.',
+    accederApp: 'CREATE A STORY',
     copyright: 'All rights reserved.',
     enlaces: 'Links',
     legal: 'Legal',
@@ -404,8 +404,8 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     terminosUso: "Termes d'Ús",
     heroTitulo: 'Accessibilitat Cognitiva per a Tots',
     heroSubtitulo:
-      "Eines educatives dissenyades per a professors PT i alumnes amb necessitats específiques d'aprenentatge.",
-    accederApp: "Accedir a l'App",
+      "Generador de contes amb Intel·ligència Artificial i transcrits a pictogrames per a l'accessibilitat cognitiva.",
+    accederApp: 'CREA UN CONTE',
     copyright: 'Tots els drets reservats.',
     enlaces: 'Enllaços',
     legal: 'Legal',
