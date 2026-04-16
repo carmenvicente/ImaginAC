@@ -285,15 +285,18 @@ export interface RespuestaCuento {
 
 export function parsearRespuestaCuento(respuesta: string): RespuestaCuento {
   try {
-    // Esta expresión regular busca la primera llave '{' y la última '}'
-    // Ignorando cualquier texto conversacional que la IA haya puesto antes o después.
-    const match = respuesta.match(/\{[\s\S]*\}/);
+    const textoLimpio = respuesta.trim();
 
-    if (!match) {
-      throw new Error('No se encontró ninguna estructura JSON en la respuesta de la IA.');
+    const primeraLlave = textoLimpio.indexOf('{');
+    const ultimaLlave = textoLimpio.lastIndexOf('}');
+
+    if (primeraLlave === -1 || ultimaLlave === -1 || primeraLlave > ultimaLlave) {
+      throw new Error('No se encontró ninguna estructura JSON válida en la respuesta de la IA.');
     }
 
-    return JSON.parse(match[0]);
+    const jsonStr = textoLimpio.substring(primeraLlave, ultimaLlave + 1);
+
+    return JSON.parse(jsonStr);
   } catch (err) {
     console.error('Texto original devuelto por la IA que falló al parsear:', respuesta);
     throw new Error('Error al parsear la respuesta del modelo de IA');

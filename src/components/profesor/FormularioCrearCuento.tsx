@@ -101,10 +101,18 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
     setCargando(true);
 
     try {
-      const respuesta = await fetch('/api/cuentos/generar', {
+      // 1. Añadimos un timestamp a la URL para evitar que el navegador o proxies
+      // usen respuestas cacheadas que den error 429 (Tip de SiteGround)
+      const urlUnica = `/api/cuentos/generar?t=${Date.now()}`;
+
+      const respuesta = await fetch(urlUnica, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          // 2. Forzamos a que no haya rastro de caché en la red
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
         },
         body: JSON.stringify({
           profesorId,
@@ -113,6 +121,8 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
           finalidadPedagogica,
           idioma,
           longitud: 100,
+          // 3. Enviamos un ID único interno para que el backend lo reconozca como nuevo
+          requestId: crypto.randomUUID(),
         }),
       });
 
