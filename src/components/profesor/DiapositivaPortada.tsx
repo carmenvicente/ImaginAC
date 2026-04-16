@@ -35,10 +35,20 @@ export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPort
 
   return (
     <div
-      className="w-full h-full flex flex-col bg-[#d4feff] overflow-y-auto"
+      className="w-full h-full flex flex-col bg-[#d4feff] overflow-y-auto relative" // He añadido relative
       style={{ fontFamily: 'var(--font-escolar)' }}
     >
-      <div className="flex flex-col items-center pt-6 pb-2 px-4">
+      {/* LOGO IMAGINAC SIMPLE - Esquina superior derecha */}
+      <div className="absolute top-4 right-4 z-20 pointer-events-none">
+        <img
+          src="/logo_ImaginAC_simple.png"
+          alt="ImaginAC"
+          className="h-8 md:h-12 w-auto opacity-70"
+        />
+      </div>
+
+      {/* TÍTULO - Con px-16 para mantener el centro perfecto sin chocar con el logo */}
+      <div className="flex flex-col items-center pt-6 pb-2 px-16 md:px-20">
         <h1 className="text-xl md:text-4xl font-bold text-[#F4A460] text-center">{tituloSeguro}</h1>
       </div>
 
@@ -64,6 +74,7 @@ export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPort
             </p>
           </div>
 
+          {/* CRÉDITOS ARASAAC ACTUALIZADOS (Con saltos de línea para mejor lectura) */}
           <div className="bg-white/50 rounded-xl shadow-sm p-2 md:p-3 border-t border-gray-300">
             <p className="text-[9px] md:text-xs text-gray-700 leading-normal text-center">
               <span className="block">
@@ -77,11 +88,15 @@ export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPort
                   rel="noopener noreferrer"
                   className="text-[#F4A460] hover:underline font-bold"
                 >
-                  ARASAAC (http://arasaac.org)
+                  ARASAAC (https://arasaac.org/)
                 </a>
               </span>
               <span className="block">
                 <strong>Licencia:</strong> CC (BY-NC-SA)
+              </span>
+              {/* Salto de línea implícito al usar "block" */}
+              <span className="block mt-0.5">
+                <strong>Propiedad:</strong> Gobierno de Aragón (España)
               </span>
             </p>
           </div>

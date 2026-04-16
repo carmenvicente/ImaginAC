@@ -121,10 +121,22 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
               />
             ) : (
               <div className="flex flex-col justify-between h-full w-full bg-[#d4feff]/30 relative overflow-hidden">
+                {/* DECORACIÓN DE FONDO */}
                 <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#F4A460]/10 rounded-full blur-3xl pointer-events-none" />
-                <div className="text-center mt-4 md:mt-8 px-4">
+
+                {/* LOGO IMAGINAC SIMPLE - Esquina superior derecha */}
+                <div className="absolute top-4 right-4 z-20 pointer-events-none">
+                  <img
+                    src="/logo_ImaginAC_simple.png"
+                    alt="ImaginAC"
+                    className="h-8 md:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
+
+                <div className="text-center mt-4 md:mt-8 px-4 relative z-10">
                   <p
-                    className="text-xl md:text-3xl font-bold text-[var(--foreground)] leading-relaxed max-w-3xl mx-auto"
+                    /* pr-12 o pr-16 para que el texto no choque con el logo en pantallas pequeñas */
+                    className="text-xl md:text-3xl font-bold text-[var(--foreground)] leading-relaxed max-w-3xl mx-auto px-12 md:px-16"
                     style={{ fontFamily: 'var(--font-escolar)' }}
                   >
                     {diapositivaActual?.texto}
@@ -136,7 +148,7 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
 
                 <div className="flex-grow flex items-center justify-center pb-4 md:pb-6 px-4">
                   {diapositivaActual?.segmentos && diapositivaActual.segmentos.length > 0 ? (
-                    <div className="flex border border-black rounded-lg max-w-[90%] overflow-x-auto">
+                    <div className="flex border border-black rounded-lg max-w-[90%] overflow-x-auto shadow-sm bg-white">
                       {diapositivaActual.segmentos.map((segmento, i) => (
                         <div
                           key={i}
@@ -180,21 +192,35 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                   )}
                 </div>
 
-                <div className="mt-auto pb-3 pt-2 px-4 bg-white/50 border-t border-gray-100">
+                {/* CRÉDITOS ARASAAC */}
+                <div className="mt-auto pb-3 pt-2 px-4 bg-white/50 border-t border-gray-100 relative z-10">
                   <p
-                    className="text-sm md:text-lg text-gray-600 leading-relaxed text-center"
+                    className="text-xs md:text-sm text-gray-600 leading-relaxed text-center"
                     style={{ fontFamily: 'var(--font-escolar)' }}
                   >
-                    <strong>Autor pictogramas:</strong> Sergio Palao <strong>Origen:</strong>{' '}
-                    <a
-                      href="http://arasaac.org"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#F4A460] hover:underline font-bold"
-                    >
-                      ARASAAC (http://arasaac.org)
-                    </a>{' '}
-                    <strong>Licencia:</strong> CC (BY-NC-SA)
+                    <span className="mr-4">
+                      <strong>Autor pictogramas:</strong> Sergio Palao
+                    </span>
+
+                    <span className="mr-4">
+                      <strong>Origen:</strong>{' '}
+                      <a
+                        href="http://arasaac.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#F4A460] hover:underline font-bold"
+                      >
+                        ARASAAC (http://www.arasaac.org)
+                      </a>
+                    </span>
+
+                    <span className="mr-4">
+                      <strong>Licencia:</strong> CC (BY-NC-SA)
+                    </span>
+
+                    <span>
+                      <strong>Propiedad:</strong> Gobierno de Aragón (España)
+                    </span>
                   </p>
                 </div>
               </div>
