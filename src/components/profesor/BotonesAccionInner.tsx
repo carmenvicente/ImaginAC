@@ -79,6 +79,46 @@ export function BotonesAccionInner({
       doc.setFillColor(212, 254, 255);
       doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
+      // --- LOGO IMAGINAC (ESQUINA SUPERIOR DERECHA) ---
+      // Lo ponemos aquí para que el título no se desplace
+      try {
+        const rutaLogo = '/logo_ImaginAC_completo.png';
+        const logoData = await cargarImagen(rutaLogo);
+
+        // 1. Creamos un objeto Image temporal para obtener las medidas reales
+        const imgTemp = new Image();
+        imgTemp.src = logoData;
+
+        // Esperamos un instante a que cargue la info de la imagen
+        await new Promise((resolve) => {
+          imgTemp.onload = resolve;
+          // Por seguridad, si tarda mucho, resolvemos igual
+          setTimeout(resolve, 100);
+        });
+
+        // 2. Definimos el ANCHO que queremos (Grande, p.ej., 80 unidades)
+        const anchoDeseadoPDF = 80;
+
+        // 3. Calculamos el ALTO proporcionalmente para no "aplastarla"
+        // Proporción = Alto Real / Ancho Real
+        const proporcion = imgTemp.height / imgTemp.width;
+        const altoProporcionalPDF = anchoDeseadoPDF * proporcion;
+
+        // 4. Márgenes desde la esquina superior derecha
+        const margenSuperior = 30;
+        const margenDerecho = 30;
+
+        // Calculamos la posición X final
+        const logoX = pageWidth - anchoDeseadoPDF - margenDerecho;
+
+        // 5. Añadimos la imagen al PDF con las medidas perfectas
+        doc.setGState(doc.GState({ opacity: 0.8 })); // Opacidad sutil
+        doc.addImage(logoData, 'PNG', logoX, margenSuperior, anchoDeseadoPDF, altoProporcionalPDF);
+        doc.setGState(doc.GState({ opacity: 1 }));
+      } catch (e) {
+        console.log('No se pudo cargar o dimensionar el logo de ImaginAC');
+      }
+
       // --- PROCESAMIENTO DE IMAGEN DE PORTADA ---
       const slideIndexEvent = new CustomEvent('set-slide-index', { detail: 0 });
       window.dispatchEvent(slideIndexEvent);
@@ -107,74 +147,133 @@ export function BotonesAccionInner({
       doc.setTextColor(244, 164, 96);
 
       const titleWidth = doc.getTextWidth(titleText);
-      const titleX = (pageWidth - titleWidth) / 2;
+      const titleX = (pageWidth - titleWidth) / 2; // Centro absoluto
 
-      // Efecto Negrita (Triple escritura)
       doc.text(titleText, titleX, 80);
       doc.text(titleText, titleX + 0.5, 80);
       doc.text(titleText, titleX + 1, 80);
 
       // --- BLOQUE DE CAJAS (LADO DERECHO) ---
-      const rightX = 360;
-      const boxWidth = pageWidth - rightX - 40;
+      const rightX = 340;
+      const boxWidth = pageWidth - rightX - 20;
       const boxRadius = 10;
       const boxCenterX = rightX + boxWidth / 2;
 
       // --- CAJA 1: FINALIDAD ---
       const box1Y = 120;
+      const prefijo = 'Cuento que nos habla sobre: ';
+      const finalidadTexto = finalidad || 'las emociones y su gestión';
+      const textoCompleto = prefijo + finalidadTexto; // Unimos todo en una sola cadena
+
+      // 1. Configuración de fuente
+      doc.setFont('Escolar');
+      doc.setFontSize(18);
+      doc.setTextColor(31, 41, 55);
+
+      const margenInterno = 20;
+      const anchoMaxTexto = boxWidth - margenInterno * 2;
+
+      // 2. Calculamos las líneas y la altura necesaria
+      // splitTextToSize hace que el texto salte de línea automáticamente al llegar al borde
+      const lineasTexto = doc.splitTextToSize(textoCompleto, anchoMaxTexto);
+      const interlineado = 22;
+      // Calculamos la altura de la caja: (número de líneas * interlineado) + márgenes arriba y abajo
+      const box1Height = lineasTexto.length * interlineado + 5;
+
+      // 3. Dibujamos el recuadro (Altura dinámica)
       doc.setFillColor(255, 255, 255);
       doc.setDrawColor(230, 230, 230);
       doc.setLineWidth(1);
-      doc.roundedRect(rightX, box1Y, boxWidth, 75, boxRadius, boxRadius, 'FD');
+      doc.roundedRect(rightX, box1Y, boxWidth, box1Height, boxRadius, boxRadius, 'FD');
 
-      doc.setFontSize(16);
-      doc.setTextColor(100, 100, 100);
-      doc.text('Cuento que nos habla sobre:', boxCenterX, box1Y + 25, { align: 'center' });
+      // 4. Escribimos el texto (Alineado a la izquierda 'left')
+      // No repetimos el comando doc.text para evitar el efecto negrita
+      doc.text(lineasTexto, rightX + margenInterno, box1Y + 25, {
+        align: 'left',
+        lineHeightFactor: 1.2,
+      });
 
-      doc.setFontSize(18);
-      doc.setTextColor(31, 41, 55);
-      const finalidadTexto = finalidad || 'las emociones y su gestión';
-      const finalidadLines = doc.splitTextToSize(finalidadTexto, boxWidth - 20);
-      doc.text(finalidadLines.slice(0, 2), boxCenterX, box1Y + 50, { align: 'center' });
-      doc.text(finalidadLines.slice(0, 2), boxCenterX + 0.3, box1Y + 50, { align: 'center' });
+      // --- CAJA 2: AUTORÍA (COMPACTA, CENTRADA Y CON NEGRITA) ---
+      const box2Y = box1Y + box1Height + 7;
+      const box2Height = 35; // Altura estilizada
 
-      // --- CAJA 2: AUTORÍA ---
-      const box2Y = 210;
       doc.setFillColor(255, 255, 255);
-      doc.roundedRect(rightX, box2Y, boxWidth, 55, boxRadius, boxRadius, 'FD');
+      doc.setDrawColor(230, 230, 230);
+      doc.roundedRect(rightX, box2Y, boxWidth, box2Height, boxRadius, boxRadius, 'FD');
+
       doc.setFontSize(18);
       doc.setTextColor(55, 65, 81);
-      const autorText = 'Creado por Carmen Vicente Crespo';
-      doc.text(autorText, boxCenterX, box2Y + 35, { align: 'center' });
-      doc.text(autorText, boxCenterX + 0.3, box2Y + 35, { align: 'center' });
 
-      // --- CAJA 3: CRÉDITOS Y ORIGEN ---
-      const box3Y = 280;
+      const autorText = 'Creado por Carmen Vicente Crespo';
+
+      // Calculamos el centro vertical exacto
+      const yCentrado = box2Y + box2Height / 2 + 5;
+
+      // Dibujamos el texto con efecto negrita (doble escritura)
+      doc.text(autorText, boxCenterX, yCentrado, { align: 'center' });
+      doc.text(autorText, boxCenterX + 0.3, yCentrado, { align: 'center' });
+
+      // --- CAJA 3: CRÉDITOS Y ORIGEN (ESTILO EXACTO) ---
+      const box3Y = box2Y + box2Height + 7;
+      // Aumentamos la altura de 100 a 115 para dar más espacio al final
+      const box3Height = 115;
+
       doc.setFillColor(255, 255, 255);
       doc.setGState(doc.GState({ opacity: 0.8 }));
-      doc.roundedRect(rightX, box3Y, boxWidth, 100, boxRadius, boxRadius, 'FD');
+      doc.roundedRect(rightX, box3Y, boxWidth, box3Height, boxRadius, boxRadius, 'FD');
       doc.setGState(doc.GState({ opacity: 1 }));
 
       doc.setFontSize(14);
-      doc.setTextColor(80, 80, 80);
-      const txtAutor = 'Autor pictogramas: Sergio Palao';
-      doc.text(txtAutor, boxCenterX, box3Y + 30, { align: 'center' });
-      doc.text(txtAutor, boxCenterX + 0.2, box3Y + 30, { align: 'center' });
+      const colorGris = [80, 80, 80];
+      const colorNaranja = [244, 164, 96];
 
-      const labelOrigen = 'Origen: ';
-      const linkArasaac = 'ARASAAC (http://arasaac.org)';
-      const widthLabel = doc.getTextWidth(labelOrigen);
-      const widthLink = doc.getTextWidth(linkArasaac);
-      const totalWidth = widthLabel + widthLink;
-      const startTextX = boxCenterX - totalWidth / 2;
+      // --- LÍNEA 1: Autor pictogramas (Igual que antes) ---
+      const t1 = 'Autor pictogramas: ';
+      const t1_2 = 'Sergio Palao';
+      const w1 = doc.getTextWidth(t1 + t1_2);
+      let currentX = boxCenterX - w1 / 2;
 
-      doc.setTextColor(80, 80, 80);
-      doc.text(labelOrigen, startTextX, box3Y + 55);
-      doc.setTextColor(244, 164, 96);
-      doc.text(linkArasaac, startTextX + widthLabel, box3Y + 55);
+      doc.setTextColor(...colorGris);
+      doc.text(t1, currentX, box3Y + 25);
+      doc.text(t1, currentX + 0.2, box3Y + 25); // Negrita
+      doc.text(t1_2, currentX + doc.getTextWidth(t1), box3Y + 25);
 
-      doc.setTextColor(80, 80, 80);
-      doc.text('Licencia: CC (BY-NC-SA)', boxCenterX, box3Y + 80, { align: 'center' });
+      // --- LÍNEA 2: Origen (TODO EN NEGRITA Y NARANJA) ---
+      const t2 = 'Origen: ';
+      const t2_full = 'ARASAAC (https://arasaac.org/)';
+      const w2 = doc.getTextWidth(t2 + t2_full);
+      currentX = boxCenterX - w2 / 2;
+
+      // "Origen:" en Gris y Negrita
+      doc.setTextColor(...colorGris);
+      doc.text(t2, currentX, box3Y + 48);
+      doc.text(t2, currentX + 0.2, box3Y + 48);
+
+      // "ARASAAC (https://arasaac.org/)" en Naranja y TODO Negrita
+      doc.setTextColor(...colorNaranja);
+      doc.text(t2_full, currentX + doc.getTextWidth(t2), box3Y + 48);
+      doc.text(t2_full, currentX + doc.getTextWidth(t2) + 0.2, box3Y + 48); // Negrita aplicada a todo
+
+      // --- LÍNEA 3: Licencia (Igual que antes) ---
+      const t3 = 'Licencia: ';
+      const t3_2 = 'CC (BY-NC-SA)';
+      const w3 = doc.getTextWidth(t3 + t3_2);
+      currentX = boxCenterX - w3 / 2;
+
+      doc.setTextColor(...colorGris);
+      doc.text(t3, currentX, box3Y + 71);
+      doc.text(t3, currentX + 0.2, box3Y + 71); // Negrita
+      doc.text(t3_2, currentX + doc.getTextWidth(t3), box3Y + 71);
+
+      // --- LÍNEA 4: Propiedad (Igual que antes) ---
+      const t4 = 'Propiedad: ';
+      const t4_2 = 'Gobierno de Aragón (España)';
+      const w4 = doc.getTextWidth(t4 + t4_2);
+      currentX = boxCenterX - w4 / 2;
+
+      doc.text(t4, currentX, box3Y + 94); // Ajustado a +94 para equilibrar
+      doc.text(t4, currentX + 0.2, box3Y + 94); // Negrita
+      doc.text(t4_2, currentX + doc.getTextWidth(t4), box3Y + 94);
 
       // ============================================================
       // 3. PÁGINA 2: EL CUENTO (TEXTO COMPLETO)
@@ -189,12 +288,34 @@ export function BotonesAccionInner({
         doc.setFillColor(237, 255, 255);
         doc.rect(0, 0, pageWidth2, pageHeight2, 'F');
 
+        // --- LOGO IMAGINAC (MISMA LÓGICA QUE EN PORTADA) ---
+        try {
+          const rutaLogo = '/logo_ImaginAC_completo.png';
+          const logoData = await cargarImagen(rutaLogo);
+          const imgTemp = new Image();
+          imgTemp.src = logoData;
+          await new Promise((r) => (imgTemp.onload = r));
+
+          const anchoLogo = 80; // Un poco más pequeño para el interior
+          const altoLogo = anchoLogo * (imgTemp.height / imgTemp.width);
+          const logoX = pageWidth2 - anchoLogo - 30;
+          const logoY = 30;
+
+          doc.setGState(doc.GState({ opacity: 0.8 }));
+          doc.addImage(logoData, 'PNG', logoX, logoY, anchoLogo, altoLogo);
+          doc.setGState(doc.GState({ opacity: 1 }));
+        } catch (e) {
+          console.log('Error con el logo en p2');
+        }
+
         // --- TÍTULO (PÁGINA 2) ---
         doc.setFont('Escolar');
         doc.setFontSize(38);
         doc.setTextColor(244, 164, 96);
 
-        const titleLines = doc.splitTextToSize(titulo, pageWidth2 - 100);
+        // Usamos un margen de 160 (80 de cada lado) para que el título salte antes de tocar el logo
+        // pero se mantenga centrado en pageWidth2 / 2
+        const titleLines = doc.splitTextToSize(titulo, pageWidth2 - 160);
         const titleY = 70;
 
         doc.text(titleLines, pageWidth2 / 2, titleY, { align: 'center' });
@@ -220,14 +341,23 @@ export function BotonesAccionInner({
               doc.addPage();
               doc.setFillColor(212, 254, 255);
               doc.rect(0, 0, pageWidth2, pageHeight2, 'F');
-              yPos = 60;
+
+              // Volvemos a poner el logo en la página nueva si salta
+              try {
+                const logoData = await cargarImagen('/logo_ImaginAC_simple.png');
+                doc.setGState(doc.GState({ opacity: 0.8 }));
+                doc.addImage(logoData, 'PNG', pageWidth2 - 90, 30, 60, 60); // Ajuste rápido para el salto
+                doc.setGState(doc.GState({ opacity: 1 }));
+              } catch (e) {}
+
+              yPos = 80;
             }
 
             doc.text(linea, margin, yPos);
             doc.text(linea, margin + 0.2, yPos);
             yPos += lineHeight;
           }
-          yPos += lineHeight; // Espacio entre párrafos
+          yPos += lineHeight;
         }
       }
 
