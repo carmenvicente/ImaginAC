@@ -3,11 +3,23 @@
 import { useState, useCallback } from 'react';
 import { FONT_CUENTO_BASE64 } from '@/../public/fonts/Escolar_G';
 
+interface Segmento {
+  texto: string;
+  pictograma: string;
+  urlImagen?: string;
+}
+
+interface DiapositivaContenido {
+  texto: string;
+  segmentos: Segmento[];
+}
+
 interface BotonesAccionInnerProps {
   totalSlides: number;
   titulo: string;
   finalidad?: string;
   historia?: string;
+  diapositivas?: DiapositivaContenido[];
 }
 
 function limpiarNombreArchivo(nombre: string): string {
@@ -44,6 +56,7 @@ export function BotonesAccionInner({
   titulo,
   finalidad = '',
   historia = '',
+  diapositivas = [],
 }: BotonesAccionInnerProps) {
   const [generandoPDF, setGenerandoPDF] = useState(false);
 
@@ -362,7 +375,146 @@ export function BotonesAccionInner({
       }
 
       // ============================================================
-      // 4. GUARDADO Y FINALIZACIÓN
+      // 4. PÁGINAS DE PICTOGRAMAS (VERSION BLINDADA)
+      // ============================================================
+      if (diapositivas && diapositivas.length > 0) {
+        for (const diapositiva of diapositivas) {
+          doc.addPage();
+          const pageW = doc.internal.pageSize.getWidth();
+          const pageH = doc.internal.pageSize.getHeight();
+
+          // FONDO
+          doc.setFillColor(237, 255, 255);
+          doc.rect(0, 0, pageW, pageH, 'F');
+
+          // --- LOGO --- (Mantenemos tu código del logo aquí)
+          try {
+            const rutaLogo = '/logo_ImaginAC_completo.png';
+            const logoData = await cargarImagen(rutaLogo);
+            const imgTemp = new Image();
+            imgTemp.src = logoData;
+            await new Promise((resolve) => {
+              imgTemp.onload = resolve;
+              setTimeout(resolve, 100);
+            });
+
+            const anchoLogo = 80;
+            const altoLogo = anchoLogo * (imgTemp.height / imgTemp.width);
+            const logoX = pageW - anchoLogo - 30;
+            const logoY = 30;
+
+            doc.setGState(doc.GState({ opacity: 0.8 }));
+            doc.addImage(logoData, 'PNG', logoX, logoY, anchoLogo, altoLogo);
+            doc.setGState(doc.GState({ opacity: 1 }));
+          } catch (e) {
+            console.log('Error con el logo en página de pictogramas');
+          }
+
+          // --- TEXTO SUPERIOR: FORZAMOS ESCOLAR ANTES DE ESCRIBIR ---
+          doc.setFont('Escolar', 'normal');
+          doc.setFontSize(26);
+          doc.setTextColor(31, 41, 55);
+
+          const margenLateral = 140;
+          const maxWidthTexto = pageW - margenLateral * 2;
+          const lineasTexto = doc.splitTextToSize(diapositiva.texto, maxWidthTexto);
+
+          // Escribimos el título (asegurándonos de que Escolar esté activa)
+          doc.text(lineasTexto, pageW / 2, 70, { align: 'center' });
+          doc.text(lineasTexto, pageW / 2 + 0.3, 70, { align: 'center' });
+          doc.text(lineasTexto, pageW / 2 + 0.6, 70, { align: 'center' });
+
+          // --- PICTOGRAMAS CON CAJAS ELÁSTICAS (ANCHO DINÁMICO) ---
+          const pictosConImagen = diapositiva.segmentos.filter((s: any) => s.urlImagen);
+
+          if (pictosConImagen.length > 0) {
+            const altoCelda = 80;
+            const altoTexto = 20;
+            const totalAltoCaja = altoCelda + altoTexto;
+            const radio = 10;
+            const margenTexto = 15; // Espacio extra a los lados del texto
+
+            doc.setFont('Helvetica', 'bold');
+            doc.setFontSize(11);
+
+            // 1. PRIMERO CALCULAMOS EL ANCHO TOTAL DE LA TIRA
+            // Sumamos lo que mide cada texto + los márgenes
+            let anchoTotalTira = 0;
+            const anchosCeldas = pictosConImagen.map((seg: any) => {
+              const textoMayus = (seg.texto || '').toUpperCase();
+              const anchoTexto = doc.getTextWidth(textoMayus);
+              // La celda medirá como mínimo 80px, o más si el texto es largo
+              return Math.max(80, anchoTexto + margenTexto);
+            });
+
+            anchoTotalTira = anchosCeldas.reduce((a, b) => a + b, 0);
+
+            const inicioX = (pageW - anchoTotalTira) / 2;
+            const inicioY = 180;
+
+            // 2. DIBUJAMOS EL FONDO ÚNICO REDONDEADO
+            doc.setFillColor(255, 255, 255);
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(1);
+            doc.roundedRect(inicioX, inicioY, anchoTotalTira, totalAltoCaja, radio, radio, 'FD');
+
+            // Línea horizontal que separa imagen de texto
+            doc.line(inicioX, inicioY + altoCelda, inicioX + anchoTotalTira, inicioY + altoCelda);
+
+            // 3. DIBUJAMOS CADA CELDA CON SU ANCHO CALCULADO
+            let xActual = inicioX;
+
+            for (let i = 0; i < pictosConImagen.length; i++) {
+              const segmento = pictosConImagen[i];
+              const anchoEstaCelda = anchosCeldas[i];
+
+              // Imagen (Centrada en su celda elástica)
+              try {
+                if (segmento.urlImagen) {
+                  const imgData = await cargarImagen(segmento.urlImagen);
+                  // La imagen se mantiene de un tamaño máximo pero se centra en el ancho de la celda
+                  const sizeImg = 70;
+                  const offsetX = (anchoEstaCelda - sizeImg) / 2;
+                  doc.addImage(imgData, 'PNG', xActual + offsetX, inicioY + 5, sizeImg, sizeImg);
+                }
+              } catch (e) {
+                console.log('Error picto');
+              }
+
+              // Línea vertical divisoria (solo si no es la última)
+              if (i < pictosConImagen.length - 1) {
+                doc.line(
+                  xActual + anchoEstaCelda,
+                  inicioY,
+                  xActual + anchoEstaCelda,
+                  inicioY + totalAltoCaja
+                );
+              }
+
+              // Texto (En una sola línea, centrado en su celda elástica)
+              doc.setTextColor(31, 41, 55);
+              const textoMayus = (segmento.texto || '').toUpperCase();
+              doc.text(textoMayus, xActual + anchoEstaCelda / 2, inicioY + altoCelda + 14, {
+                align: 'center',
+              });
+
+              // Avanzamos la X para la siguiente celda
+              xActual += anchoEstaCelda;
+            }
+          }
+
+          // --- PIE DE PÁGINA: FORZAMOS ESCOLAR OTRA VEZ ---
+          doc.setFont('Escolar', 'normal'); // <--- Obligamos a volver a Escolar
+          doc.setFontSize(9);
+          doc.setTextColor(128, 128, 128);
+          const textoLegal =
+            'Autor pictogramas: Sergio Palao • Origen: ARASAAC (http://arasaac.org) • Licencia: CC (BY-NC-SA) • Propiedad: Gobierno de Aragón';
+          doc.text(textoLegal, pageW / 2, pageH - 20, { align: 'center' });
+        }
+      }
+
+      // ============================================================
+      // 5. GUARDADO Y FINALIZACIÓN
       // ============================================================
       const nombreLimpio = limpiarNombreArchivo(titulo);
       const nombreArchivo = `ImaginAC - ${nombreLimpio}.pdf`;
@@ -375,7 +527,7 @@ export function BotonesAccionInner({
     } finally {
       setGenerandoPDF(false);
     }
-  }, [generandoPDF, titulo, finalidad, historia]);
+  }, [generandoPDF, titulo, finalidad, historia, diapositivas]);
 
   return (
     <div className="flex flex-col md:flex-row gap-4 mt-12 md:mt-16 px-4 pb-10">

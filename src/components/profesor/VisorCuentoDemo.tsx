@@ -292,6 +292,7 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
           titulo={cuento.titulo}
           finalidad={cuento.finalidad}
           historia={cuento.texto}
+          diapositivas={cuento.diapositivas}
         />
       </div>
     </div>
