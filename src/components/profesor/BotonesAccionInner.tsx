@@ -503,13 +503,66 @@ export function BotonesAccionInner({
             }
           }
 
-          // --- PIE DE PÁGINA: FORZAMOS ESCOLAR OTRA VEZ ---
-          doc.setFont('Escolar', 'normal'); // <--- Obligamos a volver a Escolar
-          doc.setFontSize(9);
-          doc.setTextColor(128, 128, 128);
-          const textoLegal =
-            'Autor pictogramas: Sergio Palao • Origen: ARASAAC (http://arasaac.org) • Licencia: CC (BY-NC-SA) • Propiedad: Gobierno de Aragón';
-          doc.text(textoLegal, pageW / 2, pageH - 20, { align: 'center' });
+          /// --- 5. PIE DE PÁGINA (FRANJA DE LICENCIA DETALLADA) ---
+          const altoFranja = 50;
+          const yFranja = pageH - altoFranja;
+
+          // Dibujamos el recuadro con tu color #FAFEFF (250, 254, 255)
+          doc.setFillColor(250, 254, 255);
+          doc.rect(0, yFranja, pageW, altoFranja, 'F');
+
+          // Línea divisoria superior
+          doc.setLineWidth(0.5);
+          doc.setDrawColor(200, 200, 200);
+          doc.line(0, yFranja, pageW, yFranja);
+
+          // Configuración base
+          const fontSize = 11; // Ajustado para que quepa todo en una línea
+          const yTexto = yFranja + altoFranja / 2 + 4;
+          const gris = [100, 100, 100];
+          const naranja = [244, 164, 96];
+
+          // Definimos los trozos (texto, esNegrita, color)
+          const partes = [
+            { t: 'Autor pictogramas: ', b: true, c: gris },
+            { t: 'Sergio Palao    ', b: false, c: gris },
+            { t: 'Origen: ', b: true, c: gris },
+            { t: 'ARASAAC (http://www.arasaac.org) ', b: true, c: naranja },
+            { t: '   ', b: false, c: gris },
+            { t: 'Licencia: ', b: true, c: gris },
+            { t: 'CC (BY-NC-SA)    ', b: false, c: gris },
+            { t: 'Propiedad: ', b: true, c: gris },
+            { t: 'Gobierno de Aragón', b: false, c: gris },
+          ];
+
+          // Calculamos el ancho total para centrarlo
+          doc.setFontSize(fontSize);
+          let anchoTotal = 0;
+          partes.forEach((p) => {
+            doc.setFont('Escolar', 'normal');
+            let w = doc.getTextWidth(p.t);
+            // Si es negrita falsa, el ancho es un pelín más
+            anchoTotal += p.b ? w + 0.6 : w;
+          });
+
+          // Empezamos a escribir desde la X inicial calculada
+          let xActual = (pageW - anchoTotal) / 2;
+
+          partes.forEach((p) => {
+            doc.setTextColor(p.c[0], p.c[1], p.c[2]);
+            doc.setFont('Escolar', 'normal');
+
+            if (p.b) {
+              // TRUCO DE NEGRITA (Doble escritura)
+              doc.text(p.t, xActual, yTexto);
+              doc.text(p.t, xActual + 0.15, yTexto);
+              doc.text(p.t, xActual + 0.3, yTexto);
+              xActual += doc.getTextWidth(p.t) + 0.6;
+            } else {
+              doc.text(p.t, xActual, yTexto);
+              xActual += doc.getTextWidth(p.t);
+            }
+          });
         }
       }
 
