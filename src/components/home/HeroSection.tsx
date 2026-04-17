@@ -16,15 +16,15 @@ export function HeroSection() {
       {/* 1. RECUPERAMOS LA IMAGEN DE FONDO */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1920&q=80"
-          alt="Educación inclusiva y accesible"
+          src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=1920&q=80"
+          alt="Material escolar claro"
           fill
           priority
           className="object-cover"
           sizes="100vw"
         />
         {/* Degradado sobre la imagen para asegurar legibilidad */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#40E0D0]/40 to-[#40E0D0]/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#40E0D0]/40 via-[#40E0D0]/60 to-[#0d4a4a]/90" />
       </div>
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 text-center">
