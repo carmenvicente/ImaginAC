@@ -61,7 +61,7 @@ export function HeroSection() {
         {/* 4. BOTÓN DE ACCESO */}
         <Link
           href="/crear-cuento"
-          className="inline-flex items-center justify-center px-6 md:px-10 py-3 md:py-4 bg-[#F4A460] text-base md:text-xl font-bold rounded-xl md:rounded-2xl hover:bg-[#e09550] transition-all transform hover:scale-105 shadow-xl hover:shadow-[#F4A460]/20 uppercase tracking-wide"
+          className="inline-flex items-center justify-center px-6 md:px-10 py-3 md:py-4 bg-[#F4A460] text-white text-base md:text-xl font-bold rounded-xl md:rounded-2xl hover:bg-[#e09550] transition-all transform hover:scale-105 shadow-xl hover:shadow-[#F4A460]/20 uppercase tracking-wide"
         >
           {traducciones.accederApp}
         </Link>

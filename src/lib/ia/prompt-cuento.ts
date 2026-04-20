@@ -209,6 +209,7 @@ REGLAS DE ESTRUCTURA DIAPOSITIVAS:
 
 4. LÓGICA DE INFINITIVOS (NORMALIZACIÓN):
    - El campo "pictograma" SIEMPRE en infinitivo o sustantivo simple.
+   - EXCEPCIÓN CRÍTICA: Para el concepto de memoria, usa SIEMPRE "recuerdos" o "recordar".
    - "se siente" → {"texto": "se siente", "pictograma": "sentir"}
    - "se pone triste" → {"texto": "se pone triste", "pictograma": "triste"}
    - "está mal" → {"texto": "está mal", "pictograma": "mal"}

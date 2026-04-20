@@ -59,7 +59,13 @@ async function generarCuentoConRetry(
         throw new QuotaExceededError('Cuota de la API de Google excedida');
       }
 
-      throw error;
+      // --- AQUÍ EL CAMBIO PARA OTROS ERRORES ---
+      // Si llegamos aquí es un error diferente (como el 503 de saturación o un 500)
+      const mensajeError = error?.message || error?.toString() || 'Error desconocido';
+
+      throw new Error(
+        `Error al generar el cuento. Por favor, contacta con el soporte para arreglarlo. Tipo de error: ${mensajeError}`
+      );
     }
   }
 

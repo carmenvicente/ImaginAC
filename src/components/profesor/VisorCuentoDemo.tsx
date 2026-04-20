@@ -108,11 +108,8 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
       </div>
 
       <div className="max-w-5xl mx-auto">
-        <div className="relative bg-white rounded-2xl shadow-2xl border-2 border-gray-200 overflow-hidden">
-          <div
-            data-slide-container
-            className="aspect-video md:aspect-video max-h-[600px] bg-gray-50 flex flex-col"
-          >
+        <div className="relative bg-white rounded-2xl shadow-2xl border-2 border-gray-200 overflow-hidden @container">
+          <div data-slide-container className="aspect-video max-h-[600px] bg-gray-50 flex flex-col">
             {esPortada ? (
               <DiapositivaPortada
                 titulo={cuento.titulo}
@@ -121,44 +118,44 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
               />
             ) : (
               <div className="flex flex-col justify-between h-full w-full bg-[#d4feff]/30 relative overflow-hidden">
-                {/* DECORACIÓN DE FONDO */}
-                <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#F4A460]/10 rounded-full blur-3xl pointer-events-none" />
+                {/* DECORACIÓN DE FONDO - Ajustada a cqw */}
+                <div className="absolute -top-[10cqw] -right-[10cqw] w-[30cqw] h-[30cqw] bg-[#F4A460]/10 rounded-full blur-3xl pointer-events-none" />
 
-                {/* LOGO IMAGINAC SIMPLE - Esquina superior derecha */}
-                <div className="absolute top-4 right-4 z-20 pointer-events-none">
+                {/* LOGO IMAGINAC SIMPLE - Esquina superior derecha con cqw */}
+                <div className="absolute top-[2cqw] right-[2cqw] z-20 pointer-events-none">
                   <img
                     src="/logo_ImaginAC_simple.png"
                     alt="ImaginAC"
-                    className="h-8 md:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
+                    className="h-[4cqw] w-auto opacity-70 hover:opacity-100 transition-opacity"
                   />
                 </div>
 
-                <div className="text-center mt-4 md:mt-8 px-4 relative z-10">
+                <div className="text-center mt-[4cqw] px-[4cqw] relative z-10">
                   <p
-                    /* pr-12 o pr-16 para que el texto no choque con el logo en pantallas pequeñas */
-                    className="text-xl md:text-3xl font-bold text-[var(--foreground)] leading-relaxed max-w-3xl mx-auto px-12 md:px-16"
+                    className="text-[3.5cqw] font-bold text-[var(--foreground)] leading-relaxed max-w-3xl mx-auto px-[6cqw]"
                     style={{ fontFamily: 'var(--font-escolar)' }}
                   >
                     {diapositivaActual?.texto}
                   </p>
-                  <p className="text-sm md:text-base text-gray-400 mt-3 font-medium">
+                  <p className="text-[1.8cqw] text-gray-400 mt-[1cqw] font-medium">
                     {indiceDiapositiva} de {totalDiapositivas - 1}
                   </p>
                 </div>
 
-                <div className="flex-grow flex items-center justify-center pb-4 md:pb-6 px-4">
+                {/* PICTOGRAMAS - Unidades cqw para escalar en tablets */}
+                <div className="flex-grow flex items-center justify-center pb-[2cqw] px-[2cqw]">
                   {diapositivaActual?.segmentos && diapositivaActual.segmentos.length > 0 ? (
-                    <div className="flex border border-black rounded-lg max-w-[90%] overflow-x-auto shadow-sm bg-white">
+                    <div className="flex border-[0.15cqw] border-black rounded-[1cqw] max-w-[95%] overflow-x-auto shadow-sm bg-white">
                       {diapositivaActual.segmentos.map((segmento, i) => (
                         <div
                           key={i}
                           className={`flex flex-col flex-shrink-0 ${
                             i < diapositivaActual.segmentos.length - 1
-                              ? 'border-r border-black'
+                              ? 'border-r-[0.15cqw] border-black'
                               : ''
                           }`}
                         >
-                          <div className="w-24 h-24 md:w-32 md:h-32 bg-white flex items-center justify-center p-2">
+                          <div className="w-[12cqw] h-[12cqw] bg-white flex items-center justify-center p-[1cqw]">
                             {segmento.urlImagen ? (
                               <img
                                 src={segmento.urlImagen}
@@ -169,14 +166,14 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                                 }}
                               />
                             ) : (
-                              <span className="text-gray-500 text-xl font-bold text-center">
+                              <span className="text-gray-500 text-[2.5cqw] font-bold text-center">
                                 {segmento.texto.charAt(0).toUpperCase()}
                               </span>
                             )}
                           </div>
-                          <div className="border-t border-black bg-white px-2 py-1">
+                          <div className="border-t-[0.15cqw] border-black bg-white px-[1cqw] py-[0.5cqw]">
                             <span
-                              className="block text-center text-xs font-bold uppercase tracking-wide text-black"
+                              className="block text-center text-[1.2cqw] font-bold uppercase tracking-wide text-black"
                               style={{ fontFamily: 'OpenDyslexic, sans-serif' }}
                             >
                               {segmento.texto}
@@ -187,22 +184,22 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                     </div>
                   ) : (
                     <div className="text-center text-gray-400 py-4">
-                      <p>Sin segmentos disponibles para esta frase</p>
+                      <p className="text-[2cqw]">Sin segmentos disponibles para esta frase</p>
                     </div>
                   )}
                 </div>
 
-                {/* CRÉDITOS ARASAAC */}
-                <div className="mt-auto pb-3 pt-2 px-4 bg-white/50 border-t border-gray-100 relative z-10">
+                {/* CRÉDITOS ARASAAC - Unidades cqw */}
+                <div className="mt-auto pb-[2cqw] pt-[1cqw] px-[4cqw] bg-white/50 border-t border-gray-100 relative z-10">
                   <p
-                    className="text-xs md:text-sm text-gray-600 leading-relaxed text-center"
+                    className="text-[1.2cqw] text-gray-600 leading-relaxed text-center"
                     style={{ fontFamily: 'var(--font-escolar)' }}
                   >
-                    <span className="mr-4">
+                    <span className="mr-[2cqw]">
                       <strong>Autor pictogramas:</strong> Sergio Palao
                     </span>
 
-                    <span className="mr-4">
+                    <span className="mr-[2cqw]">
                       <strong>Origen:</strong>{' '}
                       <a
                         href="http://arasaac.org"
@@ -210,16 +207,16 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                         rel="noopener noreferrer"
                         className="text-[#F4A460] hover:underline font-bold"
                       >
-                        ARASAAC (http://www.arasaac.org)
+                        ARASAAC (https://arasaac.org/)
                       </a>
                     </span>
 
-                    <span className="mr-4">
+                    <span className="mr-[2cqw]">
                       <strong>Licencia:</strong> CC (BY-NC-SA)
                     </span>
 
                     <span>
-                      <strong>Propiedad:</strong> Gobierno de Aragón (España)
+                      <strong>Propiedad:</strong> Gobierno de Aragón
                     </span>
                   </p>
                 </div>
@@ -227,18 +224,24 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
             )}
           </div>
 
+          {/* BOTONES NAVEGACIÓN - Se mantienen tus clases de flechas intactas */}
           <button
             type="button"
             onClick={irAnterior}
             disabled={esPrimera}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all ${
+            className={`absolute left-[2%] md:left-4 top-1/2 -translate-y-1/2 md:w-12 md:h-12 w-[8cqw] h-[8cqw] rounded-full flex items-center justify-center shadow-lg transition-all ${
               esPrimera
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-white text-gray-700 hover:bg-gray-50 active:scale-95 border border-gray-200'
             }`}
             aria-label="Anterior"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-[4cqw] h-[4cqw] md:w-6 md:h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -252,19 +255,25 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
             type="button"
             onClick={irSiguiente}
             disabled={esUltima}
-            className={`absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-all ${
+            className={`absolute right-[2%] md:right-4 top-1/2 -translate-y-1/2 md:w-12 md:h-12 w-[8cqw] h-[8cqw] rounded-full flex items-center justify-center shadow-lg transition-all ${
               esUltima
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-[var(--marca)] text-white hover:bg-[var(--marca-hover)] active:scale-95'
             }`}
             aria-label="Siguiente"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-[4cqw] h-[4cqw] md:w-6 md:h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
 
+        {/* INDICADORES INFERIORES - Se mantienen igual */}
         <div className="flex items-center justify-between mt-4 px-4">
           <div className="flex gap-2">
             {Array.from({ length: totalDiapositivas }).map((_, i) => (
