@@ -102,12 +102,10 @@ export default function Configuracion() {
                 </svg>
               </a>
               <a
-                href="/terminos"
+                href="/aviso-legal"
                 className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <span className="text-[var(--foreground)]">
-                  {t.configTerminos || 'Términos de Uso'}
-                </span>
+                <span className="text-[var(--foreground)]">Aviso Legal</span>
                 <svg
                   className="w-5 h-5 text-gray-400"
                   fill="none"

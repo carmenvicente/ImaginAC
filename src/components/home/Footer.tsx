@@ -77,10 +77,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/terminos"
+                  href="/aviso-legal"
                   className="text-white/70 hover:text-white transition-colors text-sm"
                 >
-                  {traducciones.terminosUso}
+                  Aviso Legal
                 </Link>
               </li>
             </ul>
