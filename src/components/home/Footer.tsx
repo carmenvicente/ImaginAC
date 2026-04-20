@@ -1,18 +1,31 @@
 'use client';
 
+import { useState, useEffect } from 'react'; // Añadido useEffect y useState
 import Link from 'next/link';
 import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
 export function Footer() {
+  const [isMounted, setIsMounted] = useState(false); // Parche de hidratación
   const añoActual = new Date().getFullYear();
   const idiomaActual = useLanguageStore((s) => s.idiomaActual);
   const traducciones = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
 
+  // --- EFECTO PARA EVITAR EL ERROR DE HIDRATACIÓN ---
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Si no está montado, devolvemos un footer invisible o básico para que el servidor no se queje
+  if (!isMounted) {
+    return <footer className="bg-[#1a4d4d] min-h-[200px]" />;
+  }
+  // --------------------------------------------------
+
   return (
     <footer className="bg-[#1a4d4d] text-white" role="contentinfo">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Columna 1: LOGO COMPLETO con recuadro traslúcido */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Columna 1: LOGO COMPLETO */}
           <div className="md:col-span-1 flex flex-col items-start">
             <Link href="/" className="mb-4 group">
               <img
@@ -100,13 +113,10 @@ export function Footer() {
               {traducciones.pictogramas || 'Pictogramas'}
             </h3>
             <div className="flex flex-col items-center md:items-start space-y-4">
-              {/* Logo con Link y Recuadro Traslúcido */}
-              <a href="https://arasaac.org/" target="_blank">
-                {' '}
-                <img src="/logo_ARASAAC.png" alt="Logo ARASAAC" className="h-10 w-auto" />{' '}
+              <a href="https://arasaac.org/" target="_blank" rel="noopener noreferrer">
+                <img src="/logo_ARASAAC.png" alt="Logo ARASAAC" className="h-10 w-auto" />
               </a>
 
-              {/* Texto con Enlaces Detallados */}
               <p className="text-white/60 text-[11px] leading-relaxed text-center md:text-left">
                 Autor: <span className="text-white">Sergio Palao</span>. <br />
                 Origen:{' '}

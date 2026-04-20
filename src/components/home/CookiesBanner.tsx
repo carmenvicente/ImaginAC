@@ -54,12 +54,12 @@ export function CookiesBanner() {
       aria-label="Configuración de cookies"
       className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white shadow-[0_-10px_40px_rgba(0,0,0,0.3)] border-t border-gray-700"
     >
-      <div className="max-w-7xl mx-auto px-6 py-6">
+      <div className="max-w-7xl mx-auto px-3 md:px-6 py-4 md:py-6">
         {!showConfig ? (
           /* VISTA PRINCIPAL */
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div className="flex-1 text-center lg:text-left text-sm text-gray-300">
-              <p>
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-6">
+            <div className="flex-1 text-center lg:text-left text-sm md:text-base text-gray-300">
+              <p className="leading-relaxed">
                 Utilizamos cookies propias y de terceros para mejorar su experiencia y analizar el
                 uso de la web. Puede aceptar todas las cookies, rechazarlas o configurar sus
                 preferencias. Más información en nuestra{' '}
@@ -69,22 +69,22 @@ export function CookiesBanner() {
                 .
               </p>
             </div>
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-2 md:gap-3">
               <button
                 onClick={() => setShowConfig(true)}
-                className="px-4 py-2 text-xs font-semibold border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors"
+                className="px-4 py-2.5 md:py-2 text-sm font-semibold border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors"
               >
                 Configurar
               </button>
               <button
                 onClick={handleSoloEsenciales}
-                className="px-4 py-2 text-xs font-semibold bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
+                className="px-4 py-2.5 md:py-2 text-sm font-semibold bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
               >
                 Solo esenciales
               </button>
               <button
                 onClick={handleAceptarTodas}
-                className="px-6 py-2 text-xs font-bold bg-[#40E0D0] text-gray-900 rounded-lg hover:bg-[#35c9b8] transition-colors"
+                className="px-5 py-2.5 md:py-2 text-sm font-bold bg-[#40E0D0] text-gray-900 rounded-lg hover:bg-[#35c9b8] transition-colors"
               >
                 Aceptar todas
               </button>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 type FeedbackState = 'open' | 'minimized';
 
@@ -9,6 +9,13 @@ export function FeedbackWidget() {
   const [mensaje, setMensaje] = useState('');
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
+
+  // --- PARCHE PARA EL ERROR DE HIDRATACIÓN ---
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  // -------------------------------------------
 
   const handleEnviar = useCallback(async () => {
     if (!mensaje.trim() || enviando) return;
@@ -53,16 +60,19 @@ export function FeedbackWidget() {
     setState('open');
   }, []);
 
+  // Evita el error de hidratación
+  if (!mounted) return null;
+
   if (state === 'minimized') {
     return (
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40">
         <button
           onClick={handleAbrir}
-          className="w-14 h-14 bg-teal-900 hover:bg-teal-800 rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-105"
+          className="w-12 h-12 md:w-14 md:h-14 bg-teal-900 hover:bg-teal-800 rounded-full flex items-center justify-center shadow-lg transition-all hover:scale-105 border border-teal-700"
           aria-label="Abrir caja de sugerencias"
         >
           <svg
-            className="w-7 h-7 text-[#40E0D0]"
+            className="w-6 h-6 md:w-7 md:h-7 text-[#40E0D0]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -80,9 +90,9 @@ export function FeedbackWidget() {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-64">
-      <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-        {/* Cabecera */}
+    <div className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 w-[85vw] max-w-64">
+      <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+        {/* Cabecera Azul Oscuro / Teal */}
         <div className="bg-teal-900 px-4 py-3 flex items-center justify-between">
           <div>
             <h3 className="text-white font-semibold text-sm">Caja de sugerencias</h3>
@@ -109,7 +119,7 @@ export function FeedbackWidget() {
           {enviado ? (
             <div className="text-center py-2">
               <svg
-                className="w-12 h-12 text-green-500 mx-auto mb-2"
+                className="w-10 h-10 text-green-500 mx-auto mb-2"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -121,22 +131,21 @@ export function FeedbackWidget() {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <p className="text-teal-900 font-medium">¡Gracias!</p>
-              <p className="text-gray-500 text-sm">Tu opinión nos ayuda a mejorar.</p>
+              <p className="text-teal-900 font-medium text-sm italic">¡Gracias!</p>
             </div>
           ) : (
             <>
               <textarea
                 value={mensaje}
                 onChange={(e) => setMensaje(e.target.value)}
-                placeholder="¿Alguna sugerencia? ¿Has encontrado errores?"
+                placeholder="¿Qué mejorarías?"
                 rows={2}
-                className="w-full p-3 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#40E0D0] focus:border-transparent"
+                className="w-full p-2 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#40E0D0]"
               />
               <button
                 onClick={handleEnviar}
                 disabled={!mensaje.trim() || enviando}
-                className="w-full bg-[#40E0D0] hover:bg-[#3cd5c4] disabled:bg-gray-200 disabled:text-gray-400 text-teal-900 font-medium py-2.5 rounded-lg transition-all"
+                className="w-full bg-[#40E0D0] hover:bg-[#3cd5c4] disabled:bg-gray-200 disabled:text-gray-400 text-teal-900 font-bold py-2 rounded-lg text-xs transition-all"
               >
                 {enviando ? 'Enviando...' : 'Enviar'}
               </button>

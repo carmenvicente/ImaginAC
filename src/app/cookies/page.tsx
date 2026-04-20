@@ -8,10 +8,10 @@ export default function PoliticaCookies() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
-      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 py-8 md:py-12 px-3 sm:px-6 lg:px-8">
         <article className="max-w-4xl mx-auto">
           {/* Cabecera */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-teal-900 mb-8 border-b pb-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-teal-900 mb-6 md:mb-8 border-b pb-4">
             Política de Cookies
           </h1>
 
