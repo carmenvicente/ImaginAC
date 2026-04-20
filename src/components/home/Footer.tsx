@@ -69,6 +69,14 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
+                  href="/aviso-legal"
+                  className="text-white/70 hover:text-white transition-colors text-sm"
+                >
+                  Aviso Legal
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/privacidad"
                   className="text-white/70 hover:text-white transition-colors text-sm"
                 >
@@ -77,10 +85,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/aviso-legal"
+                  href="/cookies"
                   className="text-white/70 hover:text-white transition-colors text-sm"
                 >
-                  Aviso Legal
+                  Política de Cookies
                 </Link>
               </li>
             </ul>

@@ -251,24 +251,30 @@ export default function AvisoLegal() {
             </p>
           </section>
 
-          <section className="mb-10 p-6 bg-teal-50 rounded-2xl border border-teal-100 shadow-sm">
-            <h2 className="text-xl font-bold text-teal-900 mt-0 mb-4">5. Pictogramas ARASAAC</h2>
-            <p className="text-gray-800 leading-relaxed">
-              Todos los pictogramas usados en este Sitio Web forman parte de la colección{' '}
-              <strong>ARASAAC</strong> (
-              <a
-                href="http://www.arasaac.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-teal-700 underline font-medium hover:text-teal-900"
-              >
-                http://www.arasaac.org
-              </a>
-              ), son propiedad del <strong>Gobierno de Aragón</strong> y han sido creados por{' '}
-              <strong>Sergio Palao</strong>, se publican bajo Licencia Creative Commons{' '}
-              <strong>BY-NC-SA</strong>, autorizándose su uso para fines sin ánimo lucrativo siempre
-              que se cite la fuente, autor y se compartan bajo la misma licencia.
-            </p>
+          <section className="mb-10 p-6 bg-teal-50 rounded-2xl border border-teal-100 shadow-sm -ml-6 w-[calc(100%+3rem)]">
+            {/* El padding vertical (pt-6) se mantiene en la section, pero quitamos el horizontal */}
+
+            <div className="text-teal-900 mt-0 mb-4">
+              {' '}
+              {/* Envolvemos el contenido para darle el padding horizontal */}
+              <h2 className="text-xl font-bold text-teal-900 mt-0 mb-4">5. Pictogramas ARASAAC</h2>
+              <p className="text-gray-800 leading-relaxed">
+                Todos los pictogramas usados en este Sitio Web forman parte de la colección{' '}
+                <strong>ARASAAC</strong> (
+                <a
+                  href="http://www.arasaac.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-teal-700 underline font-medium hover:text-teal-900"
+                >
+                  http://www.arasaac.org
+                </a>
+                ), son propiedad del <strong>Gobierno de Aragón</strong> y han sido creados por{' '}
+                <strong>Sergio Palao</strong>, se publican bajo Licencia Creative Commons{' '}
+                <strong>BY-NC-SA</strong>, autorizándose su uso para fines sin ánimo lucrativo
+                siempre que se cite la fuente, autor y se compartan bajo la misma licencia.
+              </p>
+            </div>
           </section>
           <section className="mb-10">
             <h2 className="text-xl font-bold text-gray-800 mb-4">
@@ -422,7 +428,12 @@ export default function AvisoLegal() {
             </p>
           </section>
           <p className="text-sm text-gray-400 text-center mt-12 italic">
-            Última actualización: {new Date().toLocaleDateString('es-ES')}
+            Última actualización:{' '}
+            {new Date().toLocaleDateString('es-ES', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
           </p>
         </article>
       </main>
