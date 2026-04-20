@@ -6,34 +6,186 @@ import { CookiesBanner } from '@/components/home/CookiesBanner';
 
 export default function PoliticaCookies() {
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--background)]">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
       <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
-        <article className="max-w-4xl mx-auto prose prose-lg">
-          <h1 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-8">
+        <article className="max-w-4xl mx-auto">
+          {/* Cabecera */}
+          <h1 className="text-3xl sm:text-4xl font-bold text-teal-900 mb-8 border-b pb-4">
             Política de Cookies
           </h1>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-[var(--marca)] mb-4">
-              ¿Qué son las cookies?
-            </h2>
-            <p className="text-[var(--foreground)] opacity-80">
-              Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo cuando
-              visitas un sitio web. Se utilizan para recordar tus preferencias y mejorar tu
-              experiencia de navegación.
-            </p>
-          </section>
+          <div className="space-y-10">
+            {/* 1. ¿Qué son? */}
+            <section>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">1. ¿Qué son las cookies?</h2>
+              <p className="text-gray-700 leading-relaxed">
+                Se denominan cookies a unos pequeños archivos que se graban en el navegador
+                utilizado por cada visitante de nuestra web para que el servidor pueda recordar la
+                visita de ese usuario con posterioridad cuando vuelva a acceder a nuestros
+                contenidos. Esta información no revela su identidad, ni dato personal alguno, ni
+                accede al contenido almacenado en su pc, pero sí que permite a nuestro sistema
+                identificarle a usted como un usuario (anónimo) determinado que ya visitó la web con
+                anterioridad, visualizó determinadas páginas, etc. y además permite guardar sus
+                preferencias personales e información técnica como por ejemplo las visitas
+                realizadas o páginas concretas que visite.
+              </p>
+            </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-[var(--marca)] mb-4">
-              Tipos de cookies que utilizamos
-            </h2>
-            <p className="text-[var(--foreground)] opacity-80">
-              Esta página está en construcción. Próximamente informaremos sobre las cookies
-              utilizadas en ImaginAC.
-            </p>
-          </section>
+            {/* 2. Listado Técnico */}
+            <section>
+              <h2 className="text-xl font-bold text-gray-800 mb-4">
+                2. Cookies utilizadas en ImaginAC
+              </h2>
+              <div className="overflow-x-auto border border-gray-200 rounded-xl">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-bold text-teal-900 uppercase">
+                        Nombre
+                      </th>
+                      <th className="px-4 py-3 text-left font-bold text-teal-900 uppercase">
+                        Propósito
+                      </th>
+                      <th className="px-4 py-3 text-left font-bold text-teal-900 uppercase">
+                        Origen
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    <tr>
+                      <td className="px-4 py-3 font-mono text-teal-600">cookies_config_v1</td>
+                      <td className="px-4 py-3">
+                        Guarda tus preferencias sobre qué cookies aceptas.
+                      </td>
+                      <td className="px-4 py-3 italic">Propia (Necesaria)</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-mono text-teal-600">idioma_preferencia</td>
+                      <td className="px-4 py-3">
+                        Recuerda el idioma seleccionado para la interfaz.
+                      </td>
+                      <td className="px-4 py-3 italic">Propia (Personalización)</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-mono text-teal-600">_ga, _gat</td>
+                      <td className="px-4 py-3">Análisis anónimo de cómo se usa la web.</td>
+                      <td className="px-4 py-3 italic">Terceros (Google)</td>
+                    </tr>
+                    <tr>
+                      <td className="px-4 py-3 font-mono text-teal-600">arasaac_cache</td>
+                      <td className="px-4 py-3">Optimización de carga de los pictogramas.</td>
+                      <td className="px-4 py-3 italic">Terceros (ARASAAC)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            {/* 3. Gestión y Configuración detallada */}
+            <section className="mb-10">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">3. Gestión de Cookies</h2>
+              <div className="text-gray-700 leading-relaxed space-y-4">
+                <p>
+                  Si usted no desea que se guarden cookies en su navegador o prefiere recibir una
+                  información cada vez que una cookie solicite instalarse, puede configurar sus
+                  opciones de navegación para que se haga de esa forma. La mayor parte de los
+                  navegadores permiten la gestión de las cookies de 3 formas diferentes:
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>Las cookies son siempre rechazadas.</li>
+                  <li>El navegador pregunta si el usuario desea instalar cada cookie.</li>
+                  <li>Las cookies son siempre aceptadas.</li>
+                </ul>
+                <p>
+                  Su navegador también puede incluir la posibilidad de seleccionar con detalle las
+                  cookies que desea que se instalen en su ordenador. En concreto, el usuario puede
+                  normalmente aceptar alguna de las siguientes opciones:
+                </p>
+                <ul className="list-disc pl-6 space-y-1">
+                  <li>Rechazar las cookies de determinados dominios.</li>
+                  <li>Rechazar las cookies de terceros.</li>
+                  <li>
+                    Aceptar cookies como no persistentes (se eliminan cuando el navegador se
+                    cierra).
+                  </li>
+                  <li>Permitir al servidor crear cookies para un dominio diferente.</li>
+                </ul>
+
+                <div className="mt-8 bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                  <p className="font-bold text-gray-800 mb-4">
+                    Puede encontrar información sobre cómo configurar los navegadores más usados en
+                    los siguientes enlaces:
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a
+                      href="https://support.google.com/chrome/answer/95647?hl=es"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 p-3 bg-white border border-gray-200 rounded-lg hover:border-teal-400 hover:text-teal-700 transition-colors"
+                    >
+                      <span className="text-sm font-medium">Google Chrome</span>
+                    </a>
+                    <a
+                      href="https://support.microsoft.com/es-es/windows"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 p-3 bg-white border border-gray-200 rounded-lg hover:border-teal-400 hover:text-teal-700 transition-colors"
+                    >
+                      <span className="text-sm font-medium">Microsoft Edge / Explorer</span>
+                    </a>
+                    <a
+                      href="https://support.mozilla.org/es/kb/Protecci%C3%B3n-contra-el-rastreo-mejorada-en-Firefox-para-escritorio"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 p-3 bg-white border border-gray-200 rounded-lg hover:border-teal-400 hover:text-teal-700 transition-colors"
+                    >
+                      <span className="text-sm font-medium">Mozilla Firefox</span>
+                    </a>
+                    <a
+                      href="https://support.apple.com/es-es/guide/safari/sfri11471/mac"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 p-3 bg-white border border-gray-200 rounded-lg hover:border-teal-400 hover:text-teal-700 transition-colors"
+                    >
+                      <span className="text-sm font-medium">Safari</span>
+                    </a>
+                  </div>
+                </div>
+
+                <p className="mt-6 text-sm italic text-gray-600 bg-teal-50/50 p-4 rounded-xl border-l-4 border-teal-400">
+                  Respecto de las cookies de terceros, es decir aquellas que son ajenas a nuestro
+                  sitio web, no podemos hacernos responsables del contenido y veracidad de las
+                  políticas de privacidad que ellos incluyen por lo que la información que le
+                  ofrecemos es siempre con referencia a la fuente.
+                </p>
+              </div>
+            </section>
+
+            {/* 4. Panel de Control Directo */}
+            <section className="bg-teal-900 rounded-2xl p-8 text-white shadow-xl">
+              <h2 className="text-2xl font-bold mb-4">¿Quieres cambiar tus ajustes ahora?</h2>
+              <p className="text-teal-100 mb-6 opacity-90">
+                Puedes modificar tus preferencias de cookies en cualquier momento desde nuestro
+                panel de configuración. No es necesario borrar el historial de tu navegador.
+              </p>
+              <a
+                href="/configuracion"
+                className="inline-block px-8 py-3 bg-[#40E0D0] text-teal-900 font-bold rounded-xl hover:bg-[#35c9b8] transition-all transform hover:scale-105"
+              >
+                Ir a Configuración
+              </a>
+            </section>
+          </div>
+
+          <p className="text-sm text-gray-400 text-center mt-16 italic">
+            Última actualización:{' '}
+            {new Date().toLocaleDateString('es-ES', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
+          </p>
         </article>
       </main>
       <Footer />
