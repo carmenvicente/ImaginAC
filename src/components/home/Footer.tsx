@@ -118,8 +118,8 @@ export function Footer() {
               </a>
 
               <p className="text-white/60 text-[11px] leading-relaxed text-center md:text-left">
-                Autor: <span className="text-white">Sergio Palao</span>. <br />
-                Origen:{' '}
+                {traducciones.autorPicto} <span className="text-white">Sergio Palao</span>. <br />
+                {traducciones.origen}{' '}
                 <a
                   href="https://arasaac.org/"
                   target="_blank"
@@ -129,7 +129,7 @@ export function Footer() {
                   ARASAAC (http://www.arasaac.org)
                 </a>
                 . <br />
-                Licencia:{' '}
+                {traducciones.licencia}{' '}
                 <a
                   href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
                   target="_blank"
@@ -139,7 +139,8 @@ export function Footer() {
                   CC (BY-NC-SA)
                 </a>{' '}
                 <br />
-                Propiedad: <span className="text-white">Gobierno de Aragón (España)</span>. <br />
+                {traducciones.propiedad}{' '}
+                <span className="text-white">{traducciones.gobiernoAragon}</span>. <br />
               </p>
             </div>
           </div>

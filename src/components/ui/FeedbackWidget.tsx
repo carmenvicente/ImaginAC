@@ -1,10 +1,13 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
 type FeedbackState = 'open' | 'minimized';
 
 export function FeedbackWidget() {
+  const idiomaActual = useLanguageStore((s) => s.idiomaActual);
+  const t = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
   const [state, setState] = useState<FeedbackState>('open');
   const [mensaje, setMensaje] = useState('');
   const [enviado, setEnviado] = useState(false);
@@ -95,13 +98,17 @@ export function FeedbackWidget() {
         {/* Cabecera Azul Oscuro / Teal */}
         <div className="bg-teal-900 px-4 py-3 flex items-center justify-between">
           <div>
-            <h3 className="text-white font-semibold text-sm">Caja de sugerencias</h3>
-            <p className="text-[#40E0D0] text-xs mt-0.5">Envíanos tu opinión o reporta errores</p>
+            <h3 className="text-white font-semibold text-sm">
+              {t.cajaSugerencias || 'Caja de sugerencias'}
+            </h3>
+            <p className="text-[#40E0D0] text-xs mt-0.5">
+              {t.cajaSugerenciasSubtitulo || 'Envíanos tu opinión o reporta errores'}
+            </p>
           </div>
           <button
             onClick={handleMinimizar}
             className="text-white/70 hover:text-white transition-colors"
-            aria-label="Minimizar"
+            aria-label={t.cajaMinimizar || 'Minimizar'}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -131,14 +138,16 @@ export function FeedbackWidget() {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <p className="text-teal-900 font-medium text-sm italic">¡Gracias!</p>
+              <p className="text-teal-900 font-medium text-sm italic">
+                {t.cajaGracias || '¡Gracias!'}
+              </p>
             </div>
           ) : (
             <>
               <textarea
                 value={mensaje}
                 onChange={(e) => setMensaje(e.target.value)}
-                placeholder="¿Qué mejorarías?"
+                placeholder={t.cajaPlaceholder || '¿Qué mejorarías?'}
                 rows={2}
                 className="w-full p-2 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#40E0D0]"
               />
@@ -147,7 +156,7 @@ export function FeedbackWidget() {
                 disabled={!mensaje.trim() || enviando}
                 className="w-full bg-[#40E0D0] hover:bg-[#3cd5c4] disabled:bg-gray-200 disabled:text-gray-400 text-teal-900 font-bold py-2 rounded-lg text-xs transition-all"
               >
-                {enviando ? 'Enviando...' : 'Enviar'}
+                {enviando ? t.cajaEnviando || 'Enviando...' : t.cajaEnviar || 'Enviar'}
               </button>
             </>
           )}

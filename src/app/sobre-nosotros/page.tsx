@@ -10,6 +10,32 @@ export default function SobreNosotros() {
   const idiomaActual = useLanguageStore((s) => s.idiomaActual);
   const t = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
 
+  // Función para renderizar el texto con link en la URL
+  const renderArasaacText = () => {
+    const text =
+      t.atribucionArasaacTexto ||
+      'Los símbolos pictográficos utilizados son propiedad del Gobierno de Aragón y han sido creados por Sergio Palao para ARASAAC (http://www.arasaac.org), que los distribuye bajo Licencia Creative Commons BY-NC-SA.';
+    const urlRegex = /(http:\/\/www\.arasaac\.org|https:\/\/arasaac\.org)/g;
+    const parts = text.split(urlRegex);
+
+    return parts.map((part, index) => {
+      if (urlRegex.test(part)) {
+        return (
+          <a
+            key={index}
+            href={part.startsWith('http') ? part : `https://arasaac.org`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal-600 font-bold hover:text-teal-800 hover:underline transition-all"
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  };
+
   // --- LÓGICA DE ENVÍO DE CORREO ---
   const handleEmailClick = () => {
     const email = 'cvicentecrespos@gmail.com';
@@ -54,30 +80,24 @@ export default function SobreNosotros() {
           {/* --- SECCIÓN 1: EL ORIGEN --- */}
           <section className="mb-16">
             <h1 className="text-2xl sm:text-4xl font-bold text-[var(--foreground)] mb-8 text-center">
-              La historia detrás de ImaginAC
+              {t.sobreHistoriaTitulo || 'La historia detrás de ImaginAC'}
             </h1>
             <div className="bg-[#FAFEFF] p-8 rounded-3xl border border-blue-50 shadow-sm mb-12">
               <h2 className="text-2xl font-semibold text-[var(--marca)] mb-6 italic">
-                "De una necesidad real a una herramienta para todos"
+                {t.sobreHistoriaSubtitulo || 'De una necesidad real a una herramienta para todos'}
               </h2>
               <div className="space-y-4 text-[var(--foreground)] opacity-90 leading-relaxed text-lg">
                 <p>
-                  ImaginAC no nació en una oficina, sino en una tarde de café. Escuchaba a una buena
-                  amiga, futura docente especializada en <strong>Pedagogía Terapéutica (PT)</strong>
-                  , compartir su frustración: a pesar de contar con excelentes bancos de
-                  pictogramas, perdía tiempo buscando, recortando y pegando manualmente para crear
-                  materiales que se adaptaran a sus alumnos.
+                  {t.sobreHistoriaParrafo1 ||
+                    'ImaginAC no nació en una oficina, sino en una tarde de café...'}
                 </p>
                 <p>
-                  No existía un lugar que le permitiera crear un cuento desde cero y transformarlo,
-                  al instante, en un recurso visual listo para imprimir. Como desarrolladora, supe
-                  que la tecnología debía llenar ese vacío.
+                  {t.sobreHistoriaParrafo2 ||
+                    'No existía un lugar que le permitiera crear un cuento...'}
                 </p>
                 <p>
-                  Si mi amiga se sentía así, miles de docentes estarían pasando por lo mismo. Mi
-                  misión hoy es sencilla:{' '}
-                  <strong>que tú solo pongas la imaginación y yo el código.</strong> Juntos, creamos
-                  materiales inclusivos y profesionales en cuestión de segundos.
+                  {t.sobreHistoriaParrafo3 ||
+                    'Si mi amiga se sentía así, miles de docentes estarían pasando por lo mismo...'}
                 </p>
               </div>
             </div>
@@ -85,17 +105,14 @@ export default function SobreNosotros() {
             {/* --- SECCIÓN 2: PERFIL PROFESIONAL --- */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
               <div className="md:col-span-2 space-y-4">
-                <h2 className="text-3xl font-bold text-[var(--foreground)]">Hola, soy Carmen</h2>
+                <h2 className="text-3xl font-bold text-[var(--foreground)]">
+                  {t.sobrePerfilTitulo || 'Hola, soy Carmen'}
+                </h2>
                 <p className="text-lg text-[var(--foreground)] opacity-80">
-                  Mi nombre completo es <strong>Carmen Vicente Crespo</strong>. Tras finalizar mi
-                  formación como <strong>Ingeniera en Tecnologías de Telecomunicación</strong>,
-                  decidí volcar mi pasión en el desarrollo web, la inteligencia artificial y la
-                  ciberseguridad.
+                  {t.sobrePerfilDescripcion || 'Mi nombre completo es Carmen Vicente Crespo...'}
                 </p>
                 <p className="text-md text-[var(--foreground)] opacity-80">
-                  ImaginAC es el resultado de combinar esos conocimientos técnicos con un propósito
-                  social: facilitar el día a día de la comunidad educativa mediante herramientas
-                  inteligentes.
+                  {t.sobrePerfilDescripcion2 || 'ImaginAC es el resultado de combinar...'}
                 </p>
 
                 {/* REDES SOCIALES */}
@@ -125,18 +142,19 @@ export default function SobreNosotros() {
                 </div>
 
                 <h3 className="text-xl font-semibold text-[var(--foreground)] mb-2">
-                  ¿Tienes una consulta?
+                  {t.sobreContactoTitulo || '¿Tienes una consulta?'}
                 </h3>
 
                 <p className="text-sm text-gray-500 mb-6">
-                  Si tienes alguna duda o quieres proponer algo, pulsa el botón para escribirme.
+                  {t.sobreContactoDescripcion ||
+                    'Si tienes alguna duda o quieres proponer algo, pulsa el botón para escribirme.'}
                 </p>
 
                 <button
                   onClick={handleEmailClick}
                   className="w-full bg-[#83D8CB] text-white py-3 rounded-lg text-sm font-semibold hover:opacity-90 transition-all shadow-sm flex items-center justify-center gap-2"
                 >
-                  Enviar correo
+                  {t.sobreContactoBoton || 'Enviar correo'}
                 </button>
 
                 <p className="text-[10px] text-gray-400 mt-4 font-mono select-all">
@@ -169,20 +187,7 @@ export default function SobreNosotros() {
 
               {/* TEXTO LEGAL CON LINK EN EL TEXTO */}
               <div className="flex-1">
-                <p className="text-md text-gray-800 leading-relaxed mb-4">
-                  {/* En lugar de solo poner {t.atribucionArasaacTexto}, lo montamos así: */}
-                  Los símbolos pictográficos utilizados son propiedad del Gobierno de Aragón y han
-                  sido creados por Sergio Palao para{' '}
-                  <a
-                    href="https://arasaac.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-teal-600 font-bold hover:text-teal-800 hover:underline transition-all"
-                  >
-                    ARASAAC (http://www.arasaac.org)
-                  </a>
-                  , que los distribuye bajo Licencia Creative Commons BY-NC-SA.
-                </p>
+                <p className="text-md text-gray-800 leading-relaxed mb-4">{renderArasaacText()}</p>
 
                 <p className="text-xs text-gray-500 italic opacity-80">
                   {t.deslindeAragon ||
@@ -205,25 +210,25 @@ export default function SobreNosotros() {
                   <div className="flex items-start gap-3">
                     <span className="text-teal-500 mt-1">✔</span>
                     <p className="text-[var(--foreground)] opacity-90">
-                      <strong>Next.js 16</strong> — Framework web
+                      <strong>Next.js 16</strong> — {t.techNextjs || 'Framework web'}
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-teal-500 mt-1">✔</span>
                     <p className="text-[var(--foreground)] opacity-90">
-                      <strong>TypeScript</strong> — Lenguaje tipado
+                      <strong>TypeScript</strong> — {t.techTypescript || 'Lenguaje tipado'}
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-teal-500 mt-1">✔</span>
                     <p className="text-[var(--foreground)] opacity-90">
-                      <strong>Tailwind CSS</strong> — Estilos
+                      <strong>Tailwind CSS</strong> — {t.techTailwind || 'Estilos'}
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-teal-500 mt-1">✔</span>
                     <p className="text-[var(--foreground)] opacity-90">
-                      <strong>Supabase</strong> — Base de datos
+                      <strong>Supabase</strong> — {t.techSupabase || 'Base de datos'}
                     </p>
                   </div>
                 </div>
@@ -233,19 +238,20 @@ export default function SobreNosotros() {
                   <div className="flex items-start gap-3">
                     <span className="text-teal-500 mt-1">✔</span>
                     <p className="text-[var(--foreground)] opacity-90">
-                      <strong>Google Gemini</strong> — Inteligencia Artificial
+                      <strong>Google Gemini</strong> —{' '}
+                      {t.techGemina || t.techGemini || 'Inteligencia Artificial'}
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-teal-500 mt-1">✔</span>
                     <p className="text-[var(--foreground)] opacity-90">
-                      <strong>jsPDF</strong> — Generación de PDFs
+                      <strong>jsPDF</strong> — {t.techJsPDF || 'Generación de PDFs'}
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-teal-500 mt-1">✔</span>
                     <p className="text-[var(--foreground)] opacity-90">
-                      <strong>ARASAAC</strong> — Pictogramas (fuente externa)
+                      <strong>ARASAAC</strong> — {t.techArasaac || 'Pictogramas (fuente externa)'}
                     </p>
                   </div>
                 </div>

@@ -48,10 +48,12 @@ export function CookiesBanner() {
 
   if (!visible) return null;
 
+  const t = traducciones;
+
   return (
     <div
       role="dialog"
-      aria-label="Configuración de cookies"
+      aria-label={t.configPrivacidad || 'Cookie Settings'}
       className="fixed bottom-0 left-0 right-0 z-50 bg-gray-900 text-white shadow-[0_-10px_40px_rgba(0,0,0,0.3)] border-t border-gray-700"
     >
       <div className="max-w-7xl mx-auto px-3 md:px-6 py-4 md:py-6">
@@ -60,11 +62,9 @@ export function CookiesBanner() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-4 lg:gap-6">
             <div className="flex-1 text-center lg:text-left text-sm md:text-base text-gray-300">
               <p className="leading-relaxed">
-                Utilizamos cookies propias y de terceros para mejorar su experiencia y analizar el
-                uso de la web. Puede aceptar todas las cookies, rechazarlas o configurar sus
-                preferencias. Más información en nuestra{' '}
+                {t.cookiesBannerTexto || 'We use cookies to improve your experience...'}
                 <Link href="/cookies" className="underline hover:text-[#40E0D0] transition-colors">
-                  Política de Cookies
+                  {t.configPoliticaCookies || 'Cookie Policy'}
                 </Link>
                 .
               </p>
@@ -74,19 +74,19 @@ export function CookiesBanner() {
                 onClick={() => setShowConfig(true)}
                 className="px-4 py-2.5 md:py-2 text-sm font-semibold border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors"
               >
-                Configurar
+                {t.cookiesBannerConfigurar || 'Configure'}
               </button>
               <button
                 onClick={handleSoloEsenciales}
                 className="px-4 py-2.5 md:py-2 text-sm font-semibold bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
               >
-                Solo esenciales
+                {t.cookiesBannerEsenciales || t.cookiesBannerEsentials || 'Only essential'}
               </button>
               <button
                 onClick={handleAceptarTodas}
                 className="px-5 py-2.5 md:py-2 text-sm font-bold bg-[#40E0D0] text-gray-900 rounded-lg hover:bg-[#35c9b8] transition-colors"
               >
-                Aceptar todas
+                {t.cookiesBannerAceptar || 'Accept all'}
               </button>
             </div>
           </div>
@@ -94,7 +94,9 @@ export function CookiesBanner() {
           /* VISTA CONFIGURACIÓN */
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
             <div className="flex justify-between items-center border-b border-gray-700 pb-4">
-              <h3 className="font-bold text-lg text-[#40E0D0]">Configuración de Privacidad</h3>
+              <h3 className="font-bold text-lg text-[#40E0D0]">
+                {t.cookiesBannerPrivacidad || 'Privacy Settings'}
+              </h3>
               <button
                 onClick={() => setShowConfig(false)}
                 className="text-gray-400 hover:text-white"
@@ -107,20 +109,26 @@ export function CookiesBanner() {
               {/* Necesarias */}
               <div className="bg-gray-800 p-4 rounded-xl border border-gray-700 opacity-80">
                 <div className="flex justify-between mb-2">
-                  <span className="font-bold text-sm text-white">Necesarias</span>
+                  <span className="font-bold text-sm text-white">
+                    {t.cookiesBannerNecesarias || 'Necessary'}
+                  </span>
                   <span className="text-[10px] bg-gray-600 px-2 py-0.5 rounded text-white uppercase">
-                    Siempre activas
+                    {t.cookiesBannerSiempreActivas ||
+                      t.cookiesBannerAlwaysActive ||
+                      'Always active'}
                   </span>
                 </div>
                 <p className="text-xs text-gray-400">
-                  Permiten el funcionamiento básico de la web como la navegación y la seguridad.
+                  {t.cookiesBannerNecesariasDesc || 'They allow basic web functioning...'}
                 </p>
               </div>
 
               {/* Analíticas */}
               <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
                 <div className="flex justify-between mb-2">
-                  <span className="font-bold text-sm text-white">Analíticas</span>
+                  <span className="font-bold text-sm text-white">
+                    {t.cookiesBannerAnaliticas || t.cookiesBannerAnalitiques || 'Analytics'}
+                  </span>
                   <input
                     type="checkbox"
                     checked={options.analiticas}
@@ -129,14 +137,18 @@ export function CookiesBanner() {
                   />
                 </div>
                 <p className="text-xs text-gray-400">
-                  Nos ayudan a entender cómo interactúan los usuarios con la web de forma anónima.
+                  {t.cookiesBannerAnaliticasDesc ||
+                    t.cookiesBannerAnalitiquesDesc ||
+                    'They help us understand...'}
                 </p>
               </div>
 
               {/* Personalización */}
               <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
                 <div className="flex justify-between mb-2">
-                  <span className="font-bold text-sm text-white">Preferencia</span>
+                  <span className="font-bold text-sm text-white">
+                    {t.cookiesBannerPreferencia || t.cookiesBannerPreference || 'Preference'}
+                  </span>
                   <input
                     type="checkbox"
                     checked={options.personalizacion}
@@ -145,8 +157,9 @@ export function CookiesBanner() {
                   />
                 </div>
                 <p className="text-xs text-gray-400">
-                  Permiten recordar información para que accedas al servicio con ciertas
-                  características (idioma).
+                  {t.cookiesBannerPreferenciaDesc ||
+                    t.cookiesBannerPreferenceDesc ||
+                    'They allow remembering information...'}
                 </p>
               </div>
             </div>
@@ -156,13 +169,13 @@ export function CookiesBanner() {
                 onClick={() => setShowConfig(false)}
                 className="px-4 py-2 text-xs font-semibold text-gray-400 hover:text-white"
               >
-                Volver atrás
+                {t.cookiesBannerVolver || 'Go back'}
               </button>
               <button
                 onClick={handleGuardarConfig}
                 className="px-8 py-2 text-xs font-bold bg-[#40E0D0] text-gray-900 rounded-lg hover:bg-[#35c9b8] transition-colors"
               >
-                Guardar preferencias
+                {t.cookiesBannerGuardar || t.cookiesBannerSave || 'Save preferences'}
               </button>
             </div>
           </div>

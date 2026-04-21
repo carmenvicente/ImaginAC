@@ -85,6 +85,37 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
   const [cargando, setCargando] = useState(false);
   const [borradorRecuperado, setBorradorRecuperado] = useState(false);
 
+  const [mensajeCarga, setMensajeCarga] = useState('');
+
+  useEffect(() => {
+    let intervalo: NodeJS.Timeout;
+
+    if (cargando) {
+      // Definimos los mensajes. Puedes usar las traducciones o textos fijos.
+      const mensajes = [
+        traducciones.formGenerando || 'Generando cuento...',
+        'Inspirándonos para crear la historia...',
+        'Buscando los pictogramas más adecuados...',
+        'Organizando las diapositivas...',
+        'Dándole los últimos toques mágicos...',
+        'Casi listo, un segundo más...',
+      ];
+
+      setMensajeCarga(mensajes[0]);
+      let i = 0;
+
+      intervalo = setInterval(() => {
+        i = (i + 1) % mensajes.length;
+        setMensajeCarga(mensajes[i]);
+      }, 3500); // Cambia el mensaje cada 3.5 segundos
+    }
+
+    return () => {
+      if (intervalo) clearInterval(intervalo);
+    };
+  }, [cargando, traducciones]);
+  // ------------------------------------------
+
   useEffect(() => {
     const borrador = cargarBorrador();
     setTitulo(borrador.titulo);
@@ -287,7 +318,7 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
       <button
         type="submit"
         disabled={cargando || !titulo || !tematica || !finalidadPedagogica}
-        className="w-full py-3 bg-[var(--marca)] text-white font-medium rounded-lg hover:bg-[var(--marca-hover)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-3 bg-[var(--marca)] text-white font-medium rounded-lg hover:bg-[var(--marca-hover)] transition-all active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {cargando ? (
           <span className="flex items-center justify-center gap-2">
@@ -307,7 +338,8 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               />
             </svg>
-            {traducciones.formGenerando || 'Generando cuento...'}
+            {/* Animación suave para el cambio de texto */}
+            <span className="animate-pulse transition-all duration-500">{mensajeCarga}</span>
           </span>
         ) : (
           traducciones.formBotonGenerar || 'Generar Cuento con Pictogramas'

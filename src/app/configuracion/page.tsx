@@ -88,15 +88,18 @@ export default function Configuracion() {
                   d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                 />
               </svg>
-              Preferencias de Privacidad
+              {t.configPrivacidadTitulo || 'Preferencias de Privacidad'}
             </h2>
             <div className="space-y-4">
               {/* Analíticas */}
               <div className="flex items-center justify-between p-4 bg-teal-50/50 rounded-xl border border-teal-100">
                 <div className="pr-4">
-                  <p className="font-bold text-teal-900">Cookies Analíticas</p>
+                  <p className="font-bold text-teal-900">
+                    {t.cookiesAnaliticas || 'Cookies Analíticas'}
+                  </p>
                   <p className="text-xs text-teal-700/70">
-                    Ayudan a mejorar la herramienta midiendo el uso de forma anónima.
+                    {t.cookiesAnaliticasDesc ||
+                      'Ayudan a mejorar la herramienta midiendo el uso de forma anónima.'}
                   </p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -113,9 +116,12 @@ export default function Configuracion() {
               {/* Personalización */}
               <div className="flex items-center justify-between p-4 bg-teal-50/50 rounded-xl border border-teal-100">
                 <div className="pr-4">
-                  <p className="font-bold text-teal-900">Cookies de Personalización</p>
+                  <p className="font-bold text-teal-900">
+                    {t.cookiesPersonalizacion || 'Cookies de Personalización'}
+                  </p>
                   <p className="text-xs text-teal-700/70">
-                    Permiten recordar tu idioma y ajustes en tu próxima visita.
+                    {t.cookiesPersonalizacionDesc ||
+                      'Permiten recordar tu idioma y ajustes en tu próxima visita.'}
                   </p>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -142,7 +148,7 @@ export default function Configuracion() {
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              Textos Legales
+              {t.configTextosLegales || 'Textos Legales'}
             </h2>
             <div className="grid grid-cols-1 gap-2">
               <a
@@ -150,7 +156,7 @@ export default function Configuracion() {
                 className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-teal-50 hover:text-teal-900 transition-all group"
               >
                 <span className="text-sm font-semibold text-gray-700 group-hover:text-teal-900">
-                  Política de Privacidad
+                  {t.configPoliticaPrivacidad || 'Política de Privacidad'}
                 </span>
                 <svg
                   className="w-4 h-4 text-gray-400 group-hover:text-teal-600"
@@ -172,7 +178,7 @@ export default function Configuracion() {
                 className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-teal-50 hover:text-teal-900 transition-all group"
               >
                 <span className="text-sm font-semibold text-gray-700 group-hover:text-teal-900">
-                  Política de Cookies
+                  {t.configPoliticaCookies || 'Política de Cookies'}
                 </span>
                 <svg
                   className="w-4 h-4 text-gray-400 group-hover:text-teal-600"
@@ -193,7 +199,7 @@ export default function Configuracion() {
                 className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-teal-50 hover:text-teal-900 transition-all group"
               >
                 <span className="text-sm font-semibold text-gray-700 group-hover:text-teal-900">
-                  Aviso Legal
+                  {t.configAvisoLegal || 'Aviso Legal'}
                 </span>
                 <svg
                   className="w-4 h-4 text-gray-400 group-hover:text-teal-600"

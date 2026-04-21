@@ -54,11 +54,44 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Seleccione el idioma de la interfaz. El cambio se aplicará inmediatamente a toda la plataforma.',
     configPrivacidad: 'Privacidad',
     configPoliticaPrivacidad: 'Política de Privacidad',
+    configPoliticaCookies: 'Política de Cookies',
+    configAvisoLegal: 'Aviso Legal',
     configTerminos: 'Términos de Uso',
     configAcerca: 'Acerca de',
     configDescripcion: 'Plataforma de accesibilidad cognitiva para profesores PT y alumnos.',
+    configPrivacidadTitulo: 'Preferencias de Privacidad',
+    cookiesAnaliticas: 'Cookies Analíticas',
+    cookiesAnaliticasDesc: 'Ayudan a mejorar la herramienta midiendo el uso de forma anónima.',
+    cookiesPersonalizacion: 'Cookies de Personalización',
+    cookiesPersonalizacionDesc: 'Permiten recordar tu idioma y ajustes en tu próxima visita.',
+    cookiesBannerTexto:
+      'Utilizamos cookies propias y de terceros para mejorar su experiencia y analizar el uso de la web. Puede aceptar todas las cookies, rechazarlas o configurar sus preferencias.',
+    cookiesBannerConfigurar: 'Configurar',
+    cookiesBannerEsenciales: 'Solo esenciales',
+    cookiesBannerAceptar: 'Aceptar todas',
+    cookiesBannerPrivacidad: 'Configuración de Privacidad',
+    cookiesBannerNecesarias: 'Necesarias',
+    cookiesBannerNecesariasDesc:
+      'Permiten el funcionamiento básico de la web como la navegación y la seguridad.',
+    cookiesBannerSiempreActivas: 'Siempre activas',
+    cookiesBannerAnaliticas: 'Analíticas',
+    cookiesBannerAnaliticasDesc:
+      'Nos ayudan a entender cómo interactúan los usuarios con la web de forma anónima.',
+    cookiesBannerPreferencia: 'Preferencia',
+    cookiesBannerPreferenciaDesc:
+      'Permiten recordar información para que accedas al servicio con ciertas características (idioma).',
+    cookiesBannerVolver: 'Volver atrás',
+    cookiesBannerGuardar: 'Guardar preferencias',
+    configTextosLegales: 'Textos Legales',
     configTecnologias:
       'Desarrollado con Next.js, TypeScript, Tailwind CSS, Supabase y Google Gemini.',
+    cajaSugerencias: 'Caja de sugerencias',
+    cajaSugerenciasSubtitulo: 'Envíanos tu opinión o reporta errores',
+    cajaPlaceholder: '¿Qué mejorarías?',
+    cajaGracias: '¡Gracias!',
+    cajaMinimizar: 'Minimizar',
+    cajaEnviar: 'Enviar',
+    cajaEnviando: 'Enviando...',
     sobreNosotrosTitulo: 'Sobre Nosotros',
     sobreNosotrosMision: 'Nuestra Misión',
     sobreNosotrosMisionTexto:
@@ -73,7 +106,32 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'El Gobierno de Aragón no se hace responsable del uso que terceros hagan de estos materiales.',
     logoArasaacPlaceholder: '[Logo ARASAAC]',
     tecnologias: 'Tecnologías Utilizadas',
+    techNextjs: 'Framework web',
+    techTypescript: 'Lenguaje tipado',
+    techTailwind: 'Estilos',
+    techSupabase: 'Base de datos',
+    techGemini: 'Inteligencia Artificial',
+    techJsPDF: 'Generación de PDFs',
+    techArasaac: 'Pictogramas (fuente externa)',
     derechosReservados: 'Todos los derechos reservados.',
+    // Sobre Nosotros
+    sobreHistoriaTitulo: 'La historia detrás de ImaginAC',
+    sobreHistoriaSubtitulo: 'De una necesidad real a una herramienta para todos',
+    sobreHistoriaParrafo1:
+      'ImaginAC no nació en una oficina, sino en una tarde de café. Escuchaba a una buena amiga, futura docente especializada en Pedagogía Terapéutica (PT), compartir su frustración: a pesar de contar con excelentes bancos de pictogramas, perdía tiempo buscando, recortando y pegando manualmente para crear materiales que se adaptaran a sus alumnos.',
+    sobreHistoriaParrafo2:
+      'No existía un lugar que le permitiera crear un cuento desde cero y transformarlo, al instante, en un recurso visual listo para imprimir. Como desarrolladora, supe que la tecnología debía llenar ese vacío.',
+    sobreHistoriaParrafo3:
+      'Si mi amiga se sentía así, miles de docentes estarían pasando por lo mismo. Mi misión hoy es sencilla: que tú solo pongas la imaginación y yo el código. Juntos, creamos materiales inclusivos y profesionales en cuestión de segundos.',
+    sobrePerfilTitulo: 'Hola, soy Carmen',
+    sobrePerfilDescripcion:
+      'Mi nombre completo es Carmen Vicente Crespo. Tras finalizar mi formación como Ingeniera en Tecnologías de Telecomunicación, decidí volcar mi pasión en el desarrollo web, la inteligencia artificial y la ciberseguridad.',
+    sobrePerfilDescripcion2:
+      'ImaginAC es el resultado de combinar esos conocimientos técnicos con un propósito social: facilitar el día a día de la comunidad educativa mediante herramientas inteligentes.',
+    sobreContactoTitulo: '¿Tienes una consulta?',
+    sobreContactoDescripcion:
+      'Si tienes alguna duda o quieres proponer algo, pulsa el botón para escribirme.',
+    sobreContactoBoton: 'Enviar correo',
     terminosTitulo: 'Términos de Uso',
     terminosAceptacion: '1. Aceptación de los Términos',
     terminosAceptacionTexto:
@@ -177,12 +235,45 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     configIdiomaDesc: 'Select the interface language. Changes apply immediately.',
     configPrivacidad: 'Privacy',
     configPoliticaPrivacidad: 'Privacy Policy',
+    configPoliticaCookies: 'Cookies Policy',
+    configAvisoLegal: 'Legal Notice',
     configTerminos: 'Terms of Use',
     configAcerca: 'About',
     configDescripcion:
       'Cognitive accessibility platform for special education teachers and students.',
+    configPrivacidadTitulo: 'Privacy Preferences',
+    cookiesAnaliticas: 'Analytics Cookies',
+    cookiesAnaliticasDesc: 'They help improve the tool by measuring usage anonymously.',
+    cookiesPersonalizacion: 'Customization Cookies',
+    cookiesPersonalizacionDesc:
+      'They allow remembering your language and settings on your next visit.',
+    cookiesBannerTexto:
+      'We use own and third-party cookies to improve your experience and analyze web usage. You can accept all cookies, reject them, or configure your preferences.',
+    cookiesBannerConfigurar: 'Configure',
+    cookiesBannerEsenciales: 'Only essential',
+    cookiesBannerAceptar: 'Accept all',
+    cookiesBannerPrivacidad: 'Privacy Settings',
+    cookiesBannerNecesarias: 'Necessary',
+    cookiesBannerNecesariasDesc: 'They allow basic web functioning like navigation and security.',
+    cookiesBannerSiempreActivas: 'Always active',
+    cookiesBannerAnaliticas: 'Analytics',
+    cookiesBannerAnaliticasDesc:
+      'They help us understand how users interact with the website anonymously.',
+    cookiesBannerPreferencia: 'Preference',
+    cookiesBannerPreferenciaDesc:
+      'Allow remembering information so you access the service with certain features (language).',
+    cookiesBannerVolver: 'Go back',
+    cookiesBannerGuardar: 'Save preferences',
+    configTextosLegales: 'Legal Texts',
     configTecnologias:
       'Developed with Next.js, TypeScript, Tailwind CSS, Supabase and Google Gemini.',
+    cajaSugerencias: 'Suggestions box',
+    cajaSugerenciasSubtitulo: 'Send us your feedback or report errors',
+    cajaPlaceholder: 'What would you improve?',
+    cajaGracias: 'Thank you!',
+    cajaMinimizar: 'Minimize',
+    cajaEnviar: 'Send',
+    cajaEnviando: 'Sending...',
     sobreNosotrosTitulo: 'About Us',
     sobreNosotrosMision: 'Our Mission',
     sobreNosotrosMisionTexto:
@@ -192,10 +283,34 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'The pictograms used in ImaginAC come from the ARASAAC project, distributed under Creative Commons license.',
     atribucionArasaac: 'ARASAAC Attribution',
     atribucionArasaacTexto:
-      'The pictographic symbols used are property of the Government of Aragon and were created by Sergio Palao for ARASAAC, distributed under Creative Commons BY-NC-SA license.',
+      'The pictographic symbols used are property of the Government of Aragon and were created by Sergio Palao for ARASAAC (http://www.arasaac.org), distributed under Creative Commons BY-NC-SA license.',
     deslindeAragon:
       'The Government of Aragon is not responsible for the use third parties make of these materials.',
+    sobreHistoriaTitulo: 'The story behind ImaginAC',
+    sobreHistoriaSubtitulo: 'From a real need to a tool for everyone',
+    sobreHistoriaParrafo1:
+      "ImaginAC wasn't born in an office, but over a coffee afternoon. I listened to a good friend, a future specialized teacher in Therapeutic Pedagogy (PT), share her frustration: despite having excellent pictogram banks, she spent time searching, cutting and pasting manually to create materials tailored to her students.",
+    sobreHistoriaParrafo2:
+      'There was no place that allowed her to create a story from scratch and transform it, instantly, into a ready-to-print visual resource. As a developer, I knew technology had to fill that void.',
+    sobreHistoriaParrafo3:
+      'If my friend felt this way, thousands of teachers would be going through the same thing. My mission today is simple: you provide the imagination and I provide the code. Together, we create inclusive and professional materials in seconds.',
+    sobrePerfilTitulo: "Hello, I'm Carmen",
+    sobrePerfilDescripcion:
+      'My full name is Carmen Vicente Crespo. After finishing my training as a Telecommunications Technology Engineer, I decided to focus my passion on web development, artificial intelligence and cybersecurity.',
+    sobrePerfilDescripcion2:
+      'ImaginAC is the result of combining these technical skills with a social purpose: facilitating the daily life of the educational community through intelligent tools.',
+    sobreContactoTitulo: 'Do you have a question?',
+    sobreContactoDescripcion:
+      'If you have any doubts or want to propose something, click the button to write to me.',
+    sobreContactoBoton: 'Send email',
     tecnologias: 'Technologies Used',
+    techNextjs: 'Web framework',
+    techTypescript: 'Typed language',
+    techTailwind: 'Styles',
+    techSupabase: 'Database',
+    techGemini: 'Artificial Intelligence',
+    techJsPDF: 'PDF generation',
+    techArasaac: 'Pictograms (external source)',
     derechosReservados: 'All rights reserved.',
     terminosTitulo: 'Terms of Use',
     terminosAceptacion: '1. Acceptance of Terms',
@@ -286,6 +401,23 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       "Eines educatives dissenyades per a professors PT i alumnes amb necessitats específiques d'aprenentatge.",
     accederApp: "Accedir a l'App",
     copyright: 'Tots els drets reservats.',
+    sobreHistoriaTitulo: "La història darrere d'ImaginAC",
+    sobreHistoriaSubtitulo: "D'una necessitat real a una eina per a tothom",
+    sobreHistoriaParrafo1:
+      "ImaginAC no va néixer en una oficina, sinó en una tarda de cafè. Escoltava una bona amiga, futura docent especialitzada en Pedagogia Terapèutica (PT), compartir la seva frustració: tot i disposar d'excel·lents bancs de pictogrames, perdia temps cercant, retallant i enganxint manualment per crear materials que s'adaptessin als seus alumnes.",
+    sobreHistoriaParrafo2:
+      "No existia un lloc que li permetés crear un conte des de zero i transformar-lo, a l'instant, en un recurs visual llest per imprimir. Com a desenvolupadora, vaig saber que la tecnologia havia d'omplir aquest buit.",
+    sobreHistoriaParrafo3:
+      'Si la meva amiga se sentia així, milers de docents estarien passant el mateix. La meva missió avui és senzilla: tu posa la imaginació i jo el codi. Junts, creem materials inclusius i professionals en qüestió de segons.',
+    sobrePerfilTitulo: 'Hola, sóc Carmen',
+    sobrePerfilDescripcion:
+      'El meu nom complet és Carmen Vicente Crespo. Després de finalitzar la meva formació com a Enginyera en Tecnologies de Telecomunicació, vaig decidir dedicar la meva passió al desenvolupament web, la intel·ligència artificial i la ciberseguretat.',
+    sobrePerfilDescripcion2:
+      'ImaginAC és el resultat de combinar aquests coneixements tècnics amb un propòsit social: facilitar el dia a dia de la comunitat educativa mitjançant eines intel·ligents.',
+    sobreContactoTitulo: 'Tens una consulta?',
+    sobreContactoDescripcion:
+      "Si tens alguna dubte o vols proposar alguna cosa, prem el botó per escriure'm.",
+    sobreContactoBoton: 'Enviar correu',
     enlaces: 'Enllaços',
     legal: 'Legal',
     aceptar: 'Acceptar',
@@ -299,8 +431,39 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     configTerminos: "Termes d'Ús",
     configAcerca: 'Quant a',
     configDescripcion: "Plataforma d'accessibilitat cognitiva per a professors PT i alumnes.",
+    configPrivacidadTitulo: 'Preferències de Privacitat',
+    cookiesAnaliticas: 'Cookies Analítiques',
+    cookiesAnaliticasDesc: 'Ajuden a millorar eina mesurant ús de manera anònima.',
+    cookiesPersonalizacion: 'Cookies de Personalització',
+    cookiesPersonalizacionDesc: 'Permeten recordar idioma i ajustos a propera visita.',
+    cookiesBannerTexto:
+      "Utilitzem cookies pròpies i de tercers per millorar la teva experiència i analitzar l'ús del lloc web. Pots acceptar totes les cookies, refusar-les o configurar les teves preferències.",
+    cookiesBannerConfigurar: 'Configurar',
+    cookiesBannerEsentials: 'Només essencials',
+    cookiesBannerAceptar: 'Acceptar totes',
+    cookiesBannerPrivacidad: 'Configuració de Privacitat',
+    cookiesBannerNecesarias: 'Necessàries',
+    cookiesBannerNecesariasDesc:
+      'Permeten el funcionament bàsic del lloc web com la navegació i la seguretat.',
+    cookiesBannerSiempreActivas: 'Sempre actives',
+    cookiesBannerAnaliticas: 'Analítiques',
+    cookiesBannerAnaliticasDesc:
+      'Ens ajuden a entendre com interaccionen els usuaris amb el lloc web de forma anònima.',
+    cookiesBannerPreferencia: 'Preferència',
+    cookiesBannerPreferenciaDesc:
+      'Permeten recorda informació perquè accedeixis al servei amb determinades característiques (idioma).',
+    cookiesBannerVolver: 'Tornar enrere',
+    cookiesBannerGuardar: 'Guardar preferències',
+    configTextosLegals: 'Textos Legals',
     configTecnologias:
       'Desenvolupat amb Next.js, TypeScript, Tailwind CSS, Supabase i Google Gemini.',
+    cajaSugerencias: 'Caixa de suggeriments',
+    cajaSugerenciasSubtitulo: "Envia'ns la teva opinió o informa d'errors",
+    cajaPlaceholder: 'Què milloraries?',
+    cajaGracias: 'Gràcies!',
+    cajaMinimizar: 'Minimitzar',
+    cajaEnviar: 'Enviar',
+    cajaEnviando: 'Enviant...',
     sobreNosotrosTitulo: 'Sobre Nosaltres',
     sobreNosotrosMision: 'La Nostra Missió',
     sobreNosotrosMisionTexto:
@@ -310,10 +473,17 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Els pictogrames utilitzats a ImaginAC provenen del projecte ARASAAC, distribuïts sota llicència Creative Commons.',
     atribucionArasaac: 'Atribució ARASAAC',
     atribucionArasaacTexto:
-      "Els simbols pictogràfics utilitzats són propietat del Govern d'Aragó i han estat creats per Sergio Palao per a ARASAAC, distribuïts sota Llicència Creative Commons BY-NC-SA.",
+      "Els simbols pictogràfics utilitzats són propietat del Govern d'Aragó i han estat creats per Sergio Palao per a ARASAAC (http://www.arasaac.org), distribuïts sota Llicència Creative Commons BY-NC-SA.",
     deslindeAragon:
       "El Govern d'Aragó no es fa responsable de l'ús que tercers facin d'aquests materials.",
     tecnologias: 'Tecnologies Utilitzades',
+    techNextjs: 'Framework web',
+    techTypescript: 'Llenguatge tipat',
+    techTailwind: 'Estils',
+    techSupabase: 'Base de dades',
+    techGemina: 'Intel·ligència Artificial',
+    techJsPDF: 'Generació de PDFs',
+    techArasaac: 'Pictogrames (font externa)',
     derechosReservados: 'Tots els drets reservats.',
     terminosTitulo: "Termes d'Ús",
     terminosAceptacion: '1. Acceptació dels Termes',
@@ -404,23 +574,72 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     terminosUso: "Termes d'Ús",
     heroTitulo: 'Accessibilitat Cognitiva per a Tots',
     heroSubtitulo:
-      "Generador de contes amb Intel·ligència Artificial i transcrits a pictogrames per a l'accessibilitat cognitiva.",
-    accederApp: 'CREA UN CONTE',
+      "Eines educatives dissenyades per a professors PT i alumnes amb necessitats específiques d'aprenentatge.",
+    accederApp: "Accedir a l'App",
     copyright: 'Tots els drets reservats.',
+    sobreHistoriaTitulo: "La història darrere d'ImaginAC",
+    sobreHistoriaSubtitulo: "D'una necessitat real a una eina per a tothom",
+    sobreHistoriaParrafo1:
+      "ImaginAC no va néixer en una oficina, sinó en una tarda de cafè. Escoltava una bona amiga, futura docent especialitzada en Pedagogia Terapèutica (PT), compartir la seva frustració: tot i disposar d'excel·lents bancs de pictogrames, perdia temps cercant, retallant i enganxint manualment per crear materials que s'adaptessin als seus alumnes.",
+    sobreHistoriaParrafo2:
+      "No existia un lloc que li permetés crear un conte des de zero i transformar-lo, a l'instant, en un recurs visual llest per imprimir. Com a desenvolupadora, vaig saber que la tecnologia havia d'omplir aquest buit.",
+    sobreHistoriaParrafo3:
+      'Si la meva amiga se sentia així, milers de docents estarien passant el mateix. La meva missió avui és senzilla: tu posa la imaginació i jo el codi. Junts, creem materials inclusius i professionals en qüestió de segons.',
+    sobrePerfilTitulo: 'Hola, sóc Carmen',
+    sobrePerfilDescripcion:
+      'El meu nom complet és Carmen Vicente Crespo. Després de finalitzar la meva formació com a Enginyera en Tecnologies de Telecomunicació, vaig decidir dedicar la meva passió al desenvolupament web, la intel·ligència artificial i la ciberseguretat.',
+    sobrePerfilDescripcion2:
+      'ImaginAC és el resultat de combinar aquests coneixements tècnics amb un propòsit social: facilitar el dia a dia de la comunitat educativa mitjançant eines intel·ligents.',
+    sobreContactoTitulo: 'Tens una consulta?',
+    sobreContactoDescripcion:
+      "Si tens alguna dubte o vols proposar alguna cosa, prem el botó per escriure'm.",
+    sobreContactoBoton: 'Enviar correu',
     enlaces: 'Enllaços',
     legal: 'Legal',
     aceptar: 'Acceptar',
     avisoCookies: 'Utilitzem cookies per millorar la teva experiència.',
     configTitulo: 'Configuració',
     configIdioma: 'Idioma',
-    configIdiomaDesc: "Seleccioneu l'idioma de la interfície. El canvi s'aplicarà immediatament.",
+    configIdiomaDesc:
+      "Seleccioneu l'idioma de la interfície. El canvi s'aplicarà immediatament a tota la plataforma.",
     configPrivacidad: 'Privacitat',
     configPoliticaPrivacidad: 'Política de Privacitat',
     configTerminos: "Termes d'Ús",
     configAcerca: 'Quant a',
     configDescripcion: "Plataforma d'accessibilitat cognitiva per a professors PT i alumnes.",
+    configPrivacidadTitulo: 'Preferències de Privacitat',
+    cookiesAnaliticas: 'Cookies Analítiques',
+    cookiesAnaliticasDesc: 'Ajuden a millorar eina mesurant ús de manera anònima.',
+    cookiesPersonalizacion: 'Cookies de Personalització',
+    cookiesPersonalizacionDesc: 'Permeten recordar idioma i ajustos a propera visita.',
+    cookiesBannerTexto:
+      "Utilitzem cookies pròpies i de tercers per millorar la teva experiència i analitzar l'ús del lloc web. Pots acceptar totes les cookies, refusar-les o configurar les teves preferències.",
+    cookiesBannerConfigurar: 'Configurar',
+    cookiesBannerEsenciales: 'Només essencials',
+    cookiesBannerAceptar: 'Acceptar totes',
+    cookiesBannerPrivacidad: 'Configuració de Privacitat',
+    cookiesBannerNecesarias: 'Necessàries',
+    cookiesBannerNecesariasDesc:
+      'Permeten el funcionament bàsic del lloc web com la navegació i la seguretat.',
+    cookiesBannerSiempreActivas: 'Sempre actives',
+    cookiesBannerAnaliticas: 'Analítiques',
+    cookiesBannerAnaliticasDesc:
+      'Ens ajuden a entendre com interaccionen els usuaris amb el lloc web de forma anònima.',
+    cookiesBannerPreferencia: 'Preferència',
+    cookiesBannerPreferenciaDesc:
+      'Permeten recorda informació perquè accedisques al servei amb determinades característiques (idioma).',
+    cookiesBannerVolver: 'Tornar enrere',
+    cookiesBannerGuardar: 'Guardar preferències',
+    configTextosLegales: 'Textos Legals',
     configTecnologias:
       'Desenvolupat amb Next.js, TypeScript, Tailwind CSS, Supabase i Google Gemini.',
+    cajaSugerencias: 'Caixa de suggeriments',
+    cajaSugerenciasSubtitulo: "Envia'ns la teva opinió o reporta errors",
+    cajaPlaceholder: 'Què milloraries?',
+    cajaGracias: 'Gràcies!',
+    cajaMinimizar: 'Minimitzar',
+    cajaEnviar: 'Enviar',
+    cajaEnviando: 'Enviant...',
     sobreNosotrosTitulo: 'Sobre Nosaltres',
     sobreNosotrosMision: 'La Nostra Missió',
     sobreNosotrosMisionTexto:
@@ -429,10 +648,17 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     sobreNosotrosPictoTexto: 'Els pictogrames utilitzats a ImaginAC provenen del projecte ARASAAC.',
     atribucionArasaac: 'Atribució ARASAAC',
     atribucionArasaacTexto:
-      "Els simbols pictogràfics utilitzats són propietat del Govern d'Aragó i han estat creats per Sergio Palao per a ARASAAC sota Llicència Creative Commons BY-NC-SA.",
+      "Els simbols pictogràfics utilitzats són propietat del Govern d'Aragó i han estat creats per Sergio Palao per a ARASAAC (http://www.arasaac.org) sota Llicència Creative Commons BY-NC-SA.",
     deslindeAragon:
       "El Govern d'Aragó no es fa responsable de l'ús que tercers facin d'aquests materials.",
     tecnologias: 'Tecnologies Utilitzades',
+    techNextjs: 'Framework web',
+    techTypescript: 'Llenguatge tipat',
+    techTailwind: 'Estils',
+    techSupabase: 'Base de dades',
+    techGemina: 'Intel·ligència Artificial',
+    techJsPDF: 'Generació de PDFs',
+    techArasaac: 'Pictogrames (font externa)',
     derechosReservados: 'Tots els drets reservats.',
     terminosTitulo: "Termes d'Ús",
     terminosAceptacion: '1. Acceptació dels Termes',
@@ -517,6 +743,23 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Ferramentas educativas deseñadas para profesores PT e alumnos con necesidades específicas de aprendizaxe.',
     accederApp: 'Acceder á App',
     copyright: 'Todos os dereitos reservados.',
+    sobreHistoriaTitulo: 'A historia detrás de ImaginAC',
+    sobreHistoriaSubtitulo: 'Dunha necesidade real a unha ferramenta para todos',
+    sobreHistoriaParrafo1:
+      'ImaginAC non nacéu nunha oficina, senón nunha tarde de café. Escoitaba a unha boa amiga, futura docente especializada en Pedagoxía Terapéutica (PT), compartir a súa frustración: a pesar de contar con excelentes bancos de pictogramas, perdía tempo buscando, recortando e pegando manualmente para crear materiais que se adaptaran aos seus alumnos.',
+    sobreHistoriaParrafo2:
+      'Non existía un lugar que lle permitise crear un conto desde cero e transformalo, instantaneamente, nun recurso visual listo para imprimir. Como desenvolvedora, souben que a tecnología debía encher ese baleiro.',
+    sobreHistoriaParrafo3:
+      'Se a miña amiga se sentía así, miles de docentes estarían pasando polo mesmo. A miña misión hoxe é sinxela: ti pon a imaxinación e eu o código. Xuntos, creamos materiais inclusivos e profesionais en cuestión de segundos.',
+    sobrePerfilTitulo: 'Hola, son Carmen',
+    sobrePerfilDescripcion:
+      'O meu nome completo é Carmen Vicente Crespo. Tras finalizar a miña formación como Enxeñeira en Tecnoloxías de Telecomunicación, decidín doar a miña pasión ao desenvolvemento web, a intelixencia artificial e a ciberseguridade.',
+    sobrePerfilDescripcion2:
+      'ImaginAC é o resultado de combinar estes coñecementos técnicos cun propósito social: facilitar o día a día da comunidade educativa mediante ferramentas intelixentes.',
+    sobreContactoTitulo: 'Tes unha consulta?',
+    sobreContactoDescripcion:
+      'Se tes algún dúbida ou queres propoñer algo, preme o botón para escribirme.',
+    sobreContactoBoton: 'Enviar correo',
     enlaces: 'Ligazóns',
     legal: 'Legal',
     aceptar: 'Aceptar',
@@ -526,11 +769,44 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     configIdiomaDesc: 'Seleccione o idioma da interface. A cambio aplicarase inmediatamente.',
     configPrivacidad: 'Privacidade',
     configPoliticaPrivacidad: 'Política de Privacidade',
+    configPoliticaCookies: 'Política de Cookies',
+    configAvisoLegal: 'Aviso Legal',
     configTerminos: 'Termos de Uso',
     configAcerca: 'Acerca de',
     configDescripcion: 'Plataforma de accesibilidade cognitiva para profesores PT e alumnos.',
+    configPrivacidadTitulo: 'Preferencias de Privacidade',
+    cookiesAnaliticas: 'Cookies Analíticas',
+    cookiesAnaliticasDesc: 'Axudan a mellorar a ferramenta metricando uso de xeito anónimo.',
+    cookiesPersonalizacion: 'Cookies de Personalización',
+    cookiesPersonalizacionDesc: 'Permiten recordar idioma e axustes na túa seguinte visita.',
+    cookiesBannerTexto:
+      'Empregamos cookies propias e de terceiros para mellorar a túa experiencia e analizar o uso da web. Podes.acceptar todas as cookies, refusalas ou configurar as túas preferencias.',
+    cookiesBannerConfigurar: 'Configurar',
+    cookiesBannerEsenciales: 'Só esenciais',
+    cookiesBannerAceptar: 'Aceptar todas',
+    cookiesBannerPrivacidad: 'Configuración de Privacidade',
+    cookiesBannerNecesarias: 'Necesarias',
+    cookiesBannerNecesariasDesc:
+      'Permiten o funcionamento básico da web como a navegación e a seguridade.',
+    cookiesBannerSiempreActivas: 'Sempre activas',
+    cookiesBannerAnaliticas: 'Analíticas',
+    cookiesBannerAnaliticasDesc:
+      'Axúdannos a entender como interactúan os usuarios coa web de forma anónima.',
+    cookiesBannerPreferencia: 'Preferencia',
+    cookiesBannerPreferenciaDesc:
+      'Permiten recordar información para que accedas ao servizo con certas características (idioma).',
+    cookiesBannerVolver: 'Volver atrás',
+    cookiesBannerGuardar: 'Gardar preferencias',
+    configTextosLegales: 'Textos Legais',
     configTecnologias:
       'Desenvolto con Next.js, TypeScript, Tailwind CSS, Supabase e Google Gemini.',
+    caixaSugerencias: 'Caixa de suxestións',
+    caixaSugerenciasSubtitulo: 'Envíanos a túa opinión ou informa de erros',
+    caixaPlaceholder: 'Que mellorarías?',
+    caixaGracias: 'Grazas!',
+    caixaMinimizar: 'Minimizar',
+    caixaEnviar: 'Enviar',
+    caixaEnviando: 'Enviando...',
     sobreNosotrosTitulo: 'Sobre Nós',
     sobreNosotrosMision: 'A Nosa Misión',
     sobreNosotrosMisionTexto:
@@ -540,10 +816,17 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Os pictogramas empregados en ImaginAC proveñen do proxecto ARASAAC, distribuídos baixo licenza Creative Commons.',
     atribucionArasaac: 'Atribución ARASAAC',
     atribucionArasaacTexto:
-      'Os símbolos pictográficos empregados son propiedade do Goberno de Aragón e foron creados por Sergio Palao para ARASAAC, distribuídos baixo Licenza Creative Commons BY-NC-SA.',
+      'Os símbolos pictográficos empregados son propiedade do Goberno de Aragón e foron creados por Sergio Palao para ARASAAC (http://www.arasaac.org), distribuídos baixo Licenza Creative Commons BY-NC-SA.',
     deslindeAragon:
       'O Goberno de Aragón non se fai responsable do uso que terceiros fagan destes materiais.',
     tecnologias: 'Tecnoloxías Utilizadas',
+    techNextjs: 'Framework web',
+    techTypescript: 'Linguaxe tipada',
+    techTailwind: 'Estilos',
+    techSupabase: 'Base de datos',
+    techGemina: 'Intelixencia Artificial',
+    techJsPDF: 'Xeración de PDFs',
+    techArasaac: 'Pictogramas (fonte externa)',
     derechosReservados: 'Todos os dereitos reservados.',
     terminosTitulo: 'Termos de Uso',
     terminosAceptacion: '1. Aceptación dos Termos',
@@ -627,6 +910,23 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     heroSubtitulo: 'HEPrako irakasle eta ikasleentzat diseinatutako hezkuntza-tresnak.',
     accederApp: 'Sartu Aplikaziora',
     copyright: 'Eskubide guztiak erreserbaturik.',
+    sobreHistoriaTitulo: 'ImaginAC-en atzean dagoen historia',
+    sobreHistoriaSubtitulo: 'Beharrizko premia batetik denontzatako tresna batera',
+    sobreHistoriaParrafo1:
+      'ImaginAC ez zen bulego batean sortu, baizik eta kafe-egunean. Lagun on bati, etorkizunean Pedagogia Terapeutikoan (PT) espezializatuko zen irakasle bati, frustrazioa partekatzen entzuten nion: pictograma-bankoei esker ere, denbora galtzen zuen bilatzen, mozten eta itsatsiz materialak sortzeko ikasleei egokituak.',
+    sobreHistoriaParrafo2:
+      'Ez zen leku existitzen kontu bat hutsetik sortzeko eta instantzian inprimatzeko prest dagoen baliabide bihurtzeko. Garatzaile gisa, teknologiak hutsune hori bete behar zuela jakin nuen.',
+    sobreHistoriaParrafo3:
+      'Nire lagunak horrela sentitzen bazen, milaka irakasek gauza bera jasango zuketen. Gaurko nire misioa sinplea da: zuk imajinazioa jarri eta nik kodea. Elkarrekin, segundotan material inklusibo eta profesionalak sortzen ditugu.',
+    sobrePerfilTitulo: 'Kaixo, ni naiz Carmen',
+    sobrePerfilDescripcion:
+      'Nire izen osoa Carmen Vicente Crespo da. Telekomunikazio Teknologiako Ingeniaritzan ikasketak amaitzean, nire pasioa web garapenari, adimen artifizialari eta zibersegurtasunari eskaini nien.',
+    sobrePerfilDescripcion2:
+      'ImaginAC ezagutz tekniko hauek helburu sozial batekin konbinatuaren emaitza da: hezkuntza komunitatearen eguneroko bizitza erraztea tresna adimentsuen bidez.',
+    sobreContactoTitulo: 'Kontsulta bat duzu?',
+    sobreContactoDescripcion:
+      'Dudan bat baduzu edo zerbait proposatu nahi baduzu, sakatu botoia idatzizko.',
+    sobreContactoBoton: 'Posta bidali',
     enlaces: 'Estekak',
     legal: 'Legala',
     aceptar: 'Onartu',
@@ -636,24 +936,64 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     configIdiomaDesc: 'Hautatu interfazearen hizkuntza. Aldaketa berehala aplikatuko da.',
     configPrivacidad: 'Pribatutasuna',
     configPoliticaPrivacidad: 'Pribatutasun Politika',
+    configPoliticaCookies: 'Cookies Politika',
+    configAvisoLegal: 'Aviso Legala',
     configTerminos: 'Erabilera Baldintzak',
     configAcerca: 'Honi buruz',
     configDescripcion: 'Irakasle PT eta ikasleentzako kognitibo irisgarritasun plataforma.',
+    configPrivacidadTitulo: 'Pribatutasun Hobespenak',
+    cookiesAnaliticas: 'Cookie Analitikoak',
+    cookiesAnaliticasDesc: 'Toola hobetzen laguntzen dute erabilera anonimoan neurtuz.',
+    cookiesPersonalizacion: 'Personifikazio Cookieak',
+    cookiesPersonalizacionDesc: 'Hizkuntza eta ezarpenak gogoratzea ahalbidetzen dute.',
+    cookiesBannerTexto:
+      'Gure eta hirugarrenen cookieak erabiltzen ditugu zure esperientzia hobetzeko eta webaren erabilera analizatzeko. Cookie guztiak onartu, ukatu edo zure lehentasak configure ditzakezu.',
+    cookiesBannerConfigurar: 'Konfiguratu',
+    cookiesBannerEsenciales: 'Bakarrak beharrezkoak',
+    cookiesBannerAceptar: 'Guptiak onartu',
+    cookiesBannerPrivacidad: 'Pribatutasun ezarpenak',
+    cookiesBannerNecesarias: 'Beharrezkoak',
+    cookiesBannerNecesariasDesc:
+      'Webaren oinarrizko funtzionamendua ahalbidetzen dute, hala nola nabigazioa eta segurtasuna.',
+    cookiesBannerAlwaysActive: 'Beti aktibo',
+    cookiesBannerAnaliticas: 'Analitikoak',
+    cookiesBannerAnaliticasDesc:
+      'Erabiltzaileek webarekin nola elkarreragiten duten ulertzen laguntziguzu modu anonimoan.',
+    cookiesBannerPreference: 'Lehentasuna',
+    cookiesBannerPreferenceDesc:
+      'Zerbitzura sartzeko informazioa gogoratzea ahalbidetzen du zenbait ezaugarrirekin (hizkuntza).',
+    cookiesBannerVolver: 'Itzuli',
+    cookiesBannerSave: 'Gorde lehentasak',
+    configTextosLegales: 'Testu Legaleak',
     configTecnologias:
       'Next.js, TypeScript, Tailwind CSS, Supabase eta Google Gemini erabiliz garatua.',
+    cajaSugerencias: 'Iradokizun kutxa',
+    cajaSugerenciasSubtitulo: 'Bidali zure iritzia edo jakinarazi akatsen bat',
+    cajaPlaceholder: 'Zer hobetuko zenuke?',
+    cajaGracias: 'Eskerrik asko!',
+    cajaMinimizar: 'Minimizatu',
+    cajaEnviar: 'Bidali',
+    cajaEnviando: 'Bidaltzen...',
     sobreNosotrosTitulo: 'Guri Buruz',
     sobreNosotrosMision: 'Gure Misioa',
     sobreNosotrosMisionTexto:
       'ImaginAC irakasle berezi eta ikasleentzako irisgarritasun kognitiboa errazteko diseinatutako hezkuntza plataforma da.',
     sobreNosotrosPicto: 'Piktogramak eta Baliabide Bisualak',
     sobreNosotrosPictoTexto:
-      'ImaginAC-en erabilitako piktogramak ARASAAC proiektutik datoz, Creative Commons lizentziapean banatuta.',
+      'ImaginAC-en erabilitako piktogramak ARASAAC proyekttutik datoz, Creative Commons lizentziapean banatuta.',
     atribucionArasaac: 'ARASAAC Atribuzioa',
     atribucionArasaacTexto:
-      'Erabilitako piktograma sinboloak Arabako Kontseiluarenak dira eta Sergio Palaok sortu ditu ARASAAC-erako, Creative Commons BY-NC-SA lizentziapean banatuta.',
+      'Erabilitako piktograma sinboloak Arabako Kontseiluarenak dira eta Sergio Palaok sortu ditu ARASAAC-erako (http://www.arasaac.org), Creative Commons BY-NC-SA lizentziapean banatuta.',
     deslindeAragon:
       'Arabako Kontseilua ez da arduradun material hauek hirugarrenek egiten duten erabileraren gainetik.',
     tecnologias: 'Erabilitako Teknologiak',
+    techNextjs: 'Web framework',
+    techTypescript: 'Idazketa motako hizkuntza',
+    techTailwind: 'Estiloak',
+    techSupabase: 'Datu basea',
+    techGemina: 'Adimen Artifiziala',
+    techJsPDF: 'PDF sorrera',
+    techArasaac: 'Piktogramak (kanpo iturria)',
     derechosReservados: 'Eskubide guztiak erreserbaturik.',
     terminosTitulo: 'Erabilera Baldintzak',
     terminosAceptacion: '1. Baldintzak Onartzea',
@@ -742,6 +1082,23 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Outils éducatifs conçus pour les enseignants ELS et les élèves ayant des besoins spécifiques.',
     accederApp: "Accéder à l'App",
     copyright: 'Tous droits réservés.',
+    sobreHistoriaTitulo: "L'histoire derrière ImaginAC",
+    sobreHistoriaSubtitulo: "D'un besoin réel à un outil pour tous",
+    sobreHistoriaParrafo1:
+      "ImaginAC n'est pas né dans un bureau, mais lors d'un après-midi café. J'écoutais une bonne amie, future enseignante spécialisée en Pédagogie thérapeutique (PT), partager sa frustration : malgré d'excellentes banques de pictogrammes, elle perdait du temps à chercher, découpe et coller manuellement pour créer des matériaux adaptés à ses élèves.",
+    sobreHistoriaParrafo2:
+      "Il n'existait pas d'endroit qui lui permettrait de créer une histoire de zéro et de la transformer, instantanément, en ressource visuelle prête à imprimir. En tant que développeur, j'ai su que la technologie devait combler ce vide.",
+    sobreHistoriaParrafo3:
+      "Si mon ami se sentait ainsi, des milliers d'enseignants vivraient la même chose. Ma mission aujourd'hui est simple : vous fournissez l'imagination et je fournis le code. Ensemble, nous créons des matériaux inclusifs et professionnels en quelques secondes.",
+    sobrePerfilTitulo: 'Bonjour, je suis Carmen',
+    sobrePerfilDescripcion:
+      "Mon nom complet est Carmen Vicente Crespo. Après avoir terminé ma formation en Ingénierie des Technologies de Télécommunication, j'ai décidé de consacrer ma passion au développement web, à l'intelligence artificielle et à la cybersécurité.",
+    sobrePerfilDescripcion2:
+      'ImaginAC est le résultat de la combinaison de ces connaissances techniques avec un but social : faciliter le quotidien de la communauté éducative grâce à des outils intelligents.',
+    sobreContactoTitulo: 'Vous avez une question?',
+    sobreContactoDescripcion:
+      "Si vous avez des doutes ou voulez proposer quelque chose, appuyez sur le bouton pour m'écrire.",
+    sobreContactoBoton: 'Envoyer un email',
     enlaces: 'Liens',
     legal: 'Légal',
     aceptar: 'Accepter',
@@ -752,11 +1109,45 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       "Sélectionnez la langue de l'interface. Les modifications s'appliquent immédiatement.",
     configPrivacidad: 'Confidentialité',
     configPoliticaPrivacidad: 'Politique de Confidentialité',
+    configPoliticaCookies: 'Politique de Cookies',
+    configAvisoLegal: 'Aviso Légal',
     configTerminos: "Conditions d'Utilisation",
     configAcerca: 'À propos',
     configDescripcion: "Plateforme d'accessibilité cognitive pour enseignants ELS et élèves.",
+    configPrivacidadTitulo: 'Préférences de Confidentialité',
+    cookiesAnaliticas: 'Cookies Analytiques',
+    cookiesAnaliticasDesc: "Aident à améliorer l'outil en mesurant utilisation de manière anonyme.",
+    cookiesPersonalizacion: 'Cookies de Personnalisation',
+    cookiesPersonalizacionDesc:
+      'Permettent de mémoriser langue et paramètres pour prochaine visite.',
+    cookiesBannerTexto:
+      "Nous utilisons des cookies propres et tiers pour améliorer votre expérience et analyser l'utilisation du site. Vous pouvez accepter tous les cookies, les refuser ou configurer vos préférences.",
+    cookiesBannerConfigurar: 'Configurer',
+    cookiesBannerEsenciales: 'Essentiels uniquement',
+    cookiesBannerAceptar: 'Tout accepter',
+    cookiesBannerPrivacidad: 'Paramètres de confidentialité',
+    cookiesBannerNecesarias: 'Nécessaires',
+    cookiesBannerNecesariasDesc:
+      'Elles permettent le fonctionnement de base du site comme la navigation et la sécurité.',
+    cookiesBannerSiempreActivas: 'Toujours actives',
+    cookiesBannerAnalitiques: 'Analytiques',
+    cookiesBannerAnalitiquesDesc:
+      'Elles nous aident à comprendre comment les utilisateurs interagissent avec le site de manière anonyme.',
+    cookiesBannerPreferencia: 'Préférence',
+    cookiesBannerPreferenciaDesc:
+      'Permettent de mémoriser des informations pour accéder au service avec certaines caractéristiques (langue).',
+    cookiesBannerVolver: 'Retour',
+    cookiesBannerGuardar: 'Enregistrer les préférences',
+    configTextosLegales: 'Textes Légaux',
     configTecnologias:
       'Développé avec Next.js, TypeScript, Tailwind CSS, Supabase et Google Gemini.',
+    cajaSugerencias: 'Boîte à suggestions',
+    cajaSugerenciasSubtitulo: 'Envoyez-nous vos commentaires ou signalez des erreurs',
+    cajaPlaceholder: 'Que changeriez-vous?',
+    cajaGracias: 'Merci!',
+    cajaMinimizar: 'Réduire',
+    cajaEnviar: 'Envoyer',
+    cajaEnviando: 'Envoi en cours...',
     sobreNosotrosTitulo: 'À Propos',
     sobreNosotrosMision: 'Notre Mission',
     sobreNosotrosMisionTexto:
@@ -766,10 +1157,17 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Les pictogrammes utilisés dans ImaginAC proviennent du projet ARASAAC, distribués sous licence Creative Commons.',
     atribucionArasaac: 'Attribution ARASAAC',
     atribucionArasaacTexto:
-      "Les symboles pictographiques utilisés sont la propriété du Gouvernement d'Aragon et ont été créés par Sergio Palao pour ARASAAC, distribués sous licence Creative Commons BY-NC-SA.",
+      "Les symboles pictographiques utilisés sont la propriété du Gouvernement d'Aragon et ont été créés par Sergio Palao pour ARASAAC (http://www.arasaac.org), distribués sous licence Creative Commons BY-NC-SA.",
     deslindeAragon:
       "Le Gouvernement d'Aragon n'est pas responsable de l'utilisation que des tiers font de ces matériaux.",
     tecnologias: 'Technologies Utilisées',
+    techNextjs: 'Framework web',
+    techTypescript: 'Langage typé',
+    techTailwind: 'Styles',
+    techSupabase: 'Base de données',
+    techGemina: 'Intelligence Artificielle',
+    techJsPDF: 'Génération de PDFs',
+    techArasaac: 'Pictogrammes (source externe)',
     derechosReservados: 'Tous droits réservés.',
     terminosTitulo: "Conditions d'Utilisation",
     terminosAceptacion: '1. Acceptation des Conditions',
@@ -853,6 +1251,23 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     heroSubtitulo: 'Bildungstools für Sonderpädagogen und Schüler mit spezifischem Lernbedarf.',
     accederApp: 'Zur App',
     copyright: 'Alle Rechte vorbehalten.',
+    sobreHistoriaTitulo: 'Die Geschichte hinter ImaginAC',
+    sobreHistoriaSubtitulo: 'Von einem echten Bedarf zu einem Werkzeug für alle',
+    sobreHistoriaParrafo1:
+      'ImaginAC wurde nicht in einem Büro geboren, sondern bei einem Kaffee-Nachmittag. Ich hörte einer guten Freundin zu, einer zukünftigen Sonderpädagogin (PT), die ihre Frustration teilte: Trotz exzellenter Pictogramm-Banken verlor sie Zeit mit dem Suchen, Ausschneiden und manuellen Kleben, um Materialien für ihre Schüler zu erstellen.',
+    sobreHistoriaParrafo2:
+      'Es gab keinen Ort, der es ihr ermöglichen würde, eine Geschichte von Grund auf zu erstellen und sie sofort in eine druckfertige visuelle Ressource zu verwandeln. Als Entwicklerin wusste ich, dass diese Lücke von der Technologie gefüllt werden musste.',
+    sobreHistoriaParrafo3:
+      'Wenn meine Freundin sich so fühlte, würden Tausende von Lehrern das Gleiche erleben. Meine Mission heute ist einfach: Sie liefern die Vorstellungskraft und ich den Code. Zusammen erstellen wir in Sekunden inklusive und professionelle Materialien.',
+    sobrePerfilTitulo: 'Hallo, ich bin Carmen',
+    sobrePerfilDescripcion:
+      'Mein vollständiger Name ist Carmen Vicente Crespo. Nach Abschluss meiner Ausbildung in Telekommunikationstechnologie beschloss ich, meine Leidenschaft der Webentwicklung, künstlichen Intelligenz und Cybersicherheit zu widmen.',
+    sobrePerfilDescripcion2:
+      'ImaginAC ist das Ergebnis der Kombination dieser technischen Kenntnisse mit einem sozialen Ziel: die Erleichterung des Alltags der Bildungsgemeinschaft durch intelligente Werkzeuge.',
+    sobreContactoTitulo: 'Haben Sie eine Frage?',
+    sobreContactoDescripcion:
+      'Wenn Sie Zweifel haben oder etwas vorschlagen möchten, klicken Sie auf die Schaltfläche, um mir zu schreiben.',
+    sobreContactoBoton: 'E-Mail senden',
     enlaces: 'Links',
     legal: 'Rechtliches',
     aceptar: 'Akzeptieren',
@@ -863,12 +1278,46 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Wählen Sie die Sprache der Oberfläche. Die Änderungen werden sofort angewendet.',
     configPrivacidad: 'Datenschutz',
     configPoliticaPrivacidad: 'Datenschutzrichtlinie',
+    configPoliticaCookies: 'Cookie-Richtlinie',
+    configAvisoLegal: 'Impressum',
     configTerminos: 'Nutzungsbedingungen',
     configAcerca: 'Über',
     configDescripcion:
       'Plattform für kognitive Barrierefreiheit für Sonderschullehrer und Schüler.',
+    configPrivacidadTitulo: 'Datenschutz-Einstellungen',
+    cookiesAnaliticas: 'Analyse-Cookies',
+    cookiesAnaliticasDesc: 'Helfen beim Verbessern des Tools durch anonyme Nutzungsmessung.',
+    cookiesPersonalizacion: 'Personalisierungs-Cookies',
+    cookiesPersonalizacionDesc:
+      'Ermöglichen Speichern von Sprache und Einstellungen für nächsten Besuch.',
+    cookiesBannerTexto:
+      'Wir verwenden eigene und Drittanbieter-Cookies, um Ihr Erlebnis zu verbessern und die Websitenutzung zu analysieren. Sie können alle Cookies akzeptieren, ablehnen oder Ihre Einstellungen konfigurieren.',
+    cookiesBannerConfigurar: 'Konfigurieren',
+    cookiesBannerEsenciales: 'Nur essenzielle',
+    cookiesBannerAceptar: 'Alle akzeptieren',
+    cookiesBannerPrivacidad: 'Datenschutzeinstellungen',
+    cookiesBannerNecesarias: 'Notwendige',
+    cookiesBannerNecesariasDesc:
+      'Sie ermöglichen das grundlegende Funktionieren der Webseite wie Navigation und Sicherheit.',
+    cookiesBannerAlwaysActive: 'Immer aktiv',
+    cookiesBannerAnaliticas: 'Analyse',
+    cookiesBannerAnaliticasDesc:
+      'Sie helfen uns zu verstehen, wie Nutzer anonym mit der Webseite interagieren.',
+    cookiesBannerPreference: 'Präferenz',
+    cookiesBannerPreferenceDesc:
+      'Sie ermöglichen das Speichern von Informationen, damit Sie mit bestimmten Funktionen auf den Dienst zugreifen können (Sprache).',
+    cookiesBannerVolver: 'Zurück',
+    cookiesBannerSave: 'Einstellungen speichern',
+    configTextosLegales: 'Rechtliche Texte',
     configTecnologias:
       'Entwickelt mit Next.js, TypeScript, Tailwind CSS, Supabase und Google Gemini.',
+    cajaSugerencias: 'Vorschlagsbox',
+    cajaSugerenciasSubtitulo: 'Senden Sie uns Ihr Feedback oder melden Sie Fehler',
+    cajaPlaceholder: 'Was würden Sie verbessern?',
+    cajaGracias: 'Danke!',
+    cajaMinimizar: 'Minimieren',
+    cajaEnviar: 'Senden',
+    cajaEnviando: 'Wird gesendet...',
     sobreNosotrosTitulo: 'Über Uns',
     sobreNosotrosMision: 'Unsere Mission',
     sobreNosotrosMisionTexto:
@@ -878,10 +1327,17 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Die in ImaginAC verwendeten Piktogramme stammen aus dem ARASAAC-Projekt und werden unter Creative Commons-Lizenz vertrieben.',
     atribucionArasaac: 'ARASAAC-Zuschreibung',
     atribucionArasaacTexto:
-      'Die verwendeten piktografischen Symbole sind Eigentum der Regierung von Aragonien und wurden von Sergio Palao für ARASAAC erstellt, vertrieben unter Creative Commons BY-NC-SA-Lizenz.',
+      'Die verwendeten piktografischen Symbole sind Eigentum der Regierung von Aragonien und wurden von Sergio Palao für ARASAAC (http://www.arasaac.org) erstellt, vertrieben unter Creative Commons BY-NC-SA-Lizenz.',
     deslindeAragon:
       'Die Regierung von Aragonien ist nicht verantwortlich für die Nutzung dieser Materialien durch Dritte.',
     tecnologias: 'Verwendete Technologien',
+    techNextjs: 'Web-Framework',
+    techTypescript: 'Typsprache',
+    techTailwind: 'Stile',
+    techSupabase: 'Datenbank',
+    techGemina: 'Künstliche Intelligenz',
+    techJsPDF: 'PDF-Erstellung',
+    techArasaac: 'Piktogramme (externe Quelle)',
     derechosReservados: 'Alle Rechte vorbehalten.',
     terminosTitulo: 'Nutzungsbedingungen',
     terminosAceptacion: '1. Annahme der Bedingungen',
@@ -970,6 +1426,23 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Strumenti educativi per insegnanti di sostegno e alunni con bisogni educativi speciali.',
     accederApp: "Accedi all'App",
     copyright: 'Tutti i diritti riservati.',
+    sobreHistoriaTitulo: 'La storia dietro ImaginAC',
+    sobreHistoriaSubtitulo: 'Da un bisogno reale a uno strumento per tutti',
+    sobreHistoriaParrafo1:
+      'ImaginAC non è nato in un ufficio, ma durante un pomeriggio di caffè. Ascoltavo una buona amica, futura insegnante specializzata in Pedagogia Terapeutica (PT), condividere la sua frustrazione: nonostante eccellenti banche di pictogrammi, perdeva tempo cercando, ritagliando e incollando manualmente per creare materiali adatti ai suoi alunni.',
+    sobreHistoriaParrafo2:
+      "Non esisteva un posto che le permettesse di creare una storia da zero e trasformarla, all'istante, in una risorsa visiva pronta da stampare. Come sviluppatrice, sapevo che la tecnologia doveva colmare quel vuoto.",
+    sobreHistoriaParrafo3:
+      "Se la mia amica si sentiva così, migliaia di insegnanti vivrebbero la stessa cosa. La mia missione oggi è semplice: tu metti l'immaginazione e io il codice. Insieme creiamo materiali inclusivi e professionali in pochi secondi.",
+    sobrePerfilTitulo: 'Ciao, sono Carmen',
+    sobrePerfilDescripcion:
+      "Mi chiamo Carmen Vicente Crespo. Dopo aver completato la mia formazione in Ingegneria delle Tecnologie delle Telecomunicazioni, ho deciso di dedicare la mia passione allo sviluppo web, all'intelligenza artificiale e alla cibersicurezza.",
+    sobrePerfilDescripcion2:
+      'ImaginAC è il risultato della combinazione di queste conoscenze tecniche con un obiettivo sociale: facilitare il quotidiano della comunità educativa attraverso strumenti intelligenti.',
+    sobreContactoTitulo: 'Hai una domanda?',
+    sobreContactoDescripcion:
+      'Se hai dubbi o vuoi proporre qualcosa, premi il pulsante per scrivermi.',
+    sobreContactoBoton: 'Invia email',
     enlaces: 'Link',
     legal: 'Legale',
     aceptar: 'Accetta',
@@ -980,12 +1453,46 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       "Seleziona la lingua dell'interfaccia. Le modifiche si applicano immediatamente.",
     configPrivacidad: 'Privacy',
     configPoliticaPrivacidad: 'Informativa sulla Privacy',
+    configPoliticaCookies: 'Informativa sui Cookie',
+    configAvisoLegal: 'Avviso Legale',
     configTerminos: 'Termini di Utilizzo',
     configAcerca: 'Info',
     configDescripcion:
       'Piattaforma di accessibilità cognitiva per insegnanti di sostegno e alunni.',
+    configPrivacidadTitulo: 'Preferenze Privacy',
+    cookiesAnaliticas: 'Cookie Analitici',
+    cookiesAnaliticasDesc: "Aiutano a migliorare lo strumento misurando l'uso in modo anonimo.",
+    cookiesPersonalizacion: 'Cookie di Personalizzazione',
+    cookiesPersonalizacionDesc:
+      'Permettono di ricordare lingua e impostazioni per la prossima visita.',
+    cookiesBannerTexto:
+      "Utilizziamo cookie propri e di terze parti per migliorare la tua esperienza e analizzare l'uso del sito. Puoi accettare tutti i cookie, rifiutarli o configurare le tue preferenze.",
+    cookiesBannerConfigurar: 'Configura',
+    cookiesBannerEsenciales: 'Solo essenziali',
+    cookiesBannerAceptar: 'Accetta tutto',
+    cookiesBannerPrivacidad: 'Impostazioni Privacy',
+    cookiesBannerNecesarias: 'Necessarie',
+    cookiesBannerNecesariasDesc:
+      'Permettono il funzionamento base del sito come la navigazione e la sicurezza.',
+    cookiesBannerAlwaysActive: 'Sempre attive',
+    cookiesBannerAnaliticas: 'Analitiche',
+    cookiesBannerAnaliticasDesc:
+      'Ci aiutano a capire come gli utenti interagiscono con il sito in modo anonimo.',
+    cookiesBannerPreference: 'Preferenza',
+    cookiesBannerPreferenceDesc:
+      'Permettono di ricordare informazioni per accedere al servizio con determinate caratteristiche (lingua).',
+    cookiesBannerVolver: 'Indietro',
+    cookiesBannerSave: 'Salva preferenze',
+    configTextosLegales: 'Testi Legali',
     configTecnologias:
       'Sviluppato con Next.js, TypeScript, Tailwind CSS, Supabase e Google Gemini.',
+    cajaSugerencias: 'Casella suggerimenti',
+    cajaSugerenciasSubtitulo: 'Inviaci il tuo feedback o segnala errori',
+    cajaPlaceholder: 'Cosa miglioreresti?',
+    cajaGracias: 'Grazie!',
+    cajaMinimizar: 'Minimizza',
+    cajaEnviar: 'Invia',
+    cajaEnviando: 'Invio in corso...',
     sobreNosotrosTitulo: 'Chi Siamo',
     sobreNosotrosMision: 'La Nostra Missione',
     sobreNosotrosMisionTexto:
@@ -995,10 +1502,17 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'I pittogrammi utilizzati in ImaginAC provengono dal progetto ARASAAC, distribuiti con licenza Creative Commons.',
     atribucionArasaac: 'Attribuzione ARASAAC',
     atribucionArasaacTexto:
-      'I simboli pittografici utilizzati sono di proprietà del Governo di Aragona e sono stati creati da Sergio Palao per ARASAAC, distribuiti con licenza Creative Commons BY-NC-SA.',
+      'I simboli pittografici utilizzati sono di proprietà del Governo di Aragona e sono stati creati da Sergio Palao per ARASAAC (http://www.arasaac.org), distribuiti con licenza Creative Commons BY-NC-SA.',
     deslindeAragon:
       "Il Governo di Aragona non è responsabile dell'uso che terzi fanno di questi materiali.",
     tecnologias: 'Tecnologie Utilizzate',
+    techNextjs: 'Framework web',
+    techTypescript: 'Linguaggio tipizzato',
+    techTailwind: 'Stili',
+    techSupabase: 'Database',
+    techGemina: 'Intelligenza Artificiale',
+    techJsPDF: 'Generazione PDF',
+    techArasaac: 'Pittogrammi (fonte esterna)',
     derechosReservados: 'Tutti i diritti riservati.',
     terminosTitulo: 'Termini di Utilizzo',
     terminosAceptacion: '1. Accettazione dei Termini',
