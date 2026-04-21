@@ -3,8 +3,13 @@
 import { Navbar } from '@/components/home/Navbar';
 import { Footer } from '@/components/home/Footer';
 import { CookiesBanner } from '@/components/home/CookiesBanner';
+import { LegalLanguageBanner } from '@/components/ui/LegalLanguageBanner';
+import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
 export default function PoliticaCookies() {
+  const idiomaActual = useLanguageStore((s) => s.idiomaActual);
+  const t = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
@@ -12,8 +17,9 @@ export default function PoliticaCookies() {
         <article className="max-w-4xl mx-auto">
           {/* Cabecera */}
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-teal-900 mb-6 md:mb-8 border-b pb-4">
-            Política de Cookies
+            {t.politicaCookiesTitulo}
           </h1>
+          <LegalLanguageBanner />
 
           <div className="space-y-10">
             {/* 1. ¿Qué son? */}

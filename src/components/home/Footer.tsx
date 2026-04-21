@@ -85,7 +85,7 @@ export function Footer() {
                   href="/aviso-legal"
                   className="text-white/70 hover:text-white transition-colors text-sm"
                 >
-                  Aviso Legal
+                  {traducciones.avisoLegalTitulo}
                 </Link>
               </li>
               <li>
@@ -93,7 +93,7 @@ export function Footer() {
                   href="/privacidad"
                   className="text-white/70 hover:text-white transition-colors text-sm"
                 >
-                  {traducciones.politicaPrivacidad}
+                  {traducciones.politicaPrivacidadTitulo}
                 </Link>
               </li>
               <li>
@@ -101,7 +101,7 @@ export function Footer() {
                   href="/cookies"
                   className="text-white/70 hover:text-white transition-colors text-sm"
                 >
-                  Política de Cookies
+                  {traducciones.politicaCookiesTitulo}
                 </Link>
               </li>
             </ul>
