@@ -7,6 +7,7 @@ import { Footer } from '@/components/home/Footer';
 import { CookiesBanner } from '@/components/home/CookiesBanner';
 import { FormularioCrearCuento } from '@/components/profesor/FormularioCrearCuento';
 import { VisorCuentoDemo } from '@/components/profesor/VisorCuentoDemo';
+import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
 interface CuentoData {
   titulo: string;
@@ -16,6 +17,8 @@ interface CuentoData {
 }
 
 export default function PaginaCrearCuento() {
+  const idiomaActual = useLanguageStore((s) => s.idiomaActual);
+  const t = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
   const [cuento, setCuento] = useState<CuentoData | null>(null);
 
   // 1. Creamos la referencia para la sección del resultado
@@ -57,7 +60,7 @@ export default function PaginaCrearCuento() {
           {/* Formulario Compacto */}
           <section className="bg-white/95 backdrop-blur-md p-5 md:p-8 rounded-[1.5rem] shadow-2xl border border-white/40">
             <h2 className="text-2xl font-bold text-[#1a4d4d] mb-4 text-center">
-              Crear Nuevo Cuento
+              {t.crearCuentoTitulo}
             </h2>
             <FormularioCrearCuento profesorId="demo" onCuentoGenerado={setCuento} />
           </section>
@@ -69,7 +72,7 @@ export default function PaginaCrearCuento() {
               className="mt-24 pb-20 animate-in fade-in slide-in-from-bottom-10 duration-1000"
             >
               <h2 className="text-2xl md:text-3xl font-bold text-[#1a4d4d] mb-10 text-center drop-shadow-sm">
-                Tu Cuento está listo
+                {t.cuentoListo}
               </h2>
               <div className="bg-white p-4 md:p-8 rounded-[2rem] shadow-2xl border border-[#40E0D0]/20">
                 <VisorCuentoDemo cuento={cuento} />

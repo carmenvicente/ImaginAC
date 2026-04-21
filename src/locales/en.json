@@ -152,5 +152,22 @@
   "avisoIdiomaEnlace": "Why in Spanish?",
   "avisoLegalTitulo": "Legal Notice",
   "politicaPrivacidadTitulo": "Privacy Policy",
-  "politicaCookiesTitulo": "Cookies Policy"
+  "politicaCookiesTitulo": "Cookies Policy",
+  "crearCuentoTitulo": "Create New Story",
+  "cuentoListo": "Your Story is ready",
+  "tematicaAnimales": "Animals",
+  "tematicaFamilia": "Family",
+  "tematicaEscuela": "School",
+  "tematicaEmociones": "Emotions",
+  "tematicaNaturaleza": "Nature",
+  "tematicaAmistad": "Friendship",
+  "tematicaComida": "Food",
+  "tematicaCasa": "Home",
+  "tematicaTransporte": "Transportation",
+  "tematicaDiversion": "Fun",
+  "generandoMensaje1": "Finding inspiration to create the story...",
+  "generandoMensaje2": "Searching for the most appropriate pictograms...",
+  "generandoMensaje3": "Organizing the slides...",
+  "generandoMensaje4": "Adding the final magical touches...",
+  "generandoMensaje5": "Almost ready, just a second more..."
 }

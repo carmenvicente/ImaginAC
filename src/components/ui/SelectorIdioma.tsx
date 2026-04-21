@@ -23,9 +23,10 @@ interface SelectorIdiomaProps {
   valor: string;
   onCambio: (codigo: string) => void;
   id?: string;
+  label?: string;
 }
 
-export function SelectorIdioma({ valor, onCambio, id }: SelectorIdiomaProps) {
+export function SelectorIdioma({ valor, onCambio, id, label = 'Idioma' }: SelectorIdiomaProps) {
   const [abierto, setAbierto] = useState(false);
 
   const idiomaSeleccionado =
@@ -34,7 +35,7 @@ export function SelectorIdioma({ valor, onCambio, id }: SelectorIdiomaProps) {
   return (
     <div className="relative">
       <label htmlFor={id} className="block text-sm font-medium text-[var(--foreground)] mb-1">
-        Idioma
+        {label}
       </label>
       <button
         id={id}

@@ -94,11 +94,11 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
       // Definimos los mensajes. Puedes usar las traducciones o textos fijos.
       const mensajes = [
         traducciones.formGenerando || 'Generando cuento...',
-        'Inspirándonos para crear la historia...',
-        'Buscando los pictogramas más adecuados...',
-        'Organizando las diapositivas...',
-        'Dándole los últimos toques mágicos...',
-        'Casi listo, un segundo más...',
+        traducciones.generandoMensaje1 || 'Inspirándonos para crear la historia...',
+        traducciones.generandoMensaje2 || 'Buscando los pictogramas más adecuados...',
+        traducciones.generandoMensaje3 || 'Organizando las diapositivas...',
+        traducciones.generandoMensaje4 || 'Dándole los últimos toques mágicos...',
+        traducciones.generandoMensaje5 || 'Casi listo, un segundo más...',
       ];
 
       setMensajeCarga(mensajes[0]);
@@ -121,10 +121,8 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
     setTitulo(borrador.titulo);
     setTematica(borrador.tematica);
     setFinalidadPedagogica(borrador.finalidadPedagogica);
-    const idiomaDelBorrador = borrador.idioma && borrador.idioma.trim() !== '';
-    setIdioma(idiomaDelBorrador ? borrador.idioma : idiomaGlobal);
     setBorradorRecuperado(true);
-  }, [idiomaGlobal]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -246,25 +244,25 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
           >
             <option value="">{traducciones.formSelectTematica || 'Selecciona una temática'}</option>
             {[
-              { valor: 'animales', label: 'Animales' },
-              { valor: 'familia', label: 'Familia' },
-              { valor: 'escuela', label: 'Escuela' },
-              { valor: 'emociones', label: 'Emociones' },
-              { valor: 'naturaleza', label: 'Naturaleza' },
-              { valor: 'amistad', label: 'Amistad' },
-              { valor: 'comida', label: 'Comida' },
-              { valor: 'casa', label: 'Casa' },
-              { valor: 'transporte', label: 'Transporte' },
-              { valor: 'diversion', label: 'Diversión' },
-            ].map((t) => (
-              <option key={t.valor} value={t.valor}>
-                {t.label}
+              { valor: 'animales', clave: 'tematicaAnimales' },
+              { valor: 'familia', clave: 'tematicaFamilia' },
+              { valor: 'escuela', clave: 'tematicaEscuela' },
+              { valor: 'emociones', clave: 'tematicaEmociones' },
+              { valor: 'naturaleza', clave: 'tematicaNaturaleza' },
+              { valor: 'amistad', clave: 'tematicaAmistad' },
+              { valor: 'comida', clave: 'tematicaComida' },
+              { valor: 'casa', clave: 'tematicaCasa' },
+              { valor: 'transporte', clave: 'tematicaTransporte' },
+              { valor: 'diversion', clave: 'tematicaDiversion' },
+            ].map((item) => (
+              <option key={item.valor} value={item.valor}>
+                {traducciones[item.clave] || item.clave}
               </option>
             ))}
           </select>
         </div>
 
-        <SelectorIdioma valor={idioma} onCambio={setIdioma} id="idioma" />
+        <SelectorIdioma valor={idioma} onCambio={setIdioma} id="idioma" label={traducciones.formLabelIdioma || 'Idioma'} />
       </div>
 
       <div>
@@ -310,7 +308,7 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
             {IDIOMAS_DISPONIBLES.find((i) => i.codigo === idioma)?.nombre}
           </li>
           <li>
-            <strong>Longitud:</strong> ~100 palabras
+            <strong>{traducciones.formLabelLongitud || 'Longitud'}:</strong> ~{traducciones.formPalabras100 || '100 palabras'}
           </li>
         </ul>
       </div>
