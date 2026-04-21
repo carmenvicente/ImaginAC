@@ -439,7 +439,7 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     cookiesBannerTexto:
       "Utilitzem cookies pròpies i de tercers per millorar la teva experiència i analitzar l'ús del lloc web. Pots acceptar totes les cookies, refusar-les o configurar les teves preferències.",
     cookiesBannerConfigurar: 'Configurar',
-    cookiesBannerEsentials: 'Només essencials',
+    cookiesBannerEsenciales: 'Només essencials',
     cookiesBannerAceptar: 'Acceptar totes',
     cookiesBannerPrivacidad: 'Configuració de Privacitat',
     cookiesBannerNecesarias: 'Necessàries',
@@ -451,7 +451,7 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
       'Ens ajuden a entendre com interaccionen els usuaris amb el lloc web de forma anònima.',
     cookiesBannerPreferencia: 'Preferència',
     cookiesBannerPreferenciaDesc:
-      'Permeten recorda informació perquè accedeixis al servei amb determinades característiques (idioma).',
+      'Permeten recorda informació perquè accedisques al servei amb determinades característiques (idioma).',
     cookiesBannerVolver: 'Tornar enrere',
     cookiesBannerGuardar: 'Guardar preferències',
     configTextosLegals: 'Textos Legals',
@@ -955,15 +955,15 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     cookiesBannerNecesarias: 'Beharrezkoak',
     cookiesBannerNecesariasDesc:
       'Webaren oinarrizko funtzionamendua ahalbidetzen dute, hala nola nabigazioa eta segurtasuna.',
-    cookiesBannerAlwaysActive: 'Beti aktibo',
+    cookiesBannerSiempreActivas: 'Beti aktibo',
     cookiesBannerAnaliticas: 'Analitikoak',
     cookiesBannerAnaliticasDesc:
       'Erabiltzaileek webarekin nola elkarreragiten duten ulertzen laguntziguzu modu anonimoan.',
-    cookiesBannerPreference: 'Lehentasuna',
-    cookiesBannerPreferenceDesc:
+    cookiesBannerPreferencia: 'Lehentasuna',
+    cookiesBannerPreferenciaDesc:
       'Zerbitzura sartzeko informazioa gogoratzea ahalbidetzen du zenbait ezaugarrirekin (hizkuntza).',
     cookiesBannerVolver: 'Itzuli',
-    cookiesBannerSave: 'Gorde lehentasak',
+    cookiesBannerGuardar: 'Gorde lehentasak',
     configTextosLegales: 'Testu Legaleak',
     configTecnologias:
       'Next.js, TypeScript, Tailwind CSS, Supabase eta Google Gemini erabiliz garatua.',
@@ -1130,8 +1130,8 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     cookiesBannerNecesariasDesc:
       'Elles permettent le fonctionnement de base du site comme la navigation et la sécurité.',
     cookiesBannerSiempreActivas: 'Toujours actives',
-    cookiesBannerAnalitiques: 'Analytiques',
-    cookiesBannerAnalitiquesDesc:
+    cookiesBannerAnaliticas: 'Analytiques',
+    cookiesBannerAnaliticasDesc:
       'Elles nous aident à comprendre comment les utilisateurs interagissent avec le site de manière anonyme.',
     cookiesBannerPreferencia: 'Préférence',
     cookiesBannerPreferenciaDesc:
@@ -1299,15 +1299,15 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     cookiesBannerNecesarias: 'Notwendige',
     cookiesBannerNecesariasDesc:
       'Sie ermöglichen das grundlegende Funktionieren der Webseite wie Navigation und Sicherheit.',
-    cookiesBannerAlwaysActive: 'Immer aktiv',
+    cookiesBannerSiempreActivas: 'Immer aktiv',
     cookiesBannerAnaliticas: 'Analyse',
     cookiesBannerAnaliticasDesc:
       'Sie helfen uns zu verstehen, wie Nutzer anonym mit der Webseite interagieren.',
-    cookiesBannerPreference: 'Präferenz',
-    cookiesBannerPreferenceDesc:
+    cookiesBannerPreferencia: 'Präferenz',
+    cookiesBannerPreferenciaDesc:
       'Sie ermöglichen das Speichern von Informationen, damit Sie mit bestimmten Funktionen auf den Dienst zugreifen können (Sprache).',
     cookiesBannerVolver: 'Zurück',
-    cookiesBannerSave: 'Einstellungen speichern',
+    cookiesBannerGuardar: 'Einstellungen speichern',
     configTextosLegales: 'Rechtliche Texte',
     configTecnologias:
       'Entwickelt mit Next.js, TypeScript, Tailwind CSS, Supabase und Google Gemini.',
@@ -1474,15 +1474,15 @@ export const traduccionesUI: Record<string, Record<string, string>> = {
     cookiesBannerNecesarias: 'Necessarie',
     cookiesBannerNecesariasDesc:
       'Permettono il funzionamento base del sito come la navigazione e la sicurezza.',
-    cookiesBannerAlwaysActive: 'Sempre attive',
+    cookiesBannerSiempreActivas: 'Sempre attive',
     cookiesBannerAnaliticas: 'Analitiche',
     cookiesBannerAnaliticasDesc:
       'Ci aiutano a capire come gli utenti interagiscono con il sito in modo anonimo.',
-    cookiesBannerPreference: 'Preferenza',
-    cookiesBannerPreferenceDesc:
+    cookiesBannerPreferencia: 'Preferenza',
+    cookiesBannerPreferenciaDesc:
       'Permettono di ricordare informazioni per accedere al servizio con determinate caratteristiche (lingua).',
     cookiesBannerVolver: 'Indietro',
-    cookiesBannerSave: 'Salva preferenze',
+    cookiesBannerGuardar: 'Salva preferenze',
     configTextosLegales: 'Testi Legali',
     configTecnologias:
       'Sviluppato con Next.js, TypeScript, Tailwind CSS, Supabase e Google Gemini.',
