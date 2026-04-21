@@ -41,8 +41,9 @@ export default function AvisoLegal() {
               1. Información sobre el Titular del Sitio Web
             </h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Este Sitio Web [introcudir dominio] es titularidad de{' '}
-              <strong>Carmen Vicente Crespo</strong>, con correo electrónico de contacto
+              Este Sitio Web [introducir dominio] es titularidad de{' '}
+              <strong>Carmen Vicente Crespo</strong>, con NIF <strong>04656218Y</strong>, domicilio
+              en <strong>Cuenca, España</strong>, y correo electrónico de contacto
               <button
                 onClick={handleEmailClick}
                 className="text-teal-600 font-semibold underline mx-1 hover:text-teal-800 transition-colors"
@@ -305,19 +306,19 @@ export default function AvisoLegal() {
 
             <div className="bg-amber-50 p-6 rounded-2xl border border-amber-100 shadow-sm">
               <h3 className="text-lg font-semibold text-amber-900 mb-3 mt-0 text-sm uppercase tracking-wider">
-                Propiedad de los Resultados y Cesión
+                Autoría y Licencia de Uso
               </h3>
               <p className="text-gray-800 text-sm leading-relaxed mb-4">
-                El uso del Sitio Web y la obtención de materiales (textos, cuentos y adaptaciones
-                pictográficas) implica que el usuario acepta que los derechos de explotación de
-                dichos resultados pertenecen a la titular. Esta medida garantiza que el proyecto
-                pueda seguir siendo gratuito y compartido con la comunidad educativa.
+                El usuario conserva la autoría sobre los textos originales que introduce en el Sitio
+                Web. No obstante, al hacer uso del mismo, concede a la titular una
+                <strong> licencia no exclusiva, gratuita y mundial</strong> para alojar, mostrar y
+                compartir los materiales generados con fines exclusivamente educativos y sin ánimo
+                de lucro, por el tiempo que el contenido permanezca en la plataforma.
               </p>
               <p className="text-gray-800 text-sm leading-relaxed italic">
-                Dicha cesión tiene carácter exclusivo, gratuito y mundial, abarcando todos los
-                derechos de explotación (reproducción, distribución y comunicación pública) por el
-                tiempo máximo legal permitido, sin que la titular se obligue al abono de
-                contraprestación alguna al usuario.
+                Esta licencia no implica cesión de derechos de explotación ni permite a la titular
+                reproducir, distribuir o comunicar públicamente los contenidos del usuario fuera del
+                ámbito del Sitio Web y sus fines educativos, sin autorización expresa del mismo.
               </p>
             </div>
           </section>
@@ -332,35 +333,176 @@ export default function AvisoLegal() {
               <strong>Ley Orgánica 3/2018 (LOPDGDD)</strong>, y demás normas que la complementen y
               desarrollen.
             </p>
+
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Responsable del tratamiento
+            </h3>
             <p className="text-gray-700 leading-relaxed mb-4">
-              El usuario que accede al Sitio Web no está obligado a proporcionar información
-              personal para el uso del mismo. Por tanto, cualquier comunicación de datos lo será
-              porque el usuario voluntariamente ha decidido realizar una consulta o uso de los
-              servicios.
-            </p>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              En todo momento el usuario podrá ejercitar sus derechos de acceso, rectificación,
-              supresión, limitación del tratamiento, portabilidad y oposición a través de la
-              dirección de correo electrónico:
+              <strong>Carmen Vicente Crespo</strong> — correo electrónico:{' '}
               <button
                 onClick={handleEmailClick}
-                className="text-teal-600 font-semibold underline ml-1 hover:text-teal-800 transition-colors"
+                className="text-teal-600 font-semibold underline hover:text-teal-800 transition-colors"
               >
                 cvicentecrespos@gmail.com
               </button>
+            </p>
+
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Finalidad y base jurídica</h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Los datos facilitados voluntariamente por el usuario se tratan con la finalidad de
+              gestionar las consultas recibidas y prestar los servicios educativos ofrecidos a
+              través del Sitio Web. La base jurídica del tratamiento es el{' '}
+              <strong>consentimiento del usuario</strong> (art. 6.1.a RGPD), otorgado en el momento
+              de hacer uso de los servicios o contactar con la titular.
+            </p>
+
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Transferencia internacional de datos — Google Gemini
+            </h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Este Sitio Web utiliza la <strong>API de Google Gemini</strong> (Google LLC, con sede
+              en EE.UU.) para procesar los textos introducidos por el usuario. Dicho procesamiento
+              puede implicar una <strong>transferencia internacional de datos</strong> a servidores
+              ubicados fuera del Espacio Económico Europeo. Google LLC ofrece garantías adecuadas
+              conforme al RGPD mediante sus cláusulas contractuales tipo y su adhesión a los marcos
+              de transferencia vigentes. El usuario, al usar este servicio, consiente expresamente
+              dicha transferencia.
+            </p>
+
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Almacenamiento de datos — Supabase
+            </h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Este Sitio Web utiliza <strong>Supabase</strong> (Supabase Inc., con sede en EE.UU.)
+              como servicio de base de datos en la nube para almacenar temporalmente los contenidos
+              generados a través de la plataforma, como cuentos, pictogramas y sus traducciones.
+              Los datos se almacenan en servidores ubicados en la{' '}
+              <strong>Unión Europea (Irlanda)</strong>, por lo que no se produce transferencia
+              internacional fuera del Espacio Económico Europeo. Supabase Inc. actúa como encargado
+              del tratamiento y ofrece garantías de protección de datos conforme al RGPD.
+            </p>
+
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Servicio de correo electrónico — Resend
+            </h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Este Sitio Web utiliza el servicio <strong>Resend</strong> (Resend Inc., con sede en
+              EE.UU.) para el envío de los mensajes de feedback que el usuario remite
+              voluntariamente a través del formulario del sitio. Resend actúa como encargado del
+              tratamiento y no almacena los datos de forma permanente más allá de lo estrictamente
+              necesario para la entrega del correo electrónico. Dicho procesamiento puede implicar
+              una <strong>transferencia internacional de datos</strong> a servidores ubicados fuera
+              del Espacio Económico Europeo. Resend Inc. ofrece garantías adecuadas conforme al
+              RGPD mediante sus cláusulas contractuales tipo.
+            </p>
+
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Plazo de conservación</h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Los datos personales se conservarán únicamente durante el tiempo necesario para
+              cumplir con la finalidad para la que fueron recabados y, en todo caso, durante los
+              plazos legalmente establecidos.
+            </p>
+
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">Derechos del usuario</h3>
+            <p className="text-gray-700 leading-relaxed mb-4">
+              El usuario podrá ejercitar en cualquier momento sus derechos de{' '}
+              <strong>
+                acceso, rectificación, supresión, limitación del tratamiento, portabilidad y
+                oposición
+              </strong>{' '}
+              dirigiéndose a la titular a través del correo electrónico:{' '}
+              <button
+                onClick={handleEmailClick}
+                className="text-teal-600 font-semibold underline hover:text-teal-800 transition-colors"
+              >
+                cvicentecrespos@gmail.com
+              </button>
+              . Asimismo, tiene derecho a presentar una reclamación ante la{' '}
+              <a
+                href="https://www.aepd.es"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-teal-600 underline hover:text-teal-800"
+              >
+                Agencia Española de Protección de Datos (AEPD)
+              </a>
               .
+            </p>
+
+            <p className="text-gray-700 leading-relaxed">
+              El usuario que accede al Sitio Web no está obligado a proporcionar información
+              personal para el uso general del mismo. Cualquier comunicación de datos se produce
+              porque el usuario voluntariamente ha decidido realizar una consulta o hacer uso de los
+              servicios.
             </p>
           </section>
 
           {/* SECCIÓN 8: COOKIES */}
           <section className="mb-10">
             <h2 className="text-xl font-bold text-gray-800 mb-4">8. Utilización de Cookies</h2>
-            <p className="text-gray-700 leading-relaxed">
-              La titular se reserva el derecho de utilizar "cookies" u otras técnicas similares
-              durante la navegación del usuario. Estas cookies se utilizan para asegurar la correcta
-              administración del Sitio Web y facilitar la navegación. El usuario puede configurar su
-              navegador o utilizar el banner de configuración presente en la web para aceptar o
-              rechazar su uso.
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Este Sitio Web utiliza cookies y almacenamiento local propios con el fin de garantizar
+              el correcto funcionamiento del sitio y recordar las preferencias del usuario. A
+              continuación se detalla el tipo de almacenamiento empleado:
+            </p>
+
+            <div className="overflow-x-auto mb-6">
+              <table className="w-full text-sm text-gray-700 border border-gray-200 rounded-lg overflow-hidden">
+                <thead className="bg-teal-50 text-teal-900 font-semibold">
+                  <tr>
+                    <th className="px-4 py-3 text-left border-b border-gray-200">Tipo</th>
+                    <th className="px-4 py-3 text-left border-b border-gray-200">Finalidad</th>
+                    <th className="px-4 py-3 text-left border-b border-gray-200">Duración</th>
+                    <th className="px-4 py-3 text-left border-b border-gray-200">Titular</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  <tr className="hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium">Técnicas</td>
+                    <td className="px-4 py-3">
+                      Necesarias para el correcto funcionamiento del sitio. Incluye el registro del
+                      consentimiento de cookies del usuario (<code>cookies_config_v1</code>),
+                      almacenado en localStorage.
+                    </td>
+                    <td className="px-4 py-3">Persistente</td>
+                    <td className="px-4 py-3">Propia</td>
+                  </tr>
+                  <tr className="hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium">Preferencias</td>
+                    <td className="px-4 py-3">
+                      Recuerdan las opciones elegidas por el usuario, como el idioma seleccionado.
+                      Almacenado en localStorage del navegador.
+                    </td>
+                    <td className="px-4 py-3">Persistente</td>
+                    <td className="px-4 py-3">Propia</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p className="text-gray-700 leading-relaxed mb-4">
+              Las cookies <strong>técnicas</strong> no requieren consentimiento previo del usuario
+              al ser estrictamente necesarias para la prestación del servicio. El resto de cookies
+              solo se activarán si el usuario otorga su consentimiento a través del banner de
+              configuración presente en el Sitio Web.
+            </p>
+
+            <p className="text-gray-700 leading-relaxed mb-4">
+              El usuario puede en todo momento <strong>retirar su consentimiento</strong>,
+              configurar o deshabilitar las cookies a través de:
+            </p>
+
+            <ul className="list-disc ml-6 text-gray-700 space-y-2 mb-4">
+              <li>El banner de configuración de cookies disponible en el Sitio Web.</li>
+              <li>
+                La configuración de su navegador (Chrome, Firefox, Safari, Edge), donde puede
+                bloquear o eliminar las cookies instaladas.
+              </li>
+            </ul>
+
+            <p className="text-gray-700 leading-relaxed text-sm italic">
+              La desactivación de cookies técnicas puede afectar al correcto funcionamiento del
+              Sitio Web.
             </p>
           </section>
 
@@ -390,8 +532,10 @@ export default function AvisoLegal() {
                 ni por la disponibilidad y condiciones, técnicas o no, de acceso a los mismos, que
                 sean ofrecidos por terceros prestadores de servicios, en especial respecto de los{' '}
                 <strong>prestadores de servicios de la sociedad de la información</strong>{' '}
-                (incluyendo, pero no limitado a, la API de
-                <strong> Google Gemini</strong> y servicios de hosting). Por prestadores de
+                (incluyendo, pero no limitado a, la API de{' '}
+                <strong>Google Gemini</strong>, los servicios de base de datos de{' '}
+                <strong>Supabase</strong>, el servicio de correo electrónico de{' '}
+                <strong>Resend</strong> y servicios de hosting). Por prestadores de
                 servicios de la sociedad de la información se entenderán aquellas personas físicas o
                 jurídicas que presten los siguientes servicios al público: (i) transmisión por una
                 red de comunicación de datos facilitados por el destinatario del servicio (ii)

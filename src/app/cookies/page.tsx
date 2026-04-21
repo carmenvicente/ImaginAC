@@ -20,15 +20,13 @@ export default function PoliticaCookies() {
             <section>
               <h2 className="text-xl font-bold text-gray-800 mb-4">1. ¿Qué son las cookies?</h2>
               <p className="text-gray-700 leading-relaxed">
-                Se denominan cookies a unos pequeños archivos que se graban en el navegador
-                utilizado por cada visitante de nuestra web para que el servidor pueda recordar la
-                visita de ese usuario con posterioridad cuando vuelva a acceder a nuestros
-                contenidos. Esta información no revela su identidad, ni dato personal alguno, ni
-                accede al contenido almacenado en su pc, pero sí que permite a nuestro sistema
-                identificarle a usted como un usuario (anónimo) determinado que ya visitó la web con
-                anterioridad, visualizó determinadas páginas, etc. y además permite guardar sus
-                preferencias personales e información técnica como por ejemplo las visitas
-                realizadas o páginas concretas que visite.
+                Las cookies son pequeños archivos que se graban en el navegador para que el servidor
+                pueda recordar información sobre la visita del usuario. Además de cookies
+                tradicionales, este Sitio Web utiliza <strong>localStorage</strong>, un mecanismo
+                de almacenamiento local del navegador funcionalmente similar pero que no se envía
+                al servidor en cada petición. En ambos casos, la información almacenada no revela
+                su identidad ni accede al contenido de su dispositivo, y se emplea exclusivamente
+                para guardar sus preferencias y garantizar el correcto funcionamiento del sitio.
               </p>
             </section>
 
@@ -56,26 +54,18 @@ export default function PoliticaCookies() {
                     <tr>
                       <td className="px-4 py-3 font-mono text-teal-600">cookies_config_v1</td>
                       <td className="px-4 py-3">
-                        Guarda tus preferencias sobre qué cookies aceptas.
+                        Guarda tus preferencias sobre qué cookies aceptas. Almacenado en
+                        localStorage.
                       </td>
                       <td className="px-4 py-3 italic">Propia (Necesaria)</td>
                     </tr>
                     <tr>
-                      <td className="px-4 py-3 font-mono text-teal-600">idioma_preferencia</td>
+                      <td className="px-4 py-3 font-mono text-teal-600">idioma_preferido</td>
                       <td className="px-4 py-3">
-                        Recuerda el idioma seleccionado para la interfaz.
+                        Recuerda el idioma seleccionado para la interfaz. Almacenado en
+                        localStorage.
                       </td>
                       <td className="px-4 py-3 italic">Propia (Personalización)</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3 font-mono text-teal-600">_ga, _gat</td>
-                      <td className="px-4 py-3">Análisis anónimo de cómo se usa la web.</td>
-                      <td className="px-4 py-3 italic">Terceros (Google)</td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-3 font-mono text-teal-600">arasaac_cache</td>
-                      <td className="px-4 py-3">Optimización de carga de los pictogramas.</td>
-                      <td className="px-4 py-3 italic">Terceros (ARASAAC)</td>
                     </tr>
                   </tbody>
                 </table>
@@ -154,10 +144,9 @@ export default function PoliticaCookies() {
                 </div>
 
                 <p className="mt-6 text-sm italic text-gray-600 bg-teal-50/50 p-4 rounded-xl border-l-4 border-teal-400">
-                  Respecto de las cookies de terceros, es decir aquellas que son ajenas a nuestro
-                  sitio web, no podemos hacernos responsables del contenido y veracidad de las
-                  políticas de privacidad que ellos incluyen por lo que la información que le
-                  ofrecemos es siempre con referencia a la fuente.
+                  Este Sitio Web no utiliza cookies de terceros con fines analíticos ni
+                  publicitarios. Todo el almacenamiento es propio y se realiza exclusivamente en el
+                  navegador del usuario mediante localStorage.
                 </p>
               </div>
             </section>

@@ -44,9 +44,9 @@ export default function Privacidad() {
             </p>{' '}
             <br />
             <p>
-              El responsable del tratamiento es la persona jurídica que determina los fines y medios
-              del tratamiento de datos personales. En otras palabras, el responsable decide cómo y
-              con qué finalidades se tratan los datos personales.
+              El responsable del tratamiento es la persona física o jurídica que determina los fines
+              y medios del tratamiento de datos personales. En otras palabras, el responsable decide
+              cómo y con qué finalidades se tratan los datos personales.
             </p>{' '}
             <br />
             <p>
@@ -56,6 +56,12 @@ export default function Privacidad() {
             <ul className="list-none pl-0 text-gray-700 space-y-1 mt-4">
               <li>
                 <strong>Titular:</strong> Carmen Vicente Crespo
+              </li>
+              <li>
+                <strong>NIF:</strong> 04656218Y
+              </li>
+              <li>
+                <strong>Domicilio:</strong> Cuenca, España
               </li>
               <li>
                 <strong>Nombre Comercial:</strong> ImaginAC
@@ -123,8 +129,10 @@ export default function Privacidad() {
                     expreso del interesado al remitir su comunicación.
                   </p>
                   <p>
-                    <strong>4. ¿A qué destinatarios?</strong> No se cederán datos a terceros, salvo
-                    obligación legal.
+                    <strong>4. ¿A qué destinatarios?</strong> Los datos son gestionados por{' '}
+                    <strong>Resend</strong> (Resend Inc., EE.UU.) como encargado del tratamiento
+                    para el envío técnico del correo electrónico. No se cederán datos a ningún otro
+                    tercero, salvo obligación legal.
                   </p>
                 </div>
               </li>
@@ -155,15 +163,44 @@ export default function Privacidad() {
                 </div>
               </li>
 
-              {/* CASO C: NAVEGACIÓN */}
+              {/* CASO C: ALMACENAMIENTO */}
+              <li className="bg-teal-50 border border-teal-200 p-6 rounded-2xl shadow-sm">
+                <strong className="text-teal-900 block mb-4 text-lg border-b border-teal-300/50 pb-2">
+                  Tratamiento de datos de "Almacenamiento de contenidos generados (Supabase)"
+                </strong>
+                <div className="grid gap-3 text-gray-800 text-sm md:text-base">
+                  <p>
+                    <strong>1. ¿Qué tipo de datos personales tratamos?</strong> Contenidos generados
+                    por el usuario a través de la herramienta (cuentos, pictogramas y traducciones).
+                    No se almacenan datos identificativos del usuario.
+                  </p>
+                  <p>
+                    <strong>2. ¿Con qué finalidad?</strong> Almacenamiento temporal de los
+                    materiales educativos generados para permitir su visualización y uso dentro de la
+                    plataforma.
+                  </p>
+                  <p>
+                    <strong>3. ¿Cuál es la legitimación?</strong> Ejecución del servicio solicitado
+                    por el usuario al interactuar con la herramienta.
+                  </p>
+                  <p>
+                    <strong>4. ¿A qué destinatarios?</strong> Los datos se almacenan en{' '}
+                    <strong>Supabase</strong> (Supabase Inc., EE.UU.) como encargado del
+                    tratamiento, en servidores ubicados en la Unión Europea (Irlanda).
+                  </p>
+                </div>
+              </li>
+
+              {/* CASO D: NAVEGACIÓN */}
               <li className="bg-teal-50 border border-teal-200 p-6 rounded-2xl shadow-sm">
                 <strong className="text-teal-900 block mb-4 text-lg border-b border-teal-300/50 pb-2">
                   Tratamiento de datos de “Datos de Navegación”
                 </strong>
                 <div className="grid gap-3 text-gray-800 text-sm md:text-base">
                   <p>
-                    <strong>1. ¿Qué tipo de datos personales tratamos?</strong> Datos técnicos como
-                    la dirección IP (anonimizada) y preferencias de idioma.
+                    <strong>1. ¿Qué tipo de datos personales tratamos?</strong> Datos técnicos de
+                    navegación que el servidor de alojamiento puede registrar (como la dirección IP)
+                    y preferencias de idioma guardadas en el navegador.
                   </p>
                   <p>
                     <strong>2. ¿Con qué finalidad?</strong> Garantizar la correcta administración
@@ -206,7 +243,7 @@ export default function Privacidad() {
                 le facilitemos acceso a los mismos y a la información sobre su tratamiento y a
                 obtener una copia de dichos datos. Por nuestra parte, podremos pedirle que acredite
                 su identidad o requerirle más información que sea necesaria para gestionar su
-                solicitud
+                solicitud.
               </li>
               <li>
                 <strong>3. Derecho de rectificación:</strong> Usted tiene derecho a solicitar la
@@ -277,9 +314,13 @@ export default function Privacidad() {
               datos a terceros ajenos al servicio, salvo obligación legal.
             </p>
             <p className="text-gray-700 mt-4 leading-relaxed">
-              Los pictogramas se sirven desde los servidores de <strong>ARASAAC</strong> y el
-              procesamiento de textos se realiza mediante la tecnología de{' '}
-              <strong>Google Gemini</strong>.
+              Los pictogramas se sirven desde los servidores de <strong>ARASAAC</strong>. El
+              procesamiento de textos se realiza mediante la API de <strong>Google Gemini</strong>{' '}
+              (Google LLC, EE.UU.). Los contenidos generados se almacenan en{' '}
+              <strong>Supabase</strong> (Supabase Inc., EE.UU., servidores en Irlanda). El envío de
+              comunicaciones de feedback se gestiona a través de <strong>Resend</strong> (Resend
+              Inc., EE.UU.). Todos estos proveedores actúan como encargados del tratamiento con las
+              garantías adecuadas conforme al RGPD.
             </p>
             {/* Nota técnica sobre la API para mayor seguridad legal */}
             <p className="text-gray-600 mt-2 text-sm italic bg-gray-50 p-3 rounded-lg border-l-4 border-teal-400">
