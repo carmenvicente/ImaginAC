@@ -169,5 +169,14 @@
   "generandoMensaje2": "Ricerca dei pittogrammi più adatti...",
   "generandoMensaje3": "Organizzazione delle diapositive...",
   "generandoMensaje4": "Aggiunta degli ultimi tocchi magici...",
-  "generandoMensaje5": "Quasi pronto, ancora un secondo..."
+  "generandoMensaje5": "Quasi pronto, ancora un secondo...",
+  "portadaHablaSobre": "Storia che ci parla di:",
+  "portadaCreadoPor": "Creato da",
+  "pdfDescargar": "Scarica PDF",
+  "pdfGenerando": "Generazione PDF in corso...",
+  "diapoDe": "di",
+  "diapoSinSegmentos": "Nessun segmento disponibile per questa frase",
+  "diapoAnterior": "Precedente",
+  "diapoSiguiente": "Successiva",
+  "diapoIrA": "Vai alla diapositiva"
 }

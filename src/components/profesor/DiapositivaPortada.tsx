@@ -1,5 +1,6 @@
 'use client';
 
+import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 import { COLORES_CATEGORIA, type Pictograma, type CategoriaPictograma } from '@/lib/ia/arasaac';
 
 interface Frase {
@@ -29,6 +30,9 @@ function sanitizeText(text: unknown, fallback: string = ''): string {
 }
 
 export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPortadaProps) {
+  const idiomaActual = useLanguageStore((s) => s.idiomaActual);
+  const t = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
+
   const tituloSeguro = sanitizeText(titulo, 'Cuento sin título');
   const finalidadSegura = sanitizeText(finalidad, 'las emociones y su gestión');
   const autorSeguro = sanitizeText(autor, 'Carmen Vicente Crespo');
@@ -69,13 +73,13 @@ export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPort
         <div className="w-[60%] flex flex-col justify-center gap-[1.5cqw]">
           <div className="bg-white rounded-[1.5cqw] shadow-sm p-[2cqw]">
             <p className="text-[2.7cqw] text-gray-800 leading-tight">
-              Cuento que nos habla sobre: {finalidadSegura}
+              {t.portadaHablaSobre || 'Cuento que nos habla sobre:'} {finalidadSegura}
             </p>
           </div>
 
           <div className="bg-white rounded-[1.5cqw] shadow-sm p-[1.5cqw]">
             <p className="text-center text-[2.4cqw] text-gray-700 font-bold">
-              Creado por {autorSeguro}
+              {t.portadaCreadoPor || 'Creado por'} {autorSeguro}
             </p>
           </div>
 
@@ -83,10 +87,10 @@ export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPort
           <div className="bg-white/50 rounded-[1cqw] shadow-sm p-[1cqw] border-t border-gray-300">
             <p className="text-[1.5cqw] text-gray-700 leading-none text-center">
               <span className="block mb-[0.2cqw]">
-                <strong>Autor pictogramas:</strong> Sergio Palao
+                <strong>{t.autorPicto || 'Autor pictogramas:'}</strong> Sergio Palao
               </span>
               <span className="block mb-[0.2cqw]">
-                <strong>Origen:</strong>{' '}
+                <strong>{t.origen || 'Origen:'}</strong>{' '}
                 <a
                   href="http://arasaac.org"
                   target="_blank"
@@ -97,10 +101,10 @@ export function DiapositivaPortada({ titulo, finalidad, autor }: DiapositivaPort
                 </a>
               </span>
               <span className="block mb-[0.2cqw]">
-                <strong>Licencia:</strong> CC (BY-NC-SA)
+                <strong>{t.licencia || 'Licencia:'}</strong> CC (BY-NC-SA)
               </span>
               <span className="block">
-                <strong>Propiedad:</strong> Gobierno de Aragón (España)
+                <strong>{t.propiedad || 'Propiedad:'}</strong> {t.gobiernoAragon || 'Gobierno de Aragón (España)'}
               </span>
             </p>
           </div>

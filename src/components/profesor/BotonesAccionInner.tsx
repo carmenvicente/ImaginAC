@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { FONT_CUENTO_BASE64 } from '@/../public/fonts/Escolar_G';
+import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
 interface Segmento {
   texto: string;
@@ -20,6 +21,11 @@ interface BotonesAccionInnerProps {
   finalidad?: string;
   historia?: string;
   diapositivas?: DiapositivaContenido[];
+}
+
+const CHARS_FUERA_ESCOLAR = /[êâîôûàèùëïœæçÊÂÎÔÛÀÈÙËÏŒÆÇäöÄÖßãõÃÕ]/;
+function fontParaTexto(texto: string): string {
+  return CHARS_FUERA_ESCOLAR.test(texto) ? 'helvetica' : 'Escolar';
 }
 
 function limpiarNombreArchivo(nombre: string): string {
@@ -58,6 +64,8 @@ export function BotonesAccionInner({
   historia = '',
   diapositivas = [],
 }: BotonesAccionInnerProps) {
+  const idiomaActual = useLanguageStore((s) => s.idiomaActual);
+  const tr = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
   const [generandoPDF, setGenerandoPDF] = useState(false);
 
   const handleDownloadPDF = useCallback(async () => {
@@ -155,7 +163,7 @@ export function BotonesAccionInner({
 
       // --- TÍTULO PRINCIPAL (PORTADA) ---
       const titleText = titulo;
-      doc.setFont('Escolar');
+      doc.setFont(fontParaTexto(titleText));
       doc.setFontSize(42);
       doc.setTextColor(244, 164, 96);
 
@@ -165,6 +173,7 @@ export function BotonesAccionInner({
       doc.text(titleText, titleX, 80);
       doc.text(titleText, titleX + 0.5, 80);
       doc.text(titleText, titleX + 1, 80);
+      doc.setFont('Escolar'); // reset tras el título
 
       // --- BLOQUE DE CAJAS (LADO DERECHO) ---
       const rightX = 340;
@@ -174,7 +183,7 @@ export function BotonesAccionInner({
 
       // --- CAJA 1: FINALIDAD ---
       const box1Y = 120;
-      const prefijo = 'Cuento que nos habla sobre: ';
+      const prefijo = (tr.portadaHablaSobre || 'Cuento que nos habla sobre:') + ' ';
       const finalidadTexto = finalidad || 'las emociones y su gestión';
       const textoCompleto = prefijo + finalidadTexto; // Unimos todo en una sola cadena
 
@@ -214,10 +223,11 @@ export function BotonesAccionInner({
       doc.setDrawColor(230, 230, 230);
       doc.roundedRect(rightX, box2Y, boxWidth, box2Height, boxRadius, boxRadius, 'FD');
 
+      doc.setFont('Escolar');
       doc.setFontSize(18);
       doc.setTextColor(55, 65, 81);
 
-      const autorText = 'Creado por Carmen Vicente Crespo';
+      const autorText = (tr.portadaCreadoPor || 'Creado por') + ' Carmen Vicente Crespo';
 
       // Calculamos el centro vertical exacto
       const yCentrado = box2Y + box2Height / 2 + 5;
@@ -241,7 +251,7 @@ export function BotonesAccionInner({
       const colorNaranja = [244, 164, 96];
 
       // --- LÍNEA 1: Autor pictogramas (Igual que antes) ---
-      const t1 = 'Autor pictogramas: ';
+      const t1 = (tr.autorPicto || 'Autor pictogramas:') + ' ';
       const t1_2 = 'Sergio Palao';
       const w1 = doc.getTextWidth(t1 + t1_2);
       let currentX = boxCenterX - w1 / 2;
@@ -252,7 +262,7 @@ export function BotonesAccionInner({
       doc.text(t1_2, currentX + doc.getTextWidth(t1), box3Y + 25);
 
       // --- LÍNEA 2: Origen (TODO EN NEGRITA Y NARANJA) ---
-      const t2 = 'Origen: ';
+      const t2 = (tr.origen || 'Origen:') + ' ';
       const t2_full = 'ARASAAC (https://arasaac.org/)';
       const w2 = doc.getTextWidth(t2 + t2_full);
       currentX = boxCenterX - w2 / 2;
@@ -268,7 +278,7 @@ export function BotonesAccionInner({
       doc.text(t2_full, currentX + doc.getTextWidth(t2) + 0.2, box3Y + 48); // Negrita aplicada a todo
 
       // --- LÍNEA 3: Licencia (Igual que antes) ---
-      const t3 = 'Licencia: ';
+      const t3 = (tr.licencia || 'Licencia:') + ' ';
       const t3_2 = 'CC (BY-NC-SA)';
       const w3 = doc.getTextWidth(t3 + t3_2);
       currentX = boxCenterX - w3 / 2;
@@ -279,8 +289,8 @@ export function BotonesAccionInner({
       doc.text(t3_2, currentX + doc.getTextWidth(t3), box3Y + 71);
 
       // --- LÍNEA 4: Propiedad (Igual que antes) ---
-      const t4 = 'Propiedad: ';
-      const t4_2 = 'Gobierno de Aragón (España)';
+      const t4 = (tr.propiedad || 'Propiedad:') + ' ';
+      const t4_2 = tr.gobiernoAragon || 'Gobierno de Aragón (España)';
       const w4 = doc.getTextWidth(t4 + t4_2);
       currentX = boxCenterX - w4 / 2;
 
@@ -322,7 +332,7 @@ export function BotonesAccionInner({
         }
 
         // --- TÍTULO (PÁGINA 2) ---
-        doc.setFont('Escolar');
+        doc.setFont(fontParaTexto(titulo));
         doc.setFontSize(38);
         doc.setTextColor(244, 164, 96);
 
@@ -334,6 +344,7 @@ export function BotonesAccionInner({
         doc.text(titleLines, pageWidth2 / 2, titleY, { align: 'center' });
         doc.text(titleLines, pageWidth2 / 2 + 0.5, titleY, { align: 'center' });
         doc.text(titleLines, pageWidth2 / 2 + 1, titleY, { align: 'center' });
+        doc.setFont('Escolar'); // reset tras el título
 
         // --- PROCESAMIENTO DEL CUERPO DEL CUENTO ---
         doc.setFontSize(24);
@@ -341,31 +352,36 @@ export function BotonesAccionInner({
 
         const margin = 80;
         const maxWidth = pageWidth2 - margin * 2;
-        const lineHeight = 28;
-        let yPos = 130;
+        const startY = 130;
+        const endY = pageHeight2 - 50;
+        const alturaDisponible = endY - startY;
 
+        // Ajuste dinámico: reducir tamaño de fuente hasta que todo quepa en una página
+        let fontSize = 24;
         const parrafos = historia.split('\n\n');
+
+        const contarLineas = (fs: number) => {
+          doc.setFontSize(fs);
+          let total = 0;
+          for (const parrafo of parrafos) {
+            total += doc.splitTextToSize(parrafo, maxWidth).length + 1;
+          }
+          return total;
+        };
+
+        while (fontSize > 10 && contarLineas(fontSize) * (fontSize * 1.2) > alturaDisponible) {
+          fontSize -= 1;
+        }
+
+        const lineHeight = fontSize * 1.2;
+        doc.setFont(fontParaTexto(historia));
+        doc.setFontSize(fontSize);
+        doc.setTextColor(55, 65, 81);
+        let yPos = startY;
 
         for (const parrafo of parrafos) {
           const lineas = doc.splitTextToSize(parrafo, maxWidth);
           for (const linea of lineas) {
-            // LÓGICA DE SALTO DE PÁGINA AUTOMÁTICO
-            if (yPos > pageHeight2 - 50) {
-              doc.addPage();
-              doc.setFillColor(212, 254, 255);
-              doc.rect(0, 0, pageWidth2, pageHeight2, 'F');
-
-              // Volvemos a poner el logo en la página nueva si salta
-              try {
-                const logoData = await cargarImagen('/logo_ImaginAC_simple.png');
-                doc.setGState(doc.GState({ opacity: 0.8 }));
-                doc.addImage(logoData, 'PNG', pageWidth2 - 90, 30, 60, 60); // Ajuste rápido para el salto
-                doc.setGState(doc.GState({ opacity: 1 }));
-              } catch (e) {}
-
-              yPos = 80;
-            }
-
             doc.text(linea, margin, yPos);
             doc.text(linea, margin + 0.2, yPos);
             yPos += lineHeight;
@@ -411,7 +427,7 @@ export function BotonesAccionInner({
           }
 
           // --- TEXTO SUPERIOR: FORZAMOS ESCOLAR ANTES DE ESCRIBIR ---
-          doc.setFont('Escolar', 'normal');
+          doc.setFont(fontParaTexto(diapositiva.texto), 'normal');
           doc.setFontSize(26);
           doc.setTextColor(31, 41, 55);
 
@@ -423,6 +439,7 @@ export function BotonesAccionInner({
           doc.text(lineasTexto, pageW / 2, 70, { align: 'center' });
           doc.text(lineasTexto, pageW / 2 + 0.3, 70, { align: 'center' });
           doc.text(lineasTexto, pageW / 2 + 0.6, 70, { align: 'center' });
+          doc.setFont('Escolar', 'normal'); // reset tras el texto de la diapositiva
 
           // --- PICTOGRAMAS CON CAJAS ELÁSTICAS (ANCHO DINÁMICO) ---
           const pictosConImagen = diapositiva.segmentos.filter((s: any) => s.urlImagen);
@@ -524,15 +541,15 @@ export function BotonesAccionInner({
 
           // Definimos los trozos (texto, esNegrita, color)
           const partes = [
-            { t: 'Autor pictogramas: ', b: true, c: gris },
+            { t: (tr.autorPicto || 'Autor pictogramas:') + ' ', b: true, c: gris },
             { t: 'Sergio Palao    ', b: false, c: gris },
-            { t: 'Origen: ', b: true, c: gris },
+            { t: (tr.origen || 'Origen:') + ' ', b: true, c: gris },
             { t: 'ARASAAC (http://www.arasaac.org) ', b: true, c: naranja },
             { t: '   ', b: false, c: gris },
-            { t: 'Licencia: ', b: true, c: gris },
+            { t: (tr.licencia || 'Licencia:') + ' ', b: true, c: gris },
             { t: 'CC (BY-NC-SA)    ', b: false, c: gris },
-            { t: 'Propiedad: ', b: true, c: gris },
-            { t: 'Gobierno de Aragón', b: false, c: gris },
+            { t: (tr.propiedad || 'Propiedad:') + ' ', b: true, c: gris },
+            { t: tr.gobiernoAragon || 'Gobierno de Aragón (España)', b: false, c: gris },
           ];
 
           // Calculamos el ancho total para centrarlo
@@ -580,7 +597,7 @@ export function BotonesAccionInner({
     } finally {
       setGenerandoPDF(false);
     }
-  }, [generandoPDF, titulo, finalidad, historia, diapositivas]);
+  }, [generandoPDF, titulo, finalidad, historia, diapositivas, tr]);
 
   return (
     <div className="flex flex-col md:flex-row gap-4 mt-12 md:mt-16 px-4 pb-10">
@@ -607,7 +624,7 @@ export function BotonesAccionInner({
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
               />
             </svg>
-            Generando PDF...
+            {tr.pdfGenerando || 'Generando PDF...'}
           </>
         ) : (
           <>
@@ -619,7 +636,7 @@ export function BotonesAccionInner({
                 d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
               />
             </svg>
-            Descargar PDF
+            {tr.pdfDescargar || 'Descargar PDF'}
           </>
         )}
       </button>

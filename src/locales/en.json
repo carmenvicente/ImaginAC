@@ -169,5 +169,14 @@
   "generandoMensaje2": "Searching for the most appropriate pictograms...",
   "generandoMensaje3": "Organizing the slides...",
   "generandoMensaje4": "Adding the final magical touches...",
-  "generandoMensaje5": "Almost ready, just a second more..."
+  "generandoMensaje5": "Almost ready, just a second more...",
+  "portadaHablaSobre": "A story about:",
+  "portadaCreadoPor": "Created by",
+  "pdfDescargar": "Download PDF",
+  "pdfGenerando": "Generating PDF...",
+  "diapoDe": "of",
+  "diapoSinSegmentos": "No segments available for this sentence",
+  "diapoAnterior": "Previous",
+  "diapoSiguiente": "Next",
+  "diapoIrA": "Go to slide"
 }

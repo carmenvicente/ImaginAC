@@ -249,6 +249,10 @@ REGLAS DE ESTRUCTURA DIAPOSITIVAS:
     - El pictograma NUNCA puede estar vacío ni tener texto roto.
     - Si un verbo falla, usa la acción base en infinitivo.
     - Ejemplo: "sentir" si "sentirse" no existe en ARASAAC.
+    - Si un sustantivo es específico o raro, usa su categoría general:
+      roble/pino/olmo → "árbol", labrador/pastor → "perro", rosa/tulipán → "flor"
+    - Si un concepto es abstracto (oportunidad, responsabilidad, libertad, valor),
+      sustitúyelo por una acción o emoción concreta relacionada: "ayudar", "hacer", "valiente"
 
 12. MAPEO 100%:
     - TODO el texto en los segmentos.

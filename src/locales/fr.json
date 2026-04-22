@@ -169,5 +169,14 @@
   "generandoMensaje2": "Recherche des pictogrammes les plus adaptés...",
   "generandoMensaje3": "Organisation des diapositives...",
   "generandoMensaje4": "Apport des dernières touches magiques...",
-  "generandoMensaje5": "Presque prêt, encore une seconde..."
+  "generandoMensaje5": "Presque prêt, encore une seconde...",
+  "portadaHablaSobre": "Histoire qui nous parle de :",
+  "portadaCreadoPor": "Créé par",
+  "pdfDescargar": "Télécharger le PDF",
+  "pdfGenerando": "Génération du PDF...",
+  "diapoDe": "de",
+  "diapoSinSegmentos": "Aucun segment disponible pour cette phrase",
+  "diapoAnterior": "Précédent",
+  "diapoSiguiente": "Suivant",
+  "diapoIrA": "Aller à la diapositive"
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { DiapositivaPortada } from './DiapositivaPortada';
 import { BotonesAccion } from './BotonesAccion';
+import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
 interface Segmento {
   texto: string;
@@ -28,6 +29,8 @@ interface VisorCuentoDemoProps {
 }
 
 export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
+  const idiomaActual = useLanguageStore((s) => s.idiomaActual);
+  const t = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
   const [indiceDiapositiva, setIndiceDiapositiva] = useState(0);
 
   const tieneDiapositivas = cuento.diapositivas && cuento.diapositivas.length > 0;
@@ -138,7 +141,7 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                     {diapositivaActual?.texto}
                   </p>
                   <p className="text-[1.8cqw] text-gray-400 mt-[1cqw] font-medium">
-                    {indiceDiapositiva} de {totalDiapositivas - 1}
+                    {indiceDiapositiva} {t.diapoDe || 'de'} {totalDiapositivas - 1}
                   </p>
                 </div>
 
@@ -184,7 +187,7 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                     </div>
                   ) : (
                     <div className="text-center text-gray-400 py-4">
-                      <p className="text-[2cqw]">Sin segmentos disponibles para esta frase</p>
+                      <p className="text-[2cqw]">{t.diapoSinSegmentos || 'Sin segmentos disponibles para esta frase'}</p>
                     </div>
                   )}
                 </div>
@@ -196,11 +199,11 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                     style={{ fontFamily: 'var(--font-escolar)' }}
                   >
                     <span className="mr-[2cqw]">
-                      <strong>Autor pictogramas:</strong> Sergio Palao
+                      <strong>{t.autorPicto || 'Autor pictogramas:'}</strong> Sergio Palao
                     </span>
 
                     <span className="mr-[2cqw]">
-                      <strong>Origen:</strong>{' '}
+                      <strong>{t.origen || 'Origen:'}</strong>{' '}
                       <a
                         href="http://arasaac.org"
                         target="_blank"
@@ -212,11 +215,11 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                     </span>
 
                     <span className="mr-[2cqw]">
-                      <strong>Licencia:</strong> CC (BY-NC-SA)
+                      <strong>{t.licencia || 'Licencia:'}</strong> CC (BY-NC-SA)
                     </span>
 
                     <span>
-                      <strong>Propiedad:</strong> Gobierno de Aragón
+                      <strong>{t.propiedad || 'Propiedad:'}</strong> {t.gobiernoAragon || 'Gobierno de Aragón (España)'}
                     </span>
                   </p>
                 </div>
@@ -234,7 +237,7 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-white text-gray-700 hover:bg-gray-50 active:scale-95 border border-gray-200'
             }`}
-            aria-label="Anterior"
+            aria-label={t.diapoAnterior || 'Anterior'}
           >
             <svg
               className="w-[4cqw] h-[4cqw] md:w-6 md:h-6"
@@ -260,7 +263,7 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-[var(--marca)] text-white hover:bg-[var(--marca-hover)] active:scale-95'
             }`}
-            aria-label="Siguiente"
+            aria-label={t.diapoSiguiente || 'Siguiente'}
           >
             <svg
               className="w-[4cqw] h-[4cqw] md:w-6 md:h-6"
@@ -286,7 +289,7 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
                     ? 'bg-[var(--marca)] w-6'
                     : 'bg-gray-300 hover:bg-gray-400'
                 }`}
-                aria-label={`Ir a diapositiva ${i + 1}`}
+                aria-label={`${t.diapoIrA || 'Ir a diapositiva'} ${i + 1}`}
               />
             ))}
           </div>
