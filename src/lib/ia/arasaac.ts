@@ -334,11 +334,11 @@ const TRADUCCION_ESPANOL: Record<string, string> = {
   venir: 'venir', fer: 'hacer', dir: 'decir', veure: 'ver',
   saber: 'saber', poder: 'poder', voler: 'querer',
   // Gallego — palabras que difieren del español
-  neno: 'niño', nena: 'niña', can: 'perro', gato: 'gato',
-  xogar: 'jugar', comer: 'comer', correr: 'correr', chorar: 'llorar',
+  neno: 'niño', can: 'perro', gato: 'gato',
+  xogar: 'jugar', comer: 'comer', chorar: 'llorar',
   feliz: 'feliz', triste: 'triste', // gallego coincide con español en muchos casos
   // Euskera — palabras básicas
-  pozik: 'feliz', triste: 'triste', jan: 'comer', jolastu: 'jugar',
+  pozik: 'feliz', jan: 'comer', jolastu: 'jugar',
   etxe: 'casa', eskola: 'escuela', lagun: 'amigo', txakur: 'perro',
 };
 
@@ -441,39 +441,6 @@ export async function generarUrlArasaac(palabra: string, idioma = 'ES'): Promise
   }
 
   return '';
-}
-
-export async function transcribirAPictogramas(
-  texto: string,
-  idioma: string
-): Promise<Pictograma[]> {
-  const palabras = tokenizarTexto(texto);
-
-  const pictogramas = await Promise.all(
-    palabras.map(async (palabra, indice) => ({
-      codigoSpc: generarCodigoSpc(palabra),
-      textoOriginal: palabra,
-      categoria: detectarCategoria(palabra),
-      orden: indice,
-      urlImagen: await generarUrlArasaac(palabra),
-    }))
-  );
-
-  return pictogramas;
-}
-
-export async function transcribirPalabrasConcretas(palabras: string[]): Promise<Pictograma[]> {
-  const pictogramas = await Promise.all(
-    palabras.map(async (palabra, indice) => ({
-      codigoSpc: generarCodigoSpc(palabra),
-      textoOriginal: palabra,
-      categoria: detectarCategoria(palabra),
-      orden: indice,
-      urlImagen: await generarUrlArasaac(palabra),
-    }))
-  );
-
-  return pictogramas;
 }
 
 export function categorizarPictogramas(

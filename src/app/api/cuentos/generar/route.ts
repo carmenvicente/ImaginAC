@@ -54,6 +54,10 @@ export async function POST(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
+    if (!user) {
+      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+    }
+
     if (!titulo || !tematica || !finalidadPedagogica || !idioma || !longitud) {
       return NextResponse.json({ error: 'Faltan campos requeridos' }, { status: 400 });
     }

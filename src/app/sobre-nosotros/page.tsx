@@ -69,6 +69,7 @@ export default function SobreNosotros() {
             src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1920&q=80"
             alt=""
             fill
+            priority
             className="object-cover opacity-40"
             sizes="100vw"
           />

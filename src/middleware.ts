@@ -1,13 +1,15 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
-export async function proxy(request: NextRequest) {
-  console.log(`[PROXY] Passthrough: ${request.nextUrl.pathname}`);
-
+export function middleware(request: NextRequest) {
   const respuesta = NextResponse.next({
     request: {
       headers: request.headers,
     },
   });
+
+  respuesta.headers.set('X-Content-Type-Options', 'nosniff');
+  respuesta.headers.set('X-Frame-Options', 'DENY');
+  respuesta.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
   return respuesta;
 }
