@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Navbar } from '@/components/home/Navbar';
-import { Footer } from '@/components/home/Footer';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 import { CookiesBanner } from '@/components/home/CookiesBanner';
 import {
   useLanguageStore,

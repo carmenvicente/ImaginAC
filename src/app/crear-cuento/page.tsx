@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react'; // Importamos los hooks necesarios
-import { Navbar } from '@/components/home/Navbar';
-import { Footer } from '@/components/home/Footer';
+import { Navbar } from '@/components/layout/Navbar';
+import { Footer } from '@/components/layout/Footer';
 import { CookiesBanner } from '@/components/home/CookiesBanner';
-import { FormularioCrearCuento } from '@/components/profesor/FormularioCrearCuento';
-import { VisorCuentoDemo } from '@/components/profesor/VisorCuentoDemo';
+import { FormularioCrearCuento } from '@/components/cuento/FormularioCrearCuento';
+import { VisorCuentoDemo } from '@/components/cuento/VisorCuentoDemo';
 import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
 interface CuentoData {

@@ -1,6 +1,6 @@
-import { Navbar } from '@/components/home/Navbar';
+import { Navbar } from '@/components/layout/Navbar';
 import { HeroSection } from '@/components/home/HeroSection';
-import { Footer } from '@/components/home/Footer';
+import { Footer } from '@/components/layout/Footer';
 import { CookiesBanner } from '@/components/home/CookiesBanner';
 
 export default function Home() {
