@@ -126,10 +126,7 @@ export function construirPromptCuento(datos: DatosCuento): string {
       diversion: 'el juego y la diversión',
     }[datos.tematica] || datos.tematica;
 
-  return `Eres un escritor especializado en cuentos infantiles para niños con necesidades de accesibilidad cognitiva.
-
-ROL: Escritor de cuentos inclusivos
-OBJETIVO: Crear un cuento adaptado para facilitar la comprensión y el aprendizaje
+  return `Eres un escritor especializado en cuentos infantiles para niños con necesidades de accesibilidad cognitiva. Crea cuentos adaptados para facilitar la comprensión y el aprendizaje.
 
 CONTEXTO:
 - Temática: ${nombreTematica}
@@ -139,28 +136,37 @@ CONTEXTO:
 ${reglasGrounding}
 
 ESTRUCTURA DEL CUENTO:
-1. INTRODUCCIÓN (aproximadamente 10% del texto): Presenta a los personajes y el escenario.
-2. NUDO/CONFLICTO (aproximadamente 60% del texto): Desarrolla una situación que genere interés y conexión emocional.
-3. RESOLUCIÓN (aproximadamente 30% del texto): Ofrece una solución positiva y educativa.
+1. INTRODUCCIÓN (aprox. 10%): Presenta los personajes y el escenario.
+2. NUDO (aprox. 60%): Desarrolla una situación con interés y conexión emocional.
+3. RESOLUCIÓN (aprox. 30%): Ofrece una solución positiva y educativa.
 
 REGLAS DE ESCRITURA:
-- Lenguaje simple y directo, adaptado a niños.
-- Oraciones cortas y claras.
-- Vocabulario concreto, evita abstracciones.
-- Usa nombres propios fáciles de pronunciar.
+- Lenguaje simple y directo, adaptado a niños de 6-10 años.
+- Oraciones cortas y claras. Máximo 10 palabras por oración.
+- Tiempo verbal consistente: no mezcles presente y pasado en el mismo cuento.
+- Máximo 3 personajes en total.
+- VOCABULARIO INFANTIL (OBLIGATORIO): Usa SOLO palabras que un niño de 6 años conoce. Sustituye siempre las palabras cultas por su equivalente simple:
+  * "debido a" → "por" / "porque"
+  * "sin embargo" → "pero"
+  * "por lo tanto" → "entonces"
+  * "además" → "también"
+  * "mediante" → "con"
+  * "a causa de" → "por"
+  * "a pesar de" → "aunque"
+  * "puesto que" → "porque"
+  * "de repente" → "de pronto"
+  * "finalmente" → "al final"
+  * "anteriormente" → "antes"
+  * "posteriormente" → "después"
+  * "numerosos" → "muchos"
+- CONTENIDO: Prohibido violencia, lenguaje hiriente o contenido para adultos. Los monstruos y criaturas fantásticas sí están permitidos si el tono es amigable.
 - Incluye repetición de frases clave para refuerzo.
 - Finaliza con un mensaje positivo y educativo.
 - MÁXIMO ${datos.palabrasMax} palabras totales.
 - ESTRUCTURA DE PÁRRAFOS (OBLIGATORIA):
-  * El campo "texto" del JSON DEBE tener exactamente 3 párrafos separados por "\n\n".
+  * El campo "texto" DEBE tener exactamente 3 párrafos separados por "\n\n".
   * Párrafo 1 = Introducción, Párrafo 2 = Nudo, Párrafo 3 = Resolución.
-  * NO uses un solo bloque de texto. Usa saltos de línea dobles entre párrafos.
-- REGLAS DE GROUNDING DEL TÍTULO (ABSOLUTAS):
-  * USA EXACTAMENTE el título proporcionado por el usuario: "${datos.titulo}"
-  * PROHIBIDO generar, modificar, abreviar o inventar un título alternativo
-  * El campo "titulo" en el JSON DEBE ser idéntico a "${datos.titulo}"
-  * Si el título original tiene errores de ortografía, cópialos exactamente igual
-  * NO añadas comillas, signos de exclamación ni modificaciones de ningún tipo
+- TÍTULO (ABSOLUTO): El campo "titulo" DEBE ser exactamente "${datos.titulo}". No lo modifiques, abrevies ni corrijas.
 
 SALIDA REQUERIDA (JSON EXACTO):
 {
@@ -179,104 +185,68 @@ SALIDA REQUERIDA (JSON EXACTO):
         {"texto": "Verbo", "pictograma": "pictograma_verbo"},
         {"texto": "Objeto", "pictograma": "pictograma_objeto"}
       ]
-    },
-    {
-      "texto": "Aquí va la frase completa número 2",
-      "segmentos": [
-        {"texto": "Sujeto", "pictograma": "pictograma_sujeto"},
-        {"texto": "Verbo", "pictograma": "pictograma_verbo"},
-        {"texto": "Complemento", "pictograma": "pictograma_complemento"}
-      ]
     }
   ]
 }
 
 REGLAS DE ESTRUCTURA DIAPOSITIVAS:
 
-1. UNA DIAPOSITIVA POR CADA CLÁUSULA (no por frase):
-   - Divide en diapositivas por puntos Y por comas cuando la coma separe dos oraciones con sujeto+verbo.
-   - "El gato comió, el perro durmió." → DOS diapositivas: "El gato comió" / "el perro durmió."
-   - "Juan fue al parque, María se quedó en casa." → DOS diapositivas.
-   - Coma entre enumeración simple (rojo, azul, verde) → NO divide, va en una diapositiva.
+1. UNA DIAPOSITIVA POR CADA CLÁUSULA:
+   - Divide por puntos Y por comas cuando la coma separe dos cláusulas con verbo (aunque el sujeto sea implícito).
+   - "El gato comió, el perro durmió." → DOS diapositivas.
+   - "Tenía juguetes, pero no era feliz." → DOS diapositivas.
+   - Coma entre enumeración simple (rojo, azul, verde) → NO divide.
+   - DIÁLOGO con dos puntos: "Juan dijo: Hola" → DOS diapositivas: "Juan dijo:" / "Hola"
    - PROHIBIDO resumir o saltarse cláusulas.
 
-2. UN VERBO = UNA CELDA:
-   - Cada verbo tiene su propia celda con pictograma.
-   - "necesita comer" = DOS celdas: {"texto": "necesita", "pictograma": "necesitar"}, {"texto": "comer", "pictograma": "comer"}
+2. VERBOS Y NEGACIONES:
+   - Cada verbo tiene su propia celda: "necesita comer" → {"texto": "necesita", "pictograma": "necesitar"} + {"texto": "comer", "pictograma": "comer"}
+   - "no" SIEMPRE en celda propia: {"texto": "no", "pictograma": "no"} + verbo aparte.
 
-3. DESGLOSE DE NEGACIONES (CRÍTICO):
-   - NUNCA agrupes "no" con un verbo.
-   - "no" SIEMPRE en su propia celda: {"texto": "no", "pictograma": "no"}
-   - El verbo siguiente va en celda aparte: {"texto": "tiene", "pictograma": "tener"}
+3. NORMALIZACIÓN DE PICTOGRAMAS — REGLA ABSOLUTA:
+   - El campo "pictograma" SIEMPRE en ESPAÑOL e INFINITIVO, sin importar el idioma del cuento.
+   - El campo "texto" SÍ va en el idioma del cuento.
+   - Ejemplos (catalán): {"texto": "menja", "pictograma": "comer"}, {"texto": "el gat", "pictograma": "gato"}
+   - Ejemplos (euskera): {"texto": "jan", "pictograma": "comer"}, {"texto": "pozik", "pictograma": "feliz"}
+   - Verbos reflexivos → infinitivo base: "se lava" → "lavar", "se levanta" → "levantar"
+   - Adjetivos de estado: "mal" → "mal", "bien" → "bien", "triste" → "triste", "contento" → "contento"
+   - Memoria → siempre "recuerdos" o "recordar"
+   - "sol/solo" DISTINCIÓN OBLIGATORIA (tres casos):
+     * "sol" como sustantivo (el astro, la estrella) → pictograma: "sol"
+     * "sol/sola/solo/sola" como adjetivo de estado tras un verbo copulativo (estava sol, se quedó solo, se siente sola) → pictograma: "solo"
+     * "solo" como adverbio de cantidad antes de un verbo (solo quería, solo tiene, solamente viene) → SIN pictograma, absorber en el segmento del verbo siguiente. Ejemplo: "solo quería jugar" → {"texto": "solo quería", "pictograma": "querer"}
 
-4. LÓGICA DE INFINITIVOS (NORMALIZACIÓN) — REGLA ABSOLUTA:
-   - El campo "pictograma" SIEMPRE en ESPAÑOL, independientemente del idioma del cuento.
-   - Si el cuento está en catalán, valenciano, gallego, euskera, inglés, francés, etc., el campo "pictograma" sigue siendo en español.
-   - El campo "texto" SÍ va en el idioma del cuento. El campo "pictograma" SIEMPRE en español.
-   - El campo "pictograma" SIEMPRE en infinitivo o sustantivo simple en español.
-   - Ejemplos (cuento en catalán): {"texto": "menja", "pictograma": "comer"}, {"texto": "és trist", "pictograma": "triste"}, {"texto": "el gat", "pictograma": "gato"}
-   - Ejemplos (cuento en euskera): {"texto": "jan", "pictograma": "comer"}, {"texto": "pozik", "pictograma": "feliz"}
-   - EXCEPCIÓN CRÍTICA: Para el concepto de memoria, usa SIEMPRE "recuerdos" o "recordar".
-   - "se siente" / "se sent" / "feels" → pictograma: "sentir"
-   - "está mal" / "està malament" → pictograma: "mal"
+4. PALABRAS SIN PICTOGRAMA — COBERTURA TOTAL OBLIGATORIA:
+   - Artículos, preposiciones, conjunciones y adjetivos descriptivos NO llevan pictograma propio.
+   - Se incluyen en el campo "texto" del segmento del concepto más cercano.
+   - TODA palabra de la frase debe aparecer en algún campo "texto". NINGUNA palabra puede desaparecer.
+   - "En un bosc llunyà" → {"texto": "En un bosc llunyà", "pictograma": "bosque"} — todo junto en el texto del sustantivo
+   - "en el parque" → {"texto": "en el parque", "pictograma": "parque"}
+   - "con su amigo" → {"texto": "con su amigo", "pictograma": "amigo"}
+   - Los adjetivos que modifican a un sustantivo van dentro del texto de ese sustantivo, NO en celda separada.
 
-5. VERBOS REFLEXIVOS:
-   - Extrae el verbo base en infinitivo.
-   - "se lava" → pictograma: "lavar"
-   - "se siente" → pictograma: "sentir"
-   - "se levanta" → pictograma: "levantar"
+5. SUSTANTIVOS COMPUESTOS:
+   - Solo separa adjetivo y sustantivo en celdas distintas si el adjetivo es el concepto central de la frase (p. ej. "muy contento" → celda "muy contento" con pictograma "contento").
 
-6. ADJETIVOS DE ESTADO:
-   - "mal" → pictograma: "mal" (pulgar abajo ARASAAC)
-   - "bien" → pictograma: "bien" (pulgar arriba ARASAAC)
-   - "triste" → pictograma: "triste"
-   - "contento" → pictograma: "contento"
+6. LÍMITE DE CELDAS: MÍNIMO 2, MÁXIMO 7 por diapositiva. Si hay más de 7 conceptos, agrupa los menos relevantes.
 
-7. FILTRO DE ARTÍCULOS Y PREPOSICIONES:
-   - PROHIBIDO asignar pictogramas a artículos (el, la, los, las, un, una, unos, unas).
-   - PROHIBIDO asignar pictogramas a preposiciones vacías (y, e, o, u, de, a, en, con).
-   - Incluye estos elementos dentro del texto del segmento del sustantivo.
-   - Ejemplo: "La princesa Ana" → {"texto": "La princesa Ana", "pictograma": "princesa"}
+7. IDENTIDAD VISUAL: Si el cuento establece que "Tomás es un león", el pictograma de "Tomás" SIEMPRE es "león" en todo el cuento.
 
-8. MAPEO DE SUSTANTIVOS COMPUESTOS:
-   - Si un sustantivo tiene adjetivo importante, sepáralos.
-   - Ejemplo: {"texto": "lápices", "pictograma": "lápiz"}, {"texto": "de colores.", "pictograma": "colores"}
+8. FALLBACK: El pictograma nunca puede estar vacío. Sustantivo raro → categoría general (roble → "árbol"). Concepto abstracto → acción concreta ("responsabilidad" → "ayudar").
 
-9. MANDATO DE VOLUMEN DE CELDAS:
-   - PROHIBIDO limitarse a 3 celdas.
-   - Si la frase tiene 6 palabras con significado, genera 6 celdas.
-   - Prioridad: apoyo visual de CADA concepto, no el espacio en pantalla.
+9. PROHIBIDO:
+   - Pictogramas para artículos, preposiciones, conjunciones o conectores
+   - Agrupar "no" con verbos
+   - Pictograma vacío o con texto roto
+   - Menos de 2 o más de 7 celdas por diapositiva
+   - Usar nombres propios como pictograma
+   - Cambiar el pictograma de un personaje establecido
 
-10. IDENTIDAD VISUAL ESTRICTA (GROUNDING):
-    - Si el cuento establece "Tomás es un león", cada vez que aparezca "Tomás" en un segmento, el pictograma DEBE ser "león".
-    - Esta asignación es INVARIABLE en todo el cuento.
-
-11. FALLBACK DE SEGURIDAD:
-    - El pictograma NUNCA puede estar vacío ni tener texto roto.
-    - Si un verbo falla, usa la acción base en infinitivo.
-    - Ejemplo: "sentir" si "sentirse" no existe en ARASAAC.
-    - Si un sustantivo es específico o raro, usa su categoría general:
-      roble/pino/olmo → "árbol", labrador/pastor → "perro", rosa/tulipán → "flor"
-    - Si un concepto es abstracto (oportunidad, responsabilidad, libertad, valor),
-      sustitúyelo por una acción o emoción concreta relacionada: "ayudar", "hacer", "valiente"
-
-12. MAPEO 100%:
-    - TODO el texto en los segmentos.
-    - Artículos y preposiciones van en el texto del segmento siguiente.
-
-13. PROHIBIDO:
-    - Pictogramas para artículos o preposiciones
-    - Agrupar "no" con verbos
-    - Pictograma vacío o con texto roto ("se sie")
-    - Limitar a 3 celdas
-    - Usar nombres propios como pictograma
-    - Cambiar el pictograma de un personaje establecido
-
-IMPORTANTE - REGLAS DE FORMATO OBLIGATORIAS:
-1. Devuelve SOLO un JSON válido. Sin texto adicional, sin saludos, sin formato markdown.
-2. REGLA DE ORO: LAS CLAVES DEL JSON ("titulo", "texto", "palabrasClave", "emociones", "personajes", "nombre", "descripcion") NO SE DEBEN TRADUCIR NUNCA. Mantenlas exactamente en español como en el ejemplo.
-3. El contenido (los valores del JSON) SÍ debe estar traducido al idioma solicitado (${nombreIdioma.toUpperCase()}).
-4. REGLA CRÍTICA DE TÍTULO: El valor de "titulo" en el JSON DEBE ser "${datos.titulo}" exactctamente. No puede haber variación, abreviación ni modificación.`;
+FORMATO OBLIGATORIO:
+1. Devuelve SOLO JSON válido. Sin texto adicional, sin markdown.
+2. Las claves del JSON NUNCA se traducen (titulo, texto, palabrasClave, emociones, personajes, nombre, descripcion).
+3. Los valores SÍ van en el idioma solicitado (${nombreIdioma.toUpperCase()}).
+4. El valor de "titulo" DEBE ser exactamente "${datos.titulo}"。`;
 }
 
 export interface RespuestaCuento {
@@ -292,6 +262,70 @@ export interface RespuestaCuento {
       pictograma: string;
     }[];
   }[];
+}
+
+// Palabras que nunca deben tener pictograma propio — se absorben en el segmento siguiente
+const PALABRAS_SIN_PICTOGRAMA = new Set([
+  // Artículos ES
+  'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas', 'uno',
+  // Artículos CA/VA
+  'els', 'les', 'uns', 'unes',
+  // Artículos EN
+  'the', 'an',
+  // Artículos FR
+  'le', 'des', 'une',
+  // Preposiciones ES
+  'de', 'a', 'en', 'con', 'por', 'para', 'sin', 'sobre', 'bajo', 'hacia', 'entre', 'desde', 'hasta',
+  // Preposiciones CA/VA
+  'amb', 'per', 'sense', 'dins',
+  // Preposiciones EN
+  'of', 'to', 'in', 'with', 'on', 'at', 'by', 'for', 'from', 'into', 'about',
+  // Preposiciones FR
+  'dans', 'sur', 'avec', 'pour', 'sans', 'vers',
+  // Conjunciones y conectores ES
+  'y', 'e', 'o', 'u', 'ni', 'que', 'pero', 'sino', 'aunque', 'porque', 'cuando', 'si', 'como',
+  // Conjunciones y conectores CA/VA
+  'i', 'però', 'sinó', 'perquè', 'quan', 'com',
+  // Conjunciones y conectores EN
+  'and', 'but', 'or', 'nor', 'yet', 'so', 'because', 'when', 'if', 'as', 'than',
+  // Conjunciones y conectores FR
+  'et', 'mais', 'ou', 'car', 'quand', 'comme',
+  // Conjunciones EU
+  'eta', 'edo', 'baina',
+  // Conjunciones GL
+  'mais', 'nin',
+]);
+
+function filtrarSegmentosSinPictograma(
+  segmentos: { texto: string; pictograma: string }[]
+): { texto: string; pictograma: string }[] {
+  const resultado: { texto: string; pictograma: string }[] = [];
+  let textoPendiente = '';
+
+  for (const segmento of segmentos) {
+    const pictogramaLimpio = segmento.pictograma.trim().toLowerCase().replace(/[.,;:!?¡¿]/g, '');
+    const esSinPictograma = PALABRAS_SIN_PICTOGRAMA.has(pictogramaLimpio);
+
+    if (esSinPictograma) {
+      textoPendiente += (textoPendiente ? ' ' : '') + segmento.texto;
+    } else {
+      const textoFinal = textoPendiente
+        ? textoPendiente + ' ' + segmento.texto
+        : segmento.texto;
+      resultado.push({ texto: textoFinal, pictograma: segmento.pictograma });
+      textoPendiente = '';
+    }
+  }
+
+  // Si quedó texto pendiente al final, lo añade al último segmento
+  if (textoPendiente && resultado.length > 0) {
+    resultado[resultado.length - 1] = {
+      ...resultado[resultado.length - 1],
+      texto: resultado[resultado.length - 1].texto + ' ' + textoPendiente,
+    };
+  }
+
+  return resultado;
 }
 
 export function parsearRespuestaCuento(respuesta: string): RespuestaCuento {
@@ -316,7 +350,14 @@ export function parsearRespuestaCuento(respuesta: string): RespuestaCuento {
     // Caracteres de control que rompen JSON.parse (excepto \n \r \t)
     jsonStr = jsonStr.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
 
-    return JSON.parse(jsonStr);
+    const cuento: RespuestaCuento = JSON.parse(jsonStr);
+
+    cuento.diapositivas = cuento.diapositivas.map((d) => ({
+      ...d,
+      segmentos: filtrarSegmentosSinPictograma(d.segmentos),
+    }));
+
+    return cuento;
   } catch (err) {
     console.error('Texto original devuelto por la IA que falló al parsear:', respuesta);
     throw new Error('El cuento no se ha podido generar correctamente. Inténtalo de nuevo. (ref: parse_error)');

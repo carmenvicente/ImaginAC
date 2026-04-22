@@ -1,17 +1,15 @@
-# ImaginAC - Accesibilidad Cognitiva
+# ImaginAC
 
-**ImaginAC** es una plataforma de accesibilidad cognitiva diseñada para facilitar el aprendizaje de profesores PT (Pedagogía Terapéutica) y sus alumnos con necesidades educativas especiales.
+**ImaginAC** es una plataforma de generador de cuentos con Inteligencia Artificial y transcritos a pictogramas para la accesibilidad cognitiva.
 
 ## Objetivo
 
-Proporcionar herramientas para crear contenido educativo adaptado, generando cuentos y actividades con pictogramas SPC (Sistema Pictográfico de Comunicación) en múltiples idiomas.
+Proporcionar herramientas para crear contenido educativo adaptado, generando cuentos con pictogramas SPC (Sistema Pictográfico de Comunicación) en múltiples idiomas.
 
 ## Funcionalidades Principales
 
-- **Sistema de Roles:** Paneles separados para Profesores PT y Alumnos
 - **Motor Cognitivo:** Generación de cuentos con transcripción a pictogramas
 - **Módulo Multi-Idioma:** Soporte para Español, Catalán, Valenciano, Gallego, Euskera y más
-- **Sistema de Actividades:** Creación de actividades complementarias escalable
 - **Exportación PDF:** Generación de cómics físicos para uso en el aula
 
 ## Inicio Rápido
@@ -25,20 +23,26 @@ Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
 ## Stack Tecnológico
 
-- **Frontend:** Next.js 16 (App Router), React 19, TypeScript
-- **Estilos:** Tailwind CSS
-- **Base de Datos:** Supabase (PostgreSQL)
-- **Autenticación:** NextAuth.js con RBAC
+- **Frontend:** Next.js 16, React 19, TypeScript
+- **Estilos:** Tailwind CSS v4
+- **Base de Datos:** PostgreSQL con Supabase + Drizzle ORM
+- **Autenticación:** Supabase Auth con RBAC
+- **IA:** Google Generative AI (gemini-1.5-flash-001)
 
 ## Estructura del Proyecto
 
 ```
 src/
-├── app/              # Rutas y páginas
+├── app/              # Rutas y páginas (App Router)
 ├── components/       # Componentes React
+│   ├── home/        # Componentes públicos
+│   ├── profesor/    # Panel de profesor
+│   └── ui/          # Componentes compartidos
 ├── lib/              # Utilidades y lógica de negocio
-├── types/            # Tipos TypeScript
-└── hooks/            # React hooks personalizados
+│   ├── db/          # Drizzle schema y cliente Supabase
+│   ├── ia/          # Generador de cuentos y módulo ARASAAC
+│   └── stores/      # Zustand stores
+└── locales/         # Ficheros i18n (es, ca, va, gl, eu, en, de, fr, it)
 ```
 
 ## Licencia

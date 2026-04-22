@@ -8,8 +8,8 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
-// MODELO OFICIAL: gemini-3.1-flash-lite-preview (Decisión Orquestadora 2024-03-25)
-// NO cambiar sin autorización explícita de la Orquestadora
+// MODELO OFICIAL: gemini-2.5-flash-lite (free tier: 15 RPM, 1000 RPD)
+// Cambiado de gemini-3-flash-preview que no está disponible en free tier (causa 429)
 
 export interface ResultadoGeneracion {
   cuento: RespuestaCuento;
@@ -87,7 +87,7 @@ export async function generarCuento(params: {
   });
 
   const modelo = genAI.getGenerativeModel({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-2.5-flash-lite',
     generationConfig: {
       temperature: 0.7,
       maxOutputTokens: 32768,

@@ -12,8 +12,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Modelo de IA (CONTRATO FIJO)
 
-- **Modelo:** `gemini-3.1-flash-lite-preview`
-- **RPD:** 500 peticiones diarias
+- **Modelo:** `gemini-2.5-flash-lite`
+- **RPD:** 1000 peticiones diarias (free tier)
 - **Archivo:** `src/lib/ia/generador.ts`
 - ⚠️ NO modificar sin autorización explícita de la Orquestadora
 
