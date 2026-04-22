@@ -63,6 +63,27 @@ function cargarBorrador(): DatosFormulario {
   return DATOS_INICIALES;
 }
 
+const REF_A_CLAVE: Record<string, keyof typeof traduccionesUI['ES']> = {
+  parse_error: 'errorParseError',
+  empty_response: 'errorEmptyResponse',
+  api_error: 'errorApiError',
+  retry_exhausted: 'errorRetryExhausted',
+  quota: 'errorQuota',
+  save_error: 'errorSaveError',
+  unknown: 'errorUnknown',
+};
+
+function traducirError(mensaje: string, t: typeof traduccionesUI['ES']): string {
+  const match = mensaje.match(/\(ref:\s*([a-z_]+)/);
+  if (match) {
+    const ref = match[1];
+    const clave = REF_A_CLAVE[ref];
+    const textoTraducido = clave ? t[clave] : null;
+    if (textoTraducido) return `${textoTraducido} (ref: ${ref})`;
+  }
+  return mensaje;
+}
+
 function limpiarBorrador() {
   if (typeof window === 'undefined') return;
   try {
@@ -202,8 +223,9 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
       limpiarBorrador();
       router.push(`/profesor/cuento/${datos.id}`);
     } catch (err) {
-      console.error('ERROR REAL AL GENERAR:', err);
-      setError(err instanceof Error ? err.message : 'Error desconocido');
+      console.error('ERROR AL GENERAR:', err);
+      const mensaje = err instanceof Error ? err.message : 'Error desconocido';
+      setError(traducirError(mensaje, traducciones));
       setCargando(false);
     }
   };

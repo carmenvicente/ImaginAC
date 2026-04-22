@@ -54,22 +54,6 @@ export async function POST(request: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    // 4. Comprobamos directamente el user
-    if (!user) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
-    }
-
-    // 5. Usamos user.id
-    const { data: perfil } = await supabase
-      .from('usuarios')
-      .select('rol')
-      .eq('id', user.id)
-      .single();
-
-    if (perfil?.rol !== 'PROFESOR_PT') {
-      return NextResponse.json({ error: 'Solo profesores pueden crear cuentos' }, { status: 403 });
-    }
-
     if (!titulo || !tematica || !finalidadPedagogica || !idioma || !longitud) {
       return NextResponse.json({ error: 'Faltan campos requeridos' }, { status: 400 });
     }
@@ -104,7 +88,10 @@ export async function POST(request: NextRequest) {
 
     if (errorActividad || !actividad) {
       console.error('Error al crear actividad:', errorActividad);
-      return NextResponse.json({ error: 'Error al guardar el cuento' }, { status: 500 });
+      return NextResponse.json(
+        { error: 'El cuento se generó pero no se pudo guardar. Inténtalo de nuevo. (ref: save_error)' },
+        { status: 500 }
+      );
     }
 
     const { data: idiomaData } = await supabase
@@ -145,22 +132,16 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     if (error instanceof QuotaExceededError) {
-      console.warn('⚠️ Cuota de API excedida:', error.message);
+      console.warn('⚠️ Cuota de API excedida');
       return NextResponse.json(
-        {
-          error:
-            'El sistema de IA está saturado ahora mismo. Por favor, espera un minuto y vuelve a intentarlo.',
-        },
+        { error: 'El sistema de IA está ocupado ahora mismo. Espera un minuto y vuelve a intentarlo. (ref: quota)' },
         { status: 429 }
       );
     }
 
     console.error('ERROR CRÍTICO EN API:', error);
     return NextResponse.json(
-      {
-        error: error?.message || 'Error interno del servidor',
-        detalles: error?.toString(),
-      },
+      { error: error?.message || 'Ha ocurrido un error inesperado. Inténtalo de nuevo. (ref: unknown)' },
       { status: 500 }
     );
   }

@@ -178,5 +178,12 @@
   "diapoSinSegmentos": "Sense segments disponibles per a aquesta frase",
   "diapoAnterior": "Anterior",
   "diapoSiguiente": "Següent",
-  "diapoIrA": "Anar a la diapositiva"
+  "diapoIrA": "Anar a la diapositiva",
+  "errorParseError": "El conte no s'ha pogut generar correctament. Torna-ho a intentar.",
+  "errorEmptyResponse": "El conte no s'ha pogut generar. Torna-ho a intentar.",
+  "errorApiError": "El servei d'IA no està disponible ara mateix. Torna-ho a intentar d'aquí a uns minuts.",
+  "errorRetryExhausted": "El conte no s'ha pogut generar després de diversos intents. Torna-ho a intentar.",
+  "errorQuota": "El sistema d'IA està ocupat ara mateix. Espera un minut i torna-ho a intentar.",
+  "errorSaveError": "El conte s'ha generat, però no s'ha pogut desar. Torna-ho a intentar.",
+  "errorUnknown": "S'ha produït un error inesperat. Torna-ho a intentar."
 }

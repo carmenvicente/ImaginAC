@@ -178,5 +178,12 @@
   "diapoSinSegmentos": "No segments available for this sentence",
   "diapoAnterior": "Previous",
   "diapoSiguiente": "Next",
-  "diapoIrA": "Go to slide"
+  "diapoIrA": "Go to slide",
+  "errorParseError": "The story could not be generated correctly. Please try again.",
+  "errorEmptyResponse": "The story could not be generated. Please try again.",
+  "errorApiError": "The AI service is currently unavailable. Please try again in a few minutes.",
+  "errorRetryExhausted": "The story could not be generated after several attempts. Please try again.",
+  "errorQuota": "The AI system is busy right now. Please wait a minute and try again.",
+  "errorSaveError": "The story was generated but could not be saved. Please try again.",
+  "errorUnknown": "An unexpected error has occurred. Please try again."
 }

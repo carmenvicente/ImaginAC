@@ -178,5 +178,12 @@
   "diapoSinSegmentos": "Aucun segment disponible pour cette phrase",
   "diapoAnterior": "Précédent",
   "diapoSiguiente": "Suivant",
-  "diapoIrA": "Aller à la diapositive"
+  "diapoIrA": "Aller à la diapositive",
+  "errorParseError": "L'histoire n'a pas pu être générée correctement. Veuillez réessayer.",
+  "errorEmptyResponse": "L'histoire n'a pas pu être générée. Veuillez réessayer.",
+  "errorApiError": "Le service d'IA n'est pas disponible pour le moment. Veuillez réessayer dans quelques minutes.",
+  "errorRetryExhausted": "L'histoire n'a pas pu être générée après plusieurs tentatives. Veuillez réessayer.",
+  "errorQuota": "Le système d'IA est actuellement occupé. Veuillez attendre une minute et réessayer.",
+  "errorSaveError": "L'histoire a été générée mais n'a pas pu être enregistrée. Veuillez réessayer.",
+  "errorUnknown": "Une erreur inattendue est survenue. Veuillez réessayer."
 }

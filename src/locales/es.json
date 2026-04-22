@@ -178,5 +178,12 @@
   "diapoSinSegmentos": "Sin segmentos disponibles para esta frase",
   "diapoAnterior": "Anterior",
   "diapoSiguiente": "Siguiente",
-  "diapoIrA": "Ir a diapositiva"
+  "diapoIrA": "Ir a diapositiva",
+  "errorParseError": "El cuento no se ha podido generar correctamente. Inténtalo de nuevo.",
+  "errorEmptyResponse": "El cuento no se ha podido generar. Inténtalo de nuevo.",
+  "errorApiError": "El servicio de IA no está disponible ahora mismo. Inténtalo en unos minutos.",
+  "errorRetryExhausted": "El cuento no se ha podido generar tras varios intentos. Inténtalo de nuevo.",
+  "errorQuota": "El sistema de IA está ocupado ahora mismo. Espera un minuto y vuelve a intentarlo.",
+  "errorSaveError": "El cuento se generó pero no se pudo guardar. Inténtalo de nuevo.",
+  "errorUnknown": "Ha ocurrido un error inesperado. Inténtalo de nuevo."
 }

@@ -39,7 +39,9 @@ async function generarCuentoConRetry(
       const textoRespuesta = respuesta.text();
 
       if (!textoRespuesta) {
-        throw new Error('El modelo de IA no ha devuelto respuesta');
+        throw new Error(
+          'El cuento no se ha podido generar. Inténtalo de nuevo. (ref: empty_response)'
+        );
       }
 
       return textoRespuesta;
@@ -56,20 +58,17 @@ async function generarCuentoConRetry(
       }
 
       if (es429) {
-        throw new QuotaExceededError('Cuota de la API de Google excedida');
+        throw new QuotaExceededError('quota_exceeded');
       }
 
-      // --- AQUÍ EL CAMBIO PARA OTROS ERRORES ---
-      // Si llegamos aquí es un error diferente (como el 503 de saturación o un 500)
-      const mensajeError = error?.message || error?.toString() || 'Error desconocido';
-
+      const mensajeError = error?.message || error?.toString() || 'desconocido';
       throw new Error(
-        `Error al generar el cuento. Por favor, contacta con el soporte para arreglarlo. Tipo de error: ${mensajeError}`
+        `El servicio de IA no está disponible ahora mismo. Inténtalo en unos minutos. (ref: api_error — ${mensajeError})`
       );
     }
   }
 
-  throw new Error('Error inesperado en reintentos');
+  throw new Error('El cuento no se ha podido generar. Inténtalo de nuevo. (ref: retry_exhausted)');
 }
 
 export async function generarCuento(params: {
@@ -91,34 +90,49 @@ export async function generarCuento(params: {
     model: 'gemini-3-flash-preview',
     generationConfig: {
       temperature: 0.7,
-      maxOutputTokens: 8192,
+      maxOutputTokens: 32768,
       responseMimeType: 'application/json',
     },
   });
 
-  const textoRespuesta = await generarCuentoConRetry(modelo, prompt);
+  const MAX_PARSE_INTENTOS = 3;
+  let cuento: ReturnType<typeof parsearRespuestaCuento> | null = null;
 
-  const cuento = parsearRespuestaCuento(textoRespuesta);
-
-  const diapositivasConSegmentos = await Promise.all(
-    (cuento.diapositivas || []).map(async (diapositiva) => {
-      const segmentosConUrl = await Promise.all(
-        (diapositiva.segmentos || []).map(async (segmento) => {
-          const primeraPalabra = segmento.pictograma.split('|')[0].trim();
-          const urlImagen = await generarUrlArasaac(primeraPalabra);
-          return {
-            texto: segmento.texto,
-            pictograma: segmento.pictograma,
-            urlImagen,
-          };
-        })
+  for (let intento = 1; intento <= MAX_PARSE_INTENTOS; intento++) {
+    const textoRespuesta = await generarCuentoConRetry(modelo, prompt);
+    try {
+      cuento = parsearRespuestaCuento(textoRespuesta);
+      break;
+    } catch (parseErr) {
+      if (intento >= MAX_PARSE_INTENTOS) throw parseErr;
+      console.warn(
+        `⚠️ JSON inválido del modelo (intento ${intento}/${MAX_PARSE_INTENTOS}), reintentando...`
       );
-      return {
-        texto: diapositiva.texto,
-        segmentos: segmentosConUrl,
-      };
-    })
-  );
+      await esperarMs(1000);
+    }
+  }
+
+  if (!cuento) throw new Error('No se pudo parsear la respuesta del modelo tras varios intentos');
+
+  // Peticiones secuenciales para evitar rate limiting de ARASAAC
+  const diapositivasConSegmentos = [];
+  for (const diapositiva of cuento.diapositivas || []) {
+    const segmentosConUrl = [];
+    for (const segmento of diapositiva.segmentos || []) {
+      const primeraPalabra = segmento.pictograma.split('|')[0].trim();
+      // El campo "pictograma" siempre llega en español (regla del prompt) → buscar en 'ES'
+      const urlImagen = await generarUrlArasaac(primeraPalabra, 'ES');
+      segmentosConUrl.push({
+        texto: segmento.texto,
+        pictograma: segmento.pictograma,
+        urlImagen,
+      });
+    }
+    diapositivasConSegmentos.push({
+      texto: diapositiva.texto,
+      segmentos: segmentosConUrl,
+    });
+  }
 
   const pictogramasGlobales = diapositivasConSegmentos
     .flatMap((d) => d.segmentos)

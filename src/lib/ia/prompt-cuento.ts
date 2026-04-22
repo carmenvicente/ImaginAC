@@ -193,10 +193,12 @@ SALIDA REQUERIDA (JSON EXACTO):
 
 REGLAS DE ESTRUCTURA DIAPOSITIVAS:
 
-1. UNA DIAPOSITIVA POR CADA FRASE:
-   - El array "diapositivas" debe contener UNA entrada por cada frase del texto.
-   - Si el texto tiene 13 frases, devuelve 13 objetos en "diapositivas".
-   - PROHIBIDO resumir o saltarse frases.
+1. UNA DIAPOSITIVA POR CADA CLÁUSULA (no por frase):
+   - Divide en diapositivas por puntos Y por comas cuando la coma separe dos oraciones con sujeto+verbo.
+   - "El gato comió, el perro durmió." → DOS diapositivas: "El gato comió" / "el perro durmió."
+   - "Juan fue al parque, María se quedó en casa." → DOS diapositivas.
+   - Coma entre enumeración simple (rojo, azul, verde) → NO divide, va en una diapositiva.
+   - PROHIBIDO resumir o saltarse cláusulas.
 
 2. UN VERBO = UNA CELDA:
    - Cada verbo tiene su propia celda con pictograma.
@@ -207,12 +209,16 @@ REGLAS DE ESTRUCTURA DIAPOSITIVAS:
    - "no" SIEMPRE en su propia celda: {"texto": "no", "pictograma": "no"}
    - El verbo siguiente va en celda aparte: {"texto": "tiene", "pictograma": "tener"}
 
-4. LÓGICA DE INFINITIVOS (NORMALIZACIÓN):
-   - El campo "pictograma" SIEMPRE en infinitivo o sustantivo simple.
+4. LÓGICA DE INFINITIVOS (NORMALIZACIÓN) — REGLA ABSOLUTA:
+   - El campo "pictograma" SIEMPRE en ESPAÑOL, independientemente del idioma del cuento.
+   - Si el cuento está en catalán, valenciano, gallego, euskera, inglés, francés, etc., el campo "pictograma" sigue siendo en español.
+   - El campo "texto" SÍ va en el idioma del cuento. El campo "pictograma" SIEMPRE en español.
+   - El campo "pictograma" SIEMPRE en infinitivo o sustantivo simple en español.
+   - Ejemplos (cuento en catalán): {"texto": "menja", "pictograma": "comer"}, {"texto": "és trist", "pictograma": "triste"}, {"texto": "el gat", "pictograma": "gato"}
+   - Ejemplos (cuento en euskera): {"texto": "jan", "pictograma": "comer"}, {"texto": "pozik", "pictograma": "feliz"}
    - EXCEPCIÓN CRÍTICA: Para el concepto de memoria, usa SIEMPRE "recuerdos" o "recordar".
-   - "se siente" → {"texto": "se siente", "pictograma": "sentir"}
-   - "se pone triste" → {"texto": "se pone triste", "pictograma": "triste"}
-   - "está mal" → {"texto": "está mal", "pictograma": "mal"}
+   - "se siente" / "se sent" / "feels" → pictograma: "sentir"
+   - "está mal" / "està malament" → pictograma: "mal"
 
 5. VERBOS REFLEXIVOS:
    - Extrae el verbo base en infinitivo.
@@ -290,7 +296,10 @@ export interface RespuestaCuento {
 
 export function parsearRespuestaCuento(respuesta: string): RespuestaCuento {
   try {
-    const textoLimpio = respuesta.trim();
+    let textoLimpio = respuesta.trim();
+
+    // Eliminar bloques markdown que Gemini a veces incluye (```json ... ```)
+    textoLimpio = textoLimpio.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '');
 
     const primeraLlave = textoLimpio.indexOf('{');
     const ultimaLlave = textoLimpio.lastIndexOf('}');
@@ -299,11 +308,17 @@ export function parsearRespuestaCuento(respuesta: string): RespuestaCuento {
       throw new Error('No se encontró ninguna estructura JSON válida en la respuesta de la IA.');
     }
 
-    const jsonStr = textoLimpio.substring(primeraLlave, ultimaLlave + 1);
+    let jsonStr = textoLimpio.substring(primeraLlave, ultimaLlave + 1);
+
+    // Trailing commas antes de } o ] — error frecuente de Gemini
+    jsonStr = jsonStr.replace(/,\s*([\]}])/g, '$1');
+
+    // Caracteres de control que rompen JSON.parse (excepto \n \r \t)
+    jsonStr = jsonStr.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
 
     return JSON.parse(jsonStr);
   } catch (err) {
     console.error('Texto original devuelto por la IA que falló al parsear:', respuesta);
-    throw new Error('Error al parsear la respuesta del modelo de IA');
+    throw new Error('El cuento no se ha podido generar correctamente. Inténtalo de nuevo. (ref: parse_error)');
   }
 }

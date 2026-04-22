@@ -277,24 +277,24 @@ export function VisorCuentoDemo({ cuento }: VisorCuentoDemoProps) {
         </div>
 
         {/* INDICADORES INFERIORES - Se mantienen igual */}
-        <div className="flex items-center justify-between mt-4 px-4">
-          <div className="flex gap-2">
+        <div className="flex items-center justify-between mt-3 md:mt-4 px-4">
+          <div className="flex gap-1 md:gap-2">
             {Array.from({ length: totalDiapositivas }).map((_, i) => (
               <button
                 key={i}
                 type="button"
                 onClick={() => setIndiceDiapositiva(i)}
-                className={`w-3 h-3 rounded-full transition-all ${
+                className={`h-1.5 md:h-3 rounded-full transition-all ${
                   i === indiceDiapositiva
-                    ? 'bg-[var(--marca)] w-6'
-                    : 'bg-gray-300 hover:bg-gray-400'
+                    ? 'bg-[var(--marca)] w-3 md:w-6'
+                    : 'w-1.5 md:w-3 bg-gray-300 hover:bg-gray-400'
                 }`}
                 aria-label={`${t.diapoIrA || 'Ir a diapositiva'} ${i + 1}`}
               />
             ))}
           </div>
 
-          <div className="text-sm text-gray-500 font-medium">
+          <div className="text-xs md:text-sm text-gray-500 font-medium">
             {indiceDiapositiva + 1} / {totalDiapositivas}
           </div>
         </div>

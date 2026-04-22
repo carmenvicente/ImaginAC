@@ -178,5 +178,12 @@
   "diapoSinSegmentos": "Nessun segmento disponibile per questa frase",
   "diapoAnterior": "Precedente",
   "diapoSiguiente": "Successiva",
-  "diapoIrA": "Vai alla diapositiva"
+  "diapoIrA": "Vai alla diapositiva",
+  "errorParseError": "Il racconto non è stato generato correttamente. Riprova.",
+  "errorEmptyResponse": "Il racconto non è stato generato. Riprova.",
+  "errorApiError": "Il servizio IA non è disponibile al momento. Riprova tra qualche minuto.",
+  "errorRetryExhausted": "Il racconto non è stato generato dopo diversi tentativi. Riprova.",
+  "errorQuota": "Il sistema IA è occupato al momento. Attendi un minuto e riprova.",
+  "errorSaveError": "Il racconto è stato generato ma non è stato possibile salvarlo. Riprova.",
+  "errorUnknown": "Si è verificato un errore imprevisto. Riprova."
 }

@@ -374,7 +374,7 @@ export function BotonesAccionInner({
         }
 
         const lineHeight = fontSize * 1.2;
-        doc.setFont(fontParaTexto(historia));
+        doc.setFont('Escolar');
         doc.setFontSize(fontSize);
         doc.setTextColor(55, 65, 81);
         let yPos = startY;
@@ -426,8 +426,8 @@ export function BotonesAccionInner({
             console.log('Error con el logo en página de pictogramas');
           }
 
-          // --- TEXTO SUPERIOR: FORZAMOS ESCOLAR ANTES DE ESCRIBIR ---
-          doc.setFont(fontParaTexto(diapositiva.texto), 'normal');
+          // --- TEXTO SUPERIOR: SIEMPRE ESCOLAR ---
+          doc.setFont('Escolar', 'normal');
           doc.setFontSize(26);
           doc.setTextColor(31, 41, 55);
 
@@ -442,9 +442,9 @@ export function BotonesAccionInner({
           doc.setFont('Escolar', 'normal'); // reset tras el texto de la diapositiva
 
           // --- PICTOGRAMAS CON CAJAS ELÁSTICAS (ANCHO DINÁMICO) ---
-          const pictosConImagen = diapositiva.segmentos.filter((s: any) => s.urlImagen);
+          const todosSegmentos = diapositiva.segmentos;
 
-          if (pictosConImagen.length > 0) {
+          if (todosSegmentos.length > 0) {
             const altoCelda = 80;
             const altoTexto = 20;
             const totalAltoCaja = altoCelda + altoTexto;
@@ -455,12 +455,10 @@ export function BotonesAccionInner({
             doc.setFontSize(11);
 
             // 1. PRIMERO CALCULAMOS EL ANCHO TOTAL DE LA TIRA
-            // Sumamos lo que mide cada texto + los márgenes
             let anchoTotalTira = 0;
-            const anchosCeldas = pictosConImagen.map((seg: any) => {
+            const anchosCeldas = todosSegmentos.map((seg: any) => {
               const textoMayus = (seg.texto || '').toUpperCase();
               const anchoTexto = doc.getTextWidth(textoMayus);
-              // La celda medirá como mínimo 80px, o más si el texto es largo
               return Math.max(80, anchoTexto + margenTexto);
             });
 
@@ -481,25 +479,42 @@ export function BotonesAccionInner({
             // 3. DIBUJAMOS CADA CELDA CON SU ANCHO CALCULADO
             let xActual = inicioX;
 
-            for (let i = 0; i < pictosConImagen.length; i++) {
-              const segmento = pictosConImagen[i];
+            for (let i = 0; i < todosSegmentos.length; i++) {
+              const segmento = todosSegmentos[i];
               const anchoEstaCelda = anchosCeldas[i];
 
-              // Imagen (Centrada en su celda elástica)
-              try {
-                if (segmento.urlImagen) {
+              if (segmento.urlImagen) {
+                // Imagen real
+                try {
                   const imgData = await cargarImagen(segmento.urlImagen);
-                  // La imagen se mantiene de un tamaño máximo pero se centra en el ancho de la celda
                   const sizeImg = 70;
                   const offsetX = (anchoEstaCelda - sizeImg) / 2;
                   doc.addImage(imgData, 'PNG', xActual + offsetX, inicioY + 5, sizeImg, sizeImg);
+                } catch (e) {
+                  console.log('Error picto');
                 }
-              } catch (e) {
-                console.log('Error picto');
+              } else {
+                // Placeholder: fondo gris claro + inicial de la palabra en grande
+                doc.setFillColor(240, 240, 240);
+                doc.setDrawColor(200, 200, 200);
+                const sizeImg = 70;
+                const offsetX = (anchoEstaCelda - sizeImg) / 2;
+                doc.roundedRect(xActual + offsetX, inicioY + 5, sizeImg, sizeImg, 5, 5, 'FD');
+
+                const inicial = (segmento.texto || '?').charAt(0).toUpperCase();
+                doc.setFont('Helvetica', 'bold');
+                doc.setFontSize(28);
+                doc.setTextColor(160, 160, 160);
+                doc.text(inicial, xActual + anchoEstaCelda / 2, inicioY + 5 + sizeImg / 2 + 10, {
+                  align: 'center',
+                });
+                doc.setFont('Helvetica', 'bold');
+                doc.setFontSize(11);
               }
 
               // Línea vertical divisoria (solo si no es la última)
-              if (i < pictosConImagen.length - 1) {
+              if (i < todosSegmentos.length - 1) {
+                doc.setDrawColor(0, 0, 0);
                 doc.line(
                   xActual + anchoEstaCelda,
                   inicioY,
@@ -509,6 +524,8 @@ export function BotonesAccionInner({
               }
 
               // Texto (En una sola línea, centrado en su celda elástica)
+              doc.setFont('Helvetica', 'bold');
+              doc.setFontSize(11);
               doc.setTextColor(31, 41, 55);
               const textoMayus = (segmento.texto || '').toUpperCase();
               doc.text(textoMayus, xActual + anchoEstaCelda / 2, inicioY + altoCelda + 14, {

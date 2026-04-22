@@ -178,5 +178,12 @@
   "diapoSinSegmentos": "Keine Segmente für diesen Satz verfügbar",
   "diapoAnterior": "Zurück",
   "diapoSiguiente": "Weiter",
-  "diapoIrA": "Zur Folie gehen"
+  "diapoIrA": "Zur Folie gehen",
+  "errorParseError": "Die Geschichte konnte nicht korrekt generiert werden. Bitte versuchen Sie es erneut.",
+  "errorEmptyResponse": "Die Geschichte konnte nicht generiert werden. Bitte versuchen Sie es erneut.",
+  "errorApiError": "Der KI-Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es in wenigen Minuten erneut.",
+  "errorRetryExhausted": "Die Geschichte konnte nach mehreren Versuchen nicht generiert werden. Bitte versuchen Sie es erneut.",
+  "errorQuota": "Das KI-System ist derzeit ausgelastet. Bitte warten Sie eine Minute und versuchen Sie es erneut.",
+  "errorSaveError": "Die Geschichte wurde generiert, konnte jedoch nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+  "errorUnknown": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 }

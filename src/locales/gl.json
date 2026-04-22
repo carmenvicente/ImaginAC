@@ -178,5 +178,12 @@
   "diapoSinSegmentos": "Sen segmentos dispoñibles para esta frase",
   "diapoAnterior": "Anterior",
   "diapoSiguiente": "Seguinte",
-  "diapoIrA": "Ir á diapositiva"
+  "diapoIrA": "Ir á diapositiva",
+  "errorParseError": "O conto non se puido xerar correctamente. Inténtao de novo.",
+  "errorEmptyResponse": "O conto non se puido xerar. Inténtao de novo.",
+  "errorApiError": "O servizo de IA non está dispoñible neste momento. Inténtao nuns minutos.",
+  "errorRetryExhausted": "O conto non se puido xerar tras varios intentos. Inténtao de novo.",
+  "errorQuota": "O sistema de IA está ocupado neste momento. Agarda un minuto e volve intentalo.",
+  "errorSaveError": "O conto xerouse pero non se puido gardar. Inténtao de novo.",
+  "errorUnknown": "Ocorreu un erro inesperado. Inténtao de novo."
 }

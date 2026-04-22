@@ -178,5 +178,12 @@
   "diapoSinSegmentos": "Ez dago segmenturik esaldi honetarako",
   "diapoAnterior": "Aurrekoa",
   "diapoSiguiente": "Hurrengoa",
-  "diapoIrA": "Joan diapositibara"
+  "diapoIrA": "Joan diapositibara",
+  "errorParseError": "Ipuina ezin izan da behar bezala sortu. Saiatu berriro.",
+  "errorEmptyResponse": "Ipuina ezin izan da sortu. Saiatu berriro.",
+  "errorApiError": "IA zerbitzua ez dago erabilgarri momentu honetan. Saiatu minutu batzuen buruan.",
+  "errorRetryExhausted": "Ipuina ezin izan da sortu hainbat saiakeraren ondoren. Saiatu berriro.",
+  "errorQuota": "IA sistema lanpetuta dago momentu honetan. Itxaron minutu bat eta saiatu berriro.",
+  "errorSaveError": "Ipuina sortu da baina ezin izan da gorde. Saiatu berriro.",
+  "errorUnknown": "Ustekabeko errore bat gertatu da. Saiatu berriro."
 }
