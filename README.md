@@ -14,16 +14,21 @@
 
 - **Frontend:** Next.js 16, React 19, TypeScript
 - **Estilos:** Tailwind CSS v4
-- **Base de Datos:** Supabase (PostgreSQL) + Drizzle ORM
-- **Autenticación:** Supabase Auth
 - **IA:** Google Gemini (`gemini-2.5-flash-lite`)
 - **Pictogramas:** ARASAAC (http://www.arasaac.org)
+- **Estado global:** Zustand
 
 ## Inicio Rápido
 
 ```bash
 npm install
 npm run dev
+```
+
+Crea un archivo `.env` en la raíz con tu clave de API:
+
+```
+GEMINI_API_KEY=tu_clave_aqui
 ```
 
 Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
@@ -43,12 +48,15 @@ src/
 │   ├── cuento/           # Formulario, visor y exportación PDF
 │   └── ui/               # FeedbackWidget, SelectorIdioma
 ├── lib/
-│   ├── db/               # Schema Drizzle y cliente Supabase
 │   ├── ia/               # Generador de cuentos y módulo ARASAAC
 │   └── stores/           # Estado global (Zustand)
 └── locales/              # Traducciones (es, ca, va, gl, eu, en, fr, de, it)
 ```
 
+## Pictogramas
+
+Los pictogramas utilizados pertenecen a [ARASAAC](http://www.arasaac.org), autor Sergio Palao, bajo licencia CC (BY-NC-SA), propiedad del Gobierno de Aragón (España).
+
 ## Licencia
 
-Privado — Proyecto en desarrollo.
+MIT — Proyecto de código abierto.
