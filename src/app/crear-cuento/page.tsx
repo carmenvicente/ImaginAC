@@ -62,7 +62,7 @@ export default function PaginaCrearCuento() {
             <h2 className="text-2xl font-bold text-[#1a4d4d] mb-4 text-center">
               {t.crearCuentoTitulo}
             </h2>
-            <FormularioCrearCuento profesorId="demo" onCuentoGenerado={setCuento} />
+            <FormularioCrearCuento onCuentoGenerado={setCuento} />
           </section>
 
           {/* Resultado: Con la referencia (ref) para el scroll y animación */}

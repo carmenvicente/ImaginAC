@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { SelectorIdioma, IDIOMAS_DISPONIBLES } from '@/components/ui/SelectorIdioma';
-import { useRouter } from 'next/navigation';
 import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
 
 interface CuentoDemo {
@@ -21,7 +20,6 @@ interface CuentoDemo {
 }
 
 interface FormularioCuentoProps {
-  profesorId: string;
   onCuentoGenerado?: (cuento: CuentoDemo) => void;
 }
 
@@ -93,8 +91,7 @@ function limpiarBorrador() {
   }
 }
 
-export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: FormularioCuentoProps) {
-  const router = useRouter();
+export function FormularioCrearCuento({ onCuentoGenerado }: FormularioCuentoProps) {
   const idiomaGlobal = useLanguageStore((s) => s.idiomaActual);
   const traducciones = traduccionesUI[idiomaGlobal] || traduccionesUI['ES'];
 
@@ -165,7 +162,6 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
           Expires: '0',
         },
         body: JSON.stringify({
-          profesorId,
           titulo,
           tematica,
           finalidadPedagogica,
@@ -182,46 +178,35 @@ export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: Formular
         throw new Error(datos.error || 'Error al generar el cuento');
       }
 
-      if (datos.esDemo) {
-        console.log('[DEBUG FORM] Datos recibidos del backend:', datos);
-        console.log('[DEBUG FORM] Diapositivas del backend:', datos.cuento?.diapositivas);
+      const pictogramasConvertidos = (datos.pictogramas || []).map((p: any) => ({
+        codigoSpc: p.codigoSpc || '',
+        textoOriginal: p.textoOriginal || p.textoCuento || '',
+        categoria: p.categoria || 'OBJETO',
+        orden: p.orden || 0,
+        urlImagen: p.urlImagen || p.rutaSvg || '',
+      }));
 
-        const pictogramasConvertidos = (datos.pictogramas || []).map((p: any) => ({
-          codigoSpc: p.codigoSpc || '',
-          textoOriginal: p.textoOriginal || p.textoCuento || '',
-          categoria: p.categoria || 'OBJETO',
-          orden: p.orden || 0,
-          urlImagen: p.urlImagen || p.rutaSvg || '',
-        }));
+      const diapositivasConSegmentos = (datos.cuento?.diapositivas || []).map((d: any) => ({
+        texto: d.texto || '',
+        segmentos: (d.segmentos || []).map((seg: any) => ({
+          texto: seg.texto || '',
+          pictograma: seg.pictograma || '',
+          urlImagen: seg.urlImagen || '',
+        })),
+      }));
 
-        const diapositivasConSegmentos = (datos.cuento?.diapositivas || []).map((d: any) => ({
-          texto: d.texto || '',
-          segmentos: (d.segmentos || []).map((seg: any) => ({
-            texto: seg.texto || '',
-            pictograma: seg.pictograma || '',
-            urlImagen: seg.urlImagen || '',
-          })),
-        }));
+      const cuentoDemo: CuentoDemo = {
+        titulo: datos.cuento?.titulo || '',
+        finalidad: finalidadPedagogica,
+        texto: datos.cuento?.texto || '',
+        pictogramas: pictogramasConvertidos,
+        diapositivas: diapositivasConSegmentos,
+      };
 
-        const cuentoDemo: CuentoDemo = {
-          titulo: datos.cuento?.titulo || '',
-          finalidad: finalidadPedagogica,
-          texto: datos.cuento?.texto || '',
-          pictogramas: pictogramasConvertidos,
-          diapositivas: diapositivasConSegmentos,
-        };
-
-        console.log('[DEBUG FORM] CuentoDemo construido:', cuentoDemo);
-
-        if (onCuentoGenerado) {
-          onCuentoGenerado(cuentoDemo);
-        }
-        setCargando(false);
-        return;
+      if (onCuentoGenerado) {
+        onCuentoGenerado(cuentoDemo);
       }
-
-      limpiarBorrador();
-      router.push(`/profesor/cuento/${datos.id}`);
+      setCargando(false);
     } catch (err) {
       console.error('ERROR AL GENERAR:', err);
       const mensaje = err instanceof Error ? err.message : 'Error desconocido';

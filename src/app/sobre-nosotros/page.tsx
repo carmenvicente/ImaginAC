@@ -226,12 +226,6 @@ export default function SobreNosotros() {
                       <strong>Tailwind CSS</strong> — {t.techTailwind || 'Estilos'}
                     </p>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <span className="text-teal-500 mt-1">✔</span>
-                    <p className="text-[var(--foreground)] opacity-90">
-                      <strong>Supabase</strong> — {t.techSupabase || 'Base de datos'}
-                    </p>
-                  </div>
                 </div>
 
                 {/* Columna 2 */}

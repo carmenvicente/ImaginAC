@@ -241,7 +241,7 @@ export default function Configuracion() {
               {t.configDescripcion || 'Accesibilidad cognitiva para educación especial.'}
             </p>
             <div className="pt-4 border-t border-teal-800 text-[10px] text-teal-400 uppercase tracking-widest font-medium">
-              Next.js • TypeScript • Tailwind • Supabase • Gemini
+              Next.js • TypeScript • Tailwind • Gemini
             </div>
           </section>
         </div>

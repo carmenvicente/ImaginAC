@@ -372,19 +372,6 @@ export default function AvisoLegal() {
             </p>
 
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
-              Almacenamiento de datos — Supabase
-            </h3>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              Este Sitio Web utiliza <strong>Supabase</strong> (Supabase Inc., con sede en EE.UU.)
-              como servicio de base de datos en la nube para almacenar temporalmente los contenidos
-              generados a través de la plataforma, como cuentos, pictogramas y sus traducciones.
-              Los datos se almacenan en servidores ubicados en la{' '}
-              <strong>Unión Europea (Irlanda)</strong>, por lo que no se produce transferencia
-              internacional fuera del Espacio Económico Europeo. Supabase Inc. actúa como encargado
-              del tratamiento y ofrece garantías de protección de datos conforme al RGPD.
-            </p>
-
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">
               Servicio de correo electrónico — Resend
             </h3>
             <p className="text-gray-700 leading-relaxed mb-4">
@@ -535,8 +522,7 @@ export default function AvisoLegal() {
                 sean ofrecidos por terceros prestadores de servicios, en especial respecto de los{' '}
                 <strong>prestadores de servicios de la sociedad de la información</strong>{' '}
                 (incluyendo, pero no limitado a, la API de{' '}
-                <strong>Google Gemini</strong>, los servicios de base de datos de{' '}
-                <strong>Supabase</strong>, el servicio de correo electrónico de{' '}
+                <strong>Google Gemini</strong>, el servicio de correo electrónico de{' '}
                 <strong>Resend</strong> y servicios de hosting). Por prestadores de
                 servicios de la sociedad de la información se entenderán aquellas personas físicas o
                 jurídicas que presten los siguientes servicios al público: (i) transmisión por una
