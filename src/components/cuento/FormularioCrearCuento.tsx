@@ -1,0 +1,370 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { SelectorIdioma, IDIOMAS_DISPONIBLES } from '@/components/ui/SelectorIdioma';
+import { useRouter } from 'next/navigation';
+import { useLanguageStore, traduccionesUI } from '@/lib/stores/useLanguageStore';
+
+interface CuentoDemo {
+  titulo: string;
+  finalidad: string;
+  texto: string;
+  pictogramas: any[];
+  diapositivas?: {
+    texto: string;
+    segmentos: {
+      texto: string;
+      pictograma: string;
+      urlImagen?: string;
+    }[];
+  }[];
+}
+
+interface FormularioCuentoProps {
+  profesorId: string;
+  onCuentoGenerado?: (cuento: CuentoDemo) => void;
+}
+
+interface DatosFormulario {
+  titulo: string;
+  tematica: string;
+  finalidadPedagogica: string;
+  idioma: string;
+}
+
+const DATOS_INICIALES: DatosFormulario = {
+  titulo: '',
+  tematica: '',
+  finalidadPedagogica: '',
+  idioma: 'ES',
+};
+
+const CLAVE_BORRADOR = 'borrador_cuento';
+
+function guardarBorrador(datos: DatosFormulario) {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(CLAVE_BORRADOR, JSON.stringify(datos));
+  } catch {
+    // Ignorar errores de localStorage
+  }
+}
+
+function cargarBorrador(): DatosFormulario {
+  if (typeof window === 'undefined') return DATOS_INICIALES;
+  try {
+    const guardado = localStorage.getItem(CLAVE_BORRADOR);
+    if (guardado) {
+      return JSON.parse(guardado);
+    }
+  } catch {
+    // Ignorar errores de localStorage
+  }
+  return DATOS_INICIALES;
+}
+
+const REF_A_CLAVE: Record<string, keyof typeof traduccionesUI['ES']> = {
+  parse_error: 'errorParseError',
+  empty_response: 'errorEmptyResponse',
+  api_error: 'errorApiError',
+  retry_exhausted: 'errorRetryExhausted',
+  quota: 'errorQuota',
+  save_error: 'errorSaveError',
+  unknown: 'errorUnknown',
+};
+
+function traducirError(mensaje: string, t: typeof traduccionesUI['ES']): string {
+  const match = mensaje.match(/\(ref:\s*([a-z_]+)/);
+  if (match) {
+    const ref = match[1];
+    const clave = REF_A_CLAVE[ref];
+    const textoTraducido = clave ? t[clave] : null;
+    if (textoTraducido) return `${textoTraducido} (ref: ${ref})`;
+  }
+  return mensaje;
+}
+
+function limpiarBorrador() {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.removeItem(CLAVE_BORRADOR);
+  } catch {
+    // Ignorar errores de localStorage
+  }
+}
+
+export function FormularioCrearCuento({ profesorId, onCuentoGenerado }: FormularioCuentoProps) {
+  const router = useRouter();
+  const idiomaGlobal = useLanguageStore((s) => s.idiomaActual);
+  const traducciones = traduccionesUI[idiomaGlobal] || traduccionesUI['ES'];
+
+  const [titulo, setTitulo] = useState('');
+  const [tematica, setTematica] = useState('');
+  const [finalidadPedagogica, setFinalidadPedagogica] = useState('');
+  const [idioma, setIdioma] = useState(idiomaGlobal);
+  const [error, setError] = useState<string | null>(null);
+  const [cargando, setCargando] = useState(false);
+  const [borradorRecuperado, setBorradorRecuperado] = useState(false);
+
+  const [mensajeCarga, setMensajeCarga] = useState('');
+
+  useEffect(() => {
+    let intervalo: NodeJS.Timeout;
+
+    if (cargando) {
+      // Definimos los mensajes. Puedes usar las traducciones o textos fijos.
+      const mensajes = [
+        traducciones.formGenerando || 'Generando cuento...',
+        traducciones.generandoMensaje1 || 'Inspirándonos para crear la historia...',
+        traducciones.generandoMensaje2 || 'Buscando los pictogramas más adecuados...',
+        traducciones.generandoMensaje3 || 'Organizando las diapositivas...',
+        traducciones.generandoMensaje4 || 'Dándole los últimos toques mágicos...',
+        traducciones.generandoMensaje5 || 'Casi listo, un segundo más...',
+      ];
+
+      setMensajeCarga(mensajes[0]);
+      let i = 0;
+
+      intervalo = setInterval(() => {
+        i = (i + 1) % mensajes.length;
+        setMensajeCarga(mensajes[i]);
+      }, 3500); // Cambia el mensaje cada 3.5 segundos
+    }
+
+    return () => {
+      if (intervalo) clearInterval(intervalo);
+    };
+  }, [cargando, traducciones]);
+  // ------------------------------------------
+
+  useEffect(() => {
+    const borrador = cargarBorrador();
+    setTitulo(borrador.titulo);
+    setTematica(borrador.tematica);
+    setFinalidadPedagogica(borrador.finalidadPedagogica);
+    setBorradorRecuperado(true);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setCargando(true);
+
+    try {
+      // 1. Añadimos un timestamp a la URL para evitar que el navegador o proxies
+      // usen respuestas cacheadas que den error 429 (Tip de SiteGround)
+      const urlUnica = `/api/cuentos/generar?t=${Date.now()}`;
+
+      const respuesta = await fetch(urlUnica, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // 2. Forzamos a que no haya rastro de caché en la red
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+        body: JSON.stringify({
+          profesorId,
+          titulo,
+          tematica,
+          finalidadPedagogica,
+          idioma,
+          longitud: 100,
+          // 3. Enviamos un ID único interno para que el backend lo reconozca como nuevo
+          requestId: crypto.randomUUID(),
+        }),
+      });
+
+      const datos = await respuesta.json();
+
+      if (!respuesta.ok) {
+        throw new Error(datos.error || 'Error al generar el cuento');
+      }
+
+      if (datos.esDemo) {
+        console.log('[DEBUG FORM] Datos recibidos del backend:', datos);
+        console.log('[DEBUG FORM] Diapositivas del backend:', datos.cuento?.diapositivas);
+
+        const pictogramasConvertidos = (datos.pictogramas || []).map((p: any) => ({
+          codigoSpc: p.codigoSpc || '',
+          textoOriginal: p.textoOriginal || p.textoCuento || '',
+          categoria: p.categoria || 'OBJETO',
+          orden: p.orden || 0,
+          urlImagen: p.urlImagen || p.rutaSvg || '',
+        }));
+
+        const diapositivasConSegmentos = (datos.cuento?.diapositivas || []).map((d: any) => ({
+          texto: d.texto || '',
+          segmentos: (d.segmentos || []).map((seg: any) => ({
+            texto: seg.texto || '',
+            pictograma: seg.pictograma || '',
+            urlImagen: seg.urlImagen || '',
+          })),
+        }));
+
+        const cuentoDemo: CuentoDemo = {
+          titulo: datos.cuento?.titulo || '',
+          finalidad: finalidadPedagogica,
+          texto: datos.cuento?.texto || '',
+          pictogramas: pictogramasConvertidos,
+          diapositivas: diapositivasConSegmentos,
+        };
+
+        console.log('[DEBUG FORM] CuentoDemo construido:', cuentoDemo);
+
+        if (onCuentoGenerado) {
+          onCuentoGenerado(cuentoDemo);
+        }
+        setCargando(false);
+        return;
+      }
+
+      limpiarBorrador();
+      router.push(`/profesor/cuento/${datos.id}`);
+    } catch (err) {
+      console.error('ERROR AL GENERAR:', err);
+      const mensaje = err instanceof Error ? err.message : 'Error desconocido';
+      setError(traducirError(mensaje, traducciones));
+      setCargando(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {error && <div className="p-4 bg-red-100 text-red-700 rounded-lg">{error}</div>}
+
+      <div>
+        <label htmlFor="titulo" className="block text-sm font-medium text-[var(--foreground)] mb-1">
+          {traducciones.formTituloCuento || 'Título del cuento'}
+        </label>
+        <input
+          id="titulo"
+          type="text"
+          value={titulo}
+          onChange={(e) => setTitulo(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--marca)] focus:border-transparent"
+          placeholder={traducciones.formPlaceholderTitulo || 'El dragón que tenía miedo'}
+          required
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label
+            htmlFor="tematica"
+            className="block text-sm font-medium text-[var(--foreground)] mb-1"
+          >
+            {traducciones.formTematica || 'Temática'}
+          </label>
+          <select
+            id="tematica"
+            value={tematica}
+            onChange={(e) => setTematica(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--marca)] focus:border-transparent"
+            required
+          >
+            <option value="">{traducciones.formSelectTematica || 'Selecciona una temática'}</option>
+            {[
+              { valor: 'animales', clave: 'tematicaAnimales' },
+              { valor: 'familia', clave: 'tematicaFamilia' },
+              { valor: 'escuela', clave: 'tematicaEscuela' },
+              { valor: 'emociones', clave: 'tematicaEmociones' },
+              { valor: 'naturaleza', clave: 'tematicaNaturaleza' },
+              { valor: 'amistad', clave: 'tematicaAmistad' },
+              { valor: 'comida', clave: 'tematicaComida' },
+              { valor: 'casa', clave: 'tematicaCasa' },
+              { valor: 'transporte', clave: 'tematicaTransporte' },
+              { valor: 'diversion', clave: 'tematicaDiversion' },
+            ].map((item) => (
+              <option key={item.valor} value={item.valor}>
+                {traducciones[item.clave] || item.clave}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <SelectorIdioma valor={idioma} onCambio={setIdioma} id="idioma" label={traducciones.formLabelIdioma || 'Idioma'} />
+      </div>
+
+      <div>
+        <label
+          htmlFor="finalidad"
+          className="block text-sm font-medium text-[var(--foreground)] mb-1"
+        >
+          {traducciones.formFinalidad || 'Finalidad pedagógica'}
+        </label>
+        <textarea
+          id="finalidad"
+          value={finalidadPedagogica}
+          onChange={(e) => setFinalidadPedagogica(e.target.value)}
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[var(--marca)] focus:border-transparent resize-none"
+          rows={3}
+          placeholder={
+            traducciones.formPlaceholderFinalidad ||
+            'Este cuento ayuda al niño a identificar y expresar el miedo, fomentando la comprensión de que es normal sentir miedo y que hay estrategias para superarlo.'
+          }
+          maxLength={500}
+          required
+        />
+        <p className="text-xs text-[var(--foreground)] opacity-50 mt-1">
+          {finalidadPedagogica.length}/500 {traducciones.formCaracteres || 'caracteres'}
+        </p>
+      </div>
+
+      <div className="bg-gray-50 p-4 rounded-lg">
+        <h4 className="font-medium text-sm text-[var(--foreground)] mb-2">
+          {traducciones.formResumen || 'Resumen de la generación'}
+        </h4>
+        <ul className="text-sm text-[var(--foreground)] opacity-70 space-y-1">
+          <li>
+            <strong>{traducciones.formLabelTitulo || 'Título'}:</strong>{' '}
+            {titulo || traducciones.formSinDefinir || 'Sin definir'}
+          </li>
+          <li>
+            <strong>{traducciones.formLabelTematica || 'Temática'}:</strong>{' '}
+            {tematica || traducciones.formSinDefinir || 'Sin definir'}
+          </li>
+          <li>
+            <strong>{traducciones.formLabelIdioma || 'Idioma'}:</strong>{' '}
+            {IDIOMAS_DISPONIBLES.find((i) => i.codigo === idioma)?.nombre}
+          </li>
+          <li>
+            <strong>{traducciones.formLabelLongitud || 'Longitud'}:</strong> ~{traducciones.formPalabras100 || '100 palabras'}
+          </li>
+        </ul>
+      </div>
+
+      <button
+        type="submit"
+        disabled={cargando || !titulo || !tematica || !finalidadPedagogica}
+        className="w-full py-3 bg-[var(--marca)] text-white font-medium rounded-lg hover:bg-[var(--marca-hover)] transition-all active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {cargando ? (
+          <span className="flex items-center justify-center gap-2">
+            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+                fill="none"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            {/* Animación suave para el cambio de texto */}
+            <span className="animate-pulse transition-all duration-500">{mensajeCarga}</span>
+          </span>
+        ) : (
+          traducciones.formBotonGenerar || 'Generar Cuento con Pictogramas'
+        )}
+      </button>
+    </form>
+  );
+}

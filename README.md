@@ -1,18 +1,23 @@
-# AdaptAC - Accesibilidad Cognitiva
+# ImaginAC
 
-**AdaptAC** es una plataforma de accesibilidad cognitiva diseñada para facilitar el aprendizaje de profesores PT (Pedagogía Terapéutica) y sus alumnos con necesidades educativas especiales.
+**ImaginAC** es una plataforma web que genera cuentos con Inteligencia Artificial y los transcribe automáticamente a pictogramas ARASAAC, pensada para profesores de Pedagogía Terapéutica y alumnos con necesidades educativas especiales.
 
-## Objetivo
+## Funcionalidades
 
-Proporcionar herramientas para crear contenido educativo adaptado, generando cuentos y actividades con pictogramas SPC (Sistema Pictográfico de Comunicación) en múltiples idiomas.
+- **Generación de cuentos con IA:** El usuario introduce un tema, personajes y contexto, y la IA genera un cuento estructurado en diapositivas.
+- **Transcripción a pictogramas:** Cada frase del cuento se traduce automáticamente a pictogramas del sistema ARASAAC.
+- **Exportación a PDF:** El cuento generado se puede descargar como cómic en formato PDF para usar en el aula.
+- **Multilingüe:** Soporte para 9 idiomas — español, catalán, valenciano, gallego, euskera, inglés, francés, alemán e italiano.
+- **Feedback integrado:** Widget para que los usuarios envíen sugerencias directamente desde la web.
 
-## Funcionalidades Principales
+## Stack Tecnológico
 
-- **Sistema de Roles:** Paneles separados para Profesores PT y Alumnos
-- **Motor Cognitivo:** Generación de cuentos con transcripción a pictogramas
-- **Módulo Multi-Idioma:** Soporte para Español, Catalán, Valenciano, Gallego, Euskera y más
-- **Sistema de Actividades:** Creación de actividades complementarias escalable
-- **Exportación PDF:** Generación de cómics físicos para uso en el aula
+- **Frontend:** Next.js 16, React 19, TypeScript
+- **Estilos:** Tailwind CSS v4
+- **Base de Datos:** Supabase (PostgreSQL) + Drizzle ORM
+- **Autenticación:** Supabase Auth
+- **IA:** Google Gemini (`gemini-2.5-flash-lite`)
+- **Pictogramas:** ARASAAC (http://www.arasaac.org)
 
 ## Inicio Rápido
 
@@ -23,24 +28,27 @@ npm run dev
 
 Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-## Stack Tecnológico
-
-- **Frontend:** Next.js 16 (App Router), React 19, TypeScript
-- **Estilos:** Tailwind CSS
-- **Base de Datos:** Supabase (PostgreSQL)
-- **Autenticación:** NextAuth.js con RBAC
-
 ## Estructura del Proyecto
 
 ```
 src/
-├── app/              # Rutas y páginas
-├── components/       # Componentes React
-├── lib/              # Utilidades y lógica de negocio
-├── types/            # Tipos TypeScript
-└── hooks/            # React hooks personalizados
+├── app/                  # Rutas y páginas (App Router)
+│   ├── api/              # Endpoints (generar cuento, feedback)
+│   ├── crear-cuento/     # Página principal de creación
+│   ├── configuracion/    # Ajustes del usuario
+│   └── sobre-nosotros/   # Información del proyecto
+├── components/
+│   ├── layout/           # Navbar, Footer, LanguageSwitcher
+│   ├── home/             # HeroSection, CookiesBanner
+│   ├── cuento/           # Formulario, visor y exportación PDF
+│   └── ui/               # FeedbackWidget, SelectorIdioma
+├── lib/
+│   ├── db/               # Schema Drizzle y cliente Supabase
+│   ├── ia/               # Generador de cuentos y módulo ARASAAC
+│   └── stores/           # Estado global (Zustand)
+└── locales/              # Traducciones (es, ca, va, gl, eu, en, fr, de, it)
 ```
 
 ## Licencia
 
-Privado - Proyecto en desarrollo.
+Privado — Proyecto en desarrollo.
