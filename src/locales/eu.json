@@ -46,7 +46,7 @@
   "configTecnologias": "Next.js, TypeScript, Tailwind CSS eta Google Gemini erabiliz garatua.",
   "cajaSugerencias": "Iradokizun kutxa",
   "cajaSugerenciasSubtitulo": "Bidali zure iritzia edo jakinarazi akatsen bat",
-  "cajaPlaceholder": "Zer hobetuko zenuke?",
+  "cajaPlaceholder": "Zer hobetuko zenuke? Akatsik aurkitu al duzu?",
   "cajaGracias": "Eskerrik asko!",
   "cajaMinimizar": "Minimizatu",
   "cajaEnviar": "Bidali",

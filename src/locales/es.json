@@ -46,7 +46,7 @@
   "configTecnologias": "Desarrollado con Next.js, TypeScript, Tailwind CSS y Google Gemini.",
   "cajaSugerencias": "Caja de sugerencias",
   "cajaSugerenciasSubtitulo": "Envíanos tu opinión o reporta errores",
-  "cajaPlaceholder": "¿Qué mejorarías?",
+  "cajaPlaceholder": "¿Qué mejorarías? ¿Has encontrado algún error?",
   "cajaGracias": "¡Gracias!",
   "cajaMinimizar": "Minimizar",
   "cajaEnviar": "Enviar",
