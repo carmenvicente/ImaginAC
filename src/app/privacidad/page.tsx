@@ -165,34 +165,6 @@ export default function Privacidad() {
                 </div>
               </li>
 
-              {/* CASO C: ALMACENAMIENTO */}
-              <li className="bg-teal-50 border border-teal-200 p-6 rounded-2xl shadow-sm">
-                <strong className="text-teal-900 block mb-4 text-lg border-b border-teal-300/50 pb-2">
-                  Tratamiento de datos de "Almacenamiento de contenidos generados (Supabase)"
-                </strong>
-                <div className="grid gap-3 text-gray-800 text-sm md:text-base">
-                  <p>
-                    <strong>1. ¿Qué tipo de datos personales tratamos?</strong> Contenidos generados
-                    por el usuario a través de la herramienta (cuentos, pictogramas y traducciones).
-                    No se almacenan datos identificativos del usuario.
-                  </p>
-                  <p>
-                    <strong>2. ¿Con qué finalidad?</strong> Almacenamiento temporal de los
-                    materiales educativos generados para permitir su visualización y uso dentro de la
-                    plataforma.
-                  </p>
-                  <p>
-                    <strong>3. ¿Cuál es la legitimación?</strong> Ejecución del servicio solicitado
-                    por el usuario al interactuar con la herramienta.
-                  </p>
-                  <p>
-                    <strong>4. ¿A qué destinatarios?</strong> Los datos se almacenan en{' '}
-                    <strong>Supabase</strong> (Supabase Inc., EE.UU.) como encargado del
-                    tratamiento, en servidores ubicados en la Unión Europea (Irlanda).
-                  </p>
-                </div>
-              </li>
-
               {/* CASO D: NAVEGACIÓN */}
               <li className="bg-teal-50 border border-teal-200 p-6 rounded-2xl shadow-sm">
                 <strong className="text-teal-900 block mb-4 text-lg border-b border-teal-300/50 pb-2">
@@ -318,11 +290,9 @@ export default function Privacidad() {
             <p className="text-gray-700 mt-4 leading-relaxed">
               Los pictogramas se sirven desde los servidores de <strong>ARASAAC</strong>. El
               procesamiento de textos se realiza mediante la API de <strong>Google Gemini</strong>{' '}
-              (Google LLC, EE.UU.). Los contenidos generados se almacenan en{' '}
-              <strong>Supabase</strong> (Supabase Inc., EE.UU., servidores en Irlanda). El envío de
-              comunicaciones de feedback se gestiona a través de <strong>Resend</strong> (Resend
-              Inc., EE.UU.). Todos estos proveedores actúan como encargados del tratamiento con las
-              garantías adecuadas conforme al RGPD.
+              (Google LLC, EE.UU.). El envío de comunicaciones de feedback se gestiona a través de{' '}
+              <strong>Resend</strong> (Resend Inc., EE.UU.). Todos estos proveedores actúan como
+              encargados del tratamiento con las garantías adecuadas conforme al RGPD.
             </p>
             {/* Nota técnica sobre la API para mayor seguridad legal */}
             <p className="text-gray-600 mt-2 text-sm italic bg-gray-50 p-3 rounded-lg border-l-4 border-teal-400">
