@@ -43,7 +43,7 @@ export default function AvisoLegal() {
               1. Información sobre el Titular del Sitio Web
             </h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Este Sitio Web [introducir dominio] es titularidad de{' '}
+              Este Sitio Web imaginac.vercel.app es titularidad de{' '}
               <strong>Carmen Vicente Crespo</strong>, con NIF <strong>04656218Y</strong>, domicilio
               en <strong>Cuenca, España</strong>, y correo electrónico de contacto
               <button
