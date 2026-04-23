@@ -28,6 +28,9 @@
 .engram/
 .claude/
 .agents/
+AGENTS.md
+CLAUDE.md
+agent.md
 
 # debug
 npm-debug.log*
