@@ -21,10 +21,67 @@ const escolar = localFont({
   style: 'normal',
 });
 
+const BASE_URL = 'https://imaginac.vercel.app';
+
 export const metadata: Metadata = {
-  title: 'ImaginAC - Accesibilidad Cognitiva',
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: 'ImaginAC – Generador de cuentos con pictogramas e IA',
+    template: '%s | ImaginAC',
+  },
   description:
-    'Plataforma de accesibilidad cognitiva para profesores PT y alumnos con necesidades educativas especiales.',
+    'Crea cuentos personalizados con pictogramas ARASAAC e inteligencia artificial. Herramienta gratuita para profesores, logopedas y familias de alumnos con necesidades educativas especiales.',
+  keywords: [
+    'generador de cuentos con IA',
+    'generador de cuentos con pictogramas',
+    'cuentos con pictogramas',
+    'pictogramas ARASAAC',
+    'accesibilidad cognitiva',
+    'cuentos para niños con autismo',
+    'cuentos NEE',
+    'ImaginAC',
+    'herramienta PT',
+    'educación especial',
+  ],
+  authors: [{ name: 'Carmen Vicente Crespo' }],
+  creator: 'Carmen Vicente Crespo',
+  openGraph: {
+    type: 'website',
+    locale: 'es_ES',
+    url: BASE_URL,
+    siteName: 'ImaginAC',
+    title: 'ImaginAC – Generador de cuentos con pictogramas e IA',
+    description:
+      'Crea cuentos personalizados con pictogramas ARASAAC e inteligencia artificial. Gratis para profesores, logopedas y familias.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ImaginAC – Generador de cuentos con pictogramas e IA',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ImaginAC – Generador de cuentos con pictogramas e IA',
+    description:
+      'Crea cuentos personalizados con pictogramas ARASAAC e inteligencia artificial. Gratis para profesores PT y familias.',
+    images: ['/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
 };
 
 export default function RootLayout({
@@ -34,7 +91,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="es"
       className={`${geistSans.variable} ${geistMono.variable} ${escolar.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
