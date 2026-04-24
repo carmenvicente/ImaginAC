@@ -605,7 +605,24 @@ export function BotonesAccionInner({
       // ============================================================
       const nombreLimpio = limpiarNombreArchivo(titulo);
       const nombreArchivo = `ImaginAC - ${nombreLimpio}.pdf`;
-      doc.save(nombreArchivo);
+
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      if (isMobile) {
+        const pdfBlob = doc.output('blob');
+        const pdfFile = new File([pdfBlob], nombreArchivo, { type: 'application/pdf' });
+
+        if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+          await navigator.share({ files: [pdfFile], title: nombreArchivo });
+        } else {
+          // Fallback: abrir en nueva pestaña (funciona en Android y como visor en iOS)
+          const pdfUrl = URL.createObjectURL(pdfBlob);
+          window.open(pdfUrl, '_blank');
+          setTimeout(() => URL.revokeObjectURL(pdfUrl), 30000);
+        }
+      } else {
+        doc.save(nombreArchivo);
+      }
 
       console.log('[PDF] PDF generado correctamente');
     } catch (error) {
