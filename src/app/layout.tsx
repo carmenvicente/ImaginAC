@@ -55,9 +55,9 @@ export const metadata: Metadata = {
       'Crea cuentos personalizados con pictogramas ARASAAC e inteligencia artificial. Gratis para profesores, logopedas y familias.',
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
+        url: '/logo_ImaginAC_completo.png',
+        width: 604,
+        height: 413,
         alt: 'ImaginAC – Generador de cuentos con pictogramas e IA',
       },
     ],
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: 'ImaginAC – Generador de cuentos con pictogramas e IA',
     description:
       'Crea cuentos personalizados con pictogramas ARASAAC e inteligencia artificial. Gratis para profesores PT y familias.',
-    images: ['/og-image.png'],
+    images: ['/logo_ImaginAC_completo.png'],
   },
   robots: {
     index: true,
