@@ -25,6 +25,7 @@ const BASE_URL = 'https://imaginac.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
+  applicationName: 'ImaginAC',
   title: {
     default: 'ImaginAC – Generador de cuentos con pictogramas e IA',
     template: '%s | ImaginAC',
