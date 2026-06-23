@@ -95,6 +95,19 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} ${escolar.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'ImaginAC',
+              url: 'https://imaginac.vercel.app',
+            }),
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         {children}
         <FeedbackWidget />
