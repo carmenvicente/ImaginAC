@@ -1,10 +1,10 @@
-import sharp from 'sharp';
-import { readFileSync, mkdirSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import sharp from "sharp";
+import { readFileSync, mkdirSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dirname, '..');
+const ROOT = join(__dirname, "..");
 
 const W = 1200;
 const H = 630;
@@ -68,20 +68,22 @@ const svg = `
     x="${W / 2}" y="590"
     font-family="system-ui, -apple-system, Arial, sans-serif"
     font-size="19" fill="#5a8a9c" text-anchor="middle"
-  >imaginac.vercel.app</text>
+  >imaginac.es</text>
 </svg>
 `;
 
-const logoResized = await sharp(readFileSync(join(ROOT, 'public/logo_ImaginAC_completo.png')))
+const logoResized = await sharp(
+  readFileSync(join(ROOT, "public/logo_ImaginAC_completo.png")),
+)
   .resize(LOGO_W, LOGO_H)
   .png()
   .toBuffer();
 
-mkdirSync(join(ROOT, 'public'), { recursive: true });
+mkdirSync(join(ROOT, "public"), { recursive: true });
 
 await sharp(Buffer.from(svg))
   .png()
   .composite([{ input: logoResized, top: LOGO_Y, left: LOGO_X }])
-  .toFile(join(ROOT, 'public/og-image.png'));
+  .toFile(join(ROOT, "public/og-image.png"));
 
 console.log(`✓ og-image.png generada (${W}x${H}px) → public/og-image.png`);
