@@ -10,6 +10,7 @@ export function FeedbackWidget() {
   const t = traduccionesUI[idiomaActual] || traduccionesUI['ES'];
   const [state, setState] = useState<FeedbackState>('open');
   const [mensaje, setMensaje] = useState('');
+  const [email, setEmail] = useState('');
   const [enviado, setEnviado] = useState(false);
   const [enviando, setEnviando] = useState(false);
 
@@ -21,12 +22,13 @@ export function FeedbackWidget() {
   // -------------------------------------------
 
   const handleEnviar = useCallback(async () => {
-    if (!mensaje.trim() || enviando) return;
+    if (!mensaje.trim() || !email.trim() || enviando) return;
 
     setEnviando(true);
 
     const feedbackData = {
       mensaje: mensaje.trim(),
+      email: email.trim() || undefined,
       url: window.location.href,
       timestamp: new Date().toISOString(),
     };
@@ -47,13 +49,14 @@ export function FeedbackWidget() {
 
     setEnviado(true);
     setMensaje('');
+    setEmail('');
 
     setTimeout(() => {
       setEnviado(false);
       setEnviando(false);
       setState('minimized');
     }, 2000);
-  }, [mensaje, enviando]);
+  }, [mensaje, email, enviando]);
 
   const handleMinimizar = useCallback(() => {
     setState('minimized');
@@ -151,9 +154,17 @@ export function FeedbackWidget() {
                 rows={2}
                 className="w-full p-2 text-sm border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#40E0D0]"
               />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Tu email para que podamos responderte"
+                required
+                className="w-full p-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#40E0D0]"
+              />
               <button
                 onClick={handleEnviar}
-                disabled={!mensaje.trim() || enviando}
+                disabled={!mensaje.trim() || !email.trim() || enviando}
                 className="w-full bg-[#40E0D0] hover:bg-[#3cd5c4] disabled:bg-gray-200 disabled:text-gray-400 text-teal-900 font-bold py-2 rounded-lg text-xs transition-all"
               >
                 {enviando ? t.cajaEnviando || 'Enviando...' : t.cajaEnviar || 'Enviar'}
